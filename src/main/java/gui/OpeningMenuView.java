@@ -1,19 +1,14 @@
 package gui;
 
-import gui.listeners.OpeningMenuListener;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class OpeningMenuView extends JPanel {
-    private JPanel upperPanel = new JPanel();
-    private JPanel lowerPanel = new JPanel();
-    private JPanel leftPanel = new JPanel();
-    private JPanel rightPanel = new JPanel();
     private final int COLUMN_SIZE = 10;
+
     private JButton startGameBtn;
-    private JComboBox nrOfPlayersComboBox;
+    private NrOfPlayersComboBox nrOfPlayersComboBox;
     private JLabel player1Label;
     private JTextField player1Name;
     private JLabel player2Label;
@@ -28,17 +23,10 @@ public class OpeningMenuView extends JPanel {
     private JTextField player6Name;
 
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
-    private OpeningMenuListener menuListener;
 
     public OpeningMenuView() {
-//        setLayout(new BorderLayout());
-//        add(upperPanel, BorderLayout.NORTH);
-//        add(lowerPanel, BorderLayout.SOUTH);
-//        add(leftPanel, BorderLayout.WEST);
-//        add(rightPanel, BorderLayout.EAST);
-
         startGameBtn = new JButton("New Game");
-        nrOfPlayersComboBox = new JComboBox<String>();
+        nrOfPlayersComboBox = new NrOfPlayersComboBox();
         player1Label = new JLabel("Name player 1: ");
         player1Name = new JTextField("player 1", COLUMN_SIZE);
         player2Label = new JLabel("Name player 2: ");
@@ -52,33 +40,7 @@ public class OpeningMenuView extends JPanel {
         player6Label = new JLabel("Name player 6: ");
         player6Name = new JTextField("player 6", COLUMN_SIZE);
 
-        DefaultComboBoxModel nrOfPlayersModel = new DefaultComboBoxModel();
-        nrOfPlayersModel.addElement("2 players");
-        nrOfPlayersModel.addElement("3 players");
-        nrOfPlayersModel.addElement("4 players");
-        nrOfPlayersModel.addElement("5 players");
-        nrOfPlayersModel.addElement("6 players");
-        nrOfPlayersComboBox.setModel(nrOfPlayersModel);
         add(startGameBtn);
-
-//        upperPanel.add(startGameBtn);
-//
-//        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-//        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//
-//        upperPanel.add(nrOfPlayersComboBox);
-//        leftPanel.add(player1Label, RIGHT_ALIGNMENT);
-//        rightPanel.add(player1Name, LEFT_ALIGNMENT);
-//        leftPanel.add(player2Label, RIGHT_ALIGNMENT);
-//        rightPanel.add(player2Name, LEFT_ALIGNMENT);
-//        leftPanel.add(player3Label, RIGHT_ALIGNMENT);
-//        rightPanel.add(player3Name, LEFT_ALIGNMENT);
-//        leftPanel.add(player4Label, RIGHT_ALIGNMENT);
-//        rightPanel.add(player4Name, LEFT_ALIGNMENT);
-//        leftPanel.add(player5Label, RIGHT_ALIGNMENT);
-//        rightPanel.add(player5Name, LEFT_ALIGNMENT);
-//        leftPanel.add(player6Label, RIGHT_ALIGNMENT);
-//        rightPanel.add(player6Name, LEFT_ALIGNMENT);
         layoutComponents();
         setVisibilityNrOfPlayersComboBox(false);
         setVisibilityPlayer1Fields(false);

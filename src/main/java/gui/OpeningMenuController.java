@@ -29,30 +29,10 @@ public class OpeningMenuController {
 
     private void addActionListenerNrOfPlayerComboBox() {
         openingMenuView.addActionListenerNrOfPlayersComboBox(event -> {
-            JComboBox nrOfPlayersComboBox = (JComboBox) event.getSource();
-            int nrOfPlayers = determineNrOfPlayers(nrOfPlayersComboBox);
+            NrOfPlayersComboBox nrOfPlayersComboBox = (NrOfPlayersComboBox) event.getSource();
+            int nrOfPlayers = nrOfPlayersComboBox.getNrOfPlayersSelected();
             setNrOfPlayerFieldsShown(nrOfPlayers);
         });
-    }
-
-    private int determineNrOfPlayers(JComboBox nrOfPlayersComboBox) {
-        String nrOfPlayers = (String) nrOfPlayersComboBox.getSelectedItem();
-        if (nrOfPlayers.equals("2 players")) {
-            return 2;
-        }
-        else if (nrOfPlayers.equals("3 players")) {
-            return 3;
-        }
-        else if (nrOfPlayers.equals("4 players")) {
-            return 4;
-        }
-        else if (nrOfPlayers.equals("5 players")) {
-            return 5;
-        }
-        else if (nrOfPlayers.equals("6 players")) {
-            return 6;
-        }
-        return -1;
     }
 
     private void setNrOfPlayerFieldsShown(int nrOfFields) {
