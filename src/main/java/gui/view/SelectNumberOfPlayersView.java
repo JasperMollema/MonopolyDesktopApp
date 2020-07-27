@@ -1,10 +1,12 @@
-package gui;
+package gui.view;
+
+import gui.component.NrOfPlayersComboBox;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class OpeningMenuView extends JPanel {
+public class SelectNumberOfPlayersView extends AbstractView {
     private final int COLUMN_SIZE = 10;
 
     private JButton startGameBtn;
@@ -24,10 +26,11 @@ public class OpeningMenuView extends JPanel {
 
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-    public OpeningMenuView() {
-        startGameBtn = new JButton("New Game");
+    public SelectNumberOfPlayersView() {
+        System.out.println("Start SelectNumberOfPlayersView");
+        startGameBtn = new JButton(getMessage("startMenu.newGame"));
         nrOfPlayersComboBox = new NrOfPlayersComboBox();
-        player1Label = new JLabel("Name player 1: ");
+        player1Label = new JLabel(getMessage("nrOfPlayers.player", "1"));
         player1Name = new JTextField("player 1", COLUMN_SIZE);
         player2Label = new JLabel("Name player 2: ");
         player2Name = new JTextField("player 2", COLUMN_SIZE);
@@ -49,6 +52,11 @@ public class OpeningMenuView extends JPanel {
         setVisibilityPlayer4Fields(false);
         setVisibilityPlayer5Fields(false);
         setVisibilityPlayer6Fields(false);
+    }
+
+    @Override
+    public void startView() {
+
     }
 
     private void layoutComponents() {
