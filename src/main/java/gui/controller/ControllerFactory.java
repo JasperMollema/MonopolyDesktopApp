@@ -1,20 +1,30 @@
 package gui.controller;
 
-import gui.view.AbstractView;
+import gui.view.MainView;
+import gui.view.SelectNumberOfPlayersView;
+import gui.view.View;
 
 public class ControllerFactory {
-    public static final String SELECT_NUMBER_OF_PLAYERS = "selectNrOfPlayers";
 
-    public static Controller getController(String controller) {
-        switch (controller) {
-            case SELECT_NUMBER_OF_PLAYERS :
-                return new SelectNumberOfPlayersController();
+    public static Controller getController(View view) {
+        if (view instanceof MainView) {
+            return new MainController((MainView) view);
         }
-        return new NullController();
+        else if (view instanceof MainView) {
+            return new MainController((MainView) view);
+        }
+
+        else if (view instanceof SelectNumberOfPlayersView) {
+            return new SelectNumberOfPlayersController((SelectNumberOfPlayersView) view);
+        }
+
+        else return new NullController();
     }
 
-    private static class NullController extends AbstractController {
+    private static class NullController implements Controller {
         @Override
-        public void setView(AbstractView view) {}
+        public void startView() {
+
+        }
     }
 }

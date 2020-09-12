@@ -1,34 +1,26 @@
 package gui.controller;
 
 import gui.component.NrOfPlayersComboBox;
-import gui.view.AbstractView;
 import gui.view.SelectNumberOfPlayersView;
 
 public class SelectNumberOfPlayersController extends AbstractController {
-    private final int DEFAULT_NR_OF_PLAYERS = 4;
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
+    private final String NAME_CONTROLLER = "SelectNumberOfPlayersController";
+
+    public SelectNumberOfPlayersController(SelectNumberOfPlayersView selectNumberOfPlayersView) {
+        this.selectNumberOfPlayersView = selectNumberOfPlayersView;
+    }
 
     @Override
-    public void setView(AbstractView view) {
-        selectNumberOfPlayersView = (SelectNumberOfPlayersView) view;
+    public void startView() {
+        System.out.println(NAME_CONTROLLER + " : startView()");
+        selectNumberOfPlayersView.initializeView();
         selectNumberOfPlayersView.setVisible(true);
         addActionListeners();
     }
 
     private void addActionListeners() {
-        addActionListenerStartGameBtn();
         addActionListenerNrOfPlayerComboBox();
-    }
-
-    private void showSelectNumberOfPlayers() {
-        selectNumberOfPlayersView.setVisibilityStartGameBtn(false);
-        selectNumberOfPlayersView.setVisibilityNrOfPlayersComboBox(true);
-        selectNumberOfPlayersView.setNrOfPlayersSelected(DEFAULT_NR_OF_PLAYERS);
-        setNrOfPlayerFieldsShown(DEFAULT_NR_OF_PLAYERS);
-    }
-
-    private void addActionListenerStartGameBtn() {
-        selectNumberOfPlayersView.addActionListenerStartGameBtn((event) -> showSelectNumberOfPlayers());
     }
 
     private void addActionListenerNrOfPlayerComboBox() {
@@ -101,5 +93,10 @@ public class SelectNumberOfPlayersController extends AbstractController {
         selectNumberOfPlayersView.setVisibilityPlayer4Fields(true);
         selectNumberOfPlayersView.setVisibilityPlayer5Fields(true);
         selectNumberOfPlayersView.setVisibilityPlayer6Fields(true);
+    }
+
+    @Override
+    public String getControllerName() {
+        return NAME_CONTROLLER;
     }
 }

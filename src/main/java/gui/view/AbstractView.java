@@ -6,10 +6,15 @@ import javax.swing.*;
 
 public abstract class AbstractView extends JPanel implements View {
     private Messages messages;
+    public final int COLUMN_SIZE = 10;
 
     public AbstractView() {
+        System.out.println("Start View : " + getViewName());
+        setVisible(false);
         messages = new Messages();
     }
+
+    public abstract String getViewName();
 
     public String getMessage(String messageResource) {
         return messages.getMessage(messageResource);

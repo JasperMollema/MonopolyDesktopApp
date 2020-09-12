@@ -7,9 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class SelectNumberOfPlayersView extends AbstractView {
-    private final int COLUMN_SIZE = 10;
-
-    private JButton startGameBtn;
     private NrOfPlayersComboBox nrOfPlayersComboBox;
     private JLabel player1Label;
     private JTextField player1Name;
@@ -26,9 +23,9 @@ public class SelectNumberOfPlayersView extends AbstractView {
 
     private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
-    public SelectNumberOfPlayersView() {
-        System.out.println("Start SelectNumberOfPlayersView");
-        startGameBtn = new JButton(getMessage("startMenu.newGame"));
+    @Override
+    public void initializeView() {
+        System.out.println("Initialize SelectNumberOfPlayers View");
         nrOfPlayersComboBox = new NrOfPlayersComboBox();
         player1Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "1"));
         player1Name = new JTextField(getMessage("selectNrOfPlayers.player", "1"), COLUMN_SIZE);
@@ -43,8 +40,8 @@ public class SelectNumberOfPlayersView extends AbstractView {
         player6Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "6"));
         player6Name = new JTextField(getMessage("selectNrOfPlayers.player", "6"), COLUMN_SIZE);
 
-        add(startGameBtn);
         layoutComponents();
+
         setVisibilityNrOfPlayersComboBox(false);
         setVisibilityPlayer1Fields(false);
         setVisibilityPlayer2Fields(false);
@@ -52,11 +49,6 @@ public class SelectNumberOfPlayersView extends AbstractView {
         setVisibilityPlayer4Fields(false);
         setVisibilityPlayer5Fields(false);
         setVisibilityPlayer6Fields(false);
-    }
-
-    @Override
-    public void startView() {
-
     }
 
     private void layoutComponents() {
@@ -80,14 +72,6 @@ public class SelectNumberOfPlayersView extends AbstractView {
         gridBagConstraints.gridx = x;
         gridBagConstraints.gridy = y;
         add(component, gridBagConstraints);
-    }
-
-    public void addActionListenerStartGameBtn(ActionListener actionListener) {
-        startGameBtn.addActionListener(actionListener);
-    }
-
-    public void setVisibilityStartGameBtn(boolean isVisible) {
-        startGameBtn.setVisible(isVisible);
     }
 
     public void addActionListenerNrOfPlayersComboBox(ActionListener actionListener) {
@@ -130,5 +114,10 @@ public class SelectNumberOfPlayersView extends AbstractView {
 
     public void setNrOfPlayersSelected(Integer nrOfPlayersSelected) {
         nrOfPlayersComboBox.setNrOfPlayersSelected(nrOfPlayersSelected);
+    }
+
+    @Override
+    public String getViewName() {
+        return "SelectNumberOfPlayersView";
     }
 }
