@@ -5,13 +5,15 @@ import messages.Messages;
 import javax.swing.*;
 
 public abstract class AbstractView extends JPanel implements View {
-    private Messages messages;
+    private static Messages messages;
     public final int COLUMN_SIZE = 10;
 
     public AbstractView() {
         System.out.println("Start View : " + getViewName());
         setVisible(false);
-        messages = new Messages();
+        if (messages == null) {
+            messages = new Messages();
+        }
     }
 
     public abstract String getViewName();
