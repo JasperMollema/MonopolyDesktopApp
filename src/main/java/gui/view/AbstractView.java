@@ -1,28 +1,21 @@
 package gui.view;
 
+import messages.Messages;
+
 import javax.swing.*;
-import java.text.MessageFormat;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public abstract class AbstractView extends JPanel implements View {
-    public static Locale locale;
+    private Messages messages;
 
     public AbstractView() {
-        if (locale == null) {
-            locale = new Locale("nl");
-        }
+        messages = new Messages();
     }
 
     public String getMessage(String messageResource) {
-        return ResourceBundle
-                .getBundle("monopoly", locale)
-                .getString(messageResource);
+        return messages.getMessage(messageResource);
     }
 
     public String getMessage(String messageResource, String ... args) {
-        String format = getMessage(messageResource);
-
-        return MessageFormat.format(format, args);
+        return messages.getMessage(messageResource, args);
     }
 }

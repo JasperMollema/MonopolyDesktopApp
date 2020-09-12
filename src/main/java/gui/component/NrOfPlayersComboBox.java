@@ -1,5 +1,7 @@
 package gui.component;
 
+import messages.Messages;
+
 import javax.swing.*;
 
 public class NrOfPlayersComboBox extends JComboBox {
@@ -15,21 +17,25 @@ public class NrOfPlayersComboBox extends JComboBox {
 
     public int getNrOfPlayersSelected() {
         NrOfPlayers selectedItem = (NrOfPlayers) getSelectedItem();
-        return selectedItem.intValue;
+        return selectedItem.nrOfPlayers;
     }
 
     private enum NrOfPlayers {
-        TWO_PLAYERS(2, "2 players"), THREE_PLAYERS(3, "3 players"), FOUR_PLAYERS(4, "4 players"),
-        FIVE_PLAYERS(5, "5 players"), SIX_PLAYERS(6, "6 players");
+        TWO_PLAYERS(2),
+        THREE_PLAYERS(3),
+        FOUR_PLAYERS(4),
+        FIVE_PLAYERS(5),
+        SIX_PLAYERS(6);
 
-        private int intValue;
+        private Integer nrOfPlayers;
         private String stringValue;
+        private Messages messages;
 
-        private NrOfPlayers(int intValue, String stringValue) {
-            this.intValue = intValue;
-            this.stringValue = stringValue;
+        NrOfPlayers(Integer nrOfPlayers) {
+            this.nrOfPlayers = nrOfPlayers;
+            messages = new Messages();
+            stringValue = messages.getMessage("nrOfPlayers.nrOfPlayers", nrOfPlayers.toString());
         }
-
 
         @Override
         public String toString() {
