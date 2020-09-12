@@ -15,9 +15,23 @@ public class NrOfPlayersComboBox extends JComboBox {
         setModel(defaultComboBoxModel);
     }
 
-    public int getNrOfPlayersSelected() {
+    public Integer getNrOfPlayersSelected() {
         NrOfPlayers selectedItem = (NrOfPlayers) getSelectedItem();
         return selectedItem.nrOfPlayers;
+    }
+
+    public void setNrOfPlayersSelected(Integer nrOfPlayersSelected) {
+        switch (nrOfPlayersSelected) {
+            case 3: setSelectedItem(NrOfPlayers.THREE_PLAYERS);
+            break;
+            case 4: setSelectedItem(NrOfPlayers.FOUR_PLAYERS);
+            break;
+            case 5: setSelectedItem(NrOfPlayers.FIVE_PLAYERS);
+            break;
+            case 6: setSelectedItem(NrOfPlayers.SIX_PLAYERS);
+            break;
+            default: setSelectedItem(NrOfPlayers.TWO_PLAYERS);
+        }
     }
 
     private enum NrOfPlayers {

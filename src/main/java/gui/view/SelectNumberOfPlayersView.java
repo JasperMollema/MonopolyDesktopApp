@@ -74,7 +74,6 @@ public class SelectNumberOfPlayersView extends AbstractView {
         addComponentGridBagConstraints(player5Name, 2, 6);
         addComponentGridBagConstraints(player6Label, 1, 7);
         addComponentGridBagConstraints(player6Name, 2, 7);
-
     }
 
     private void addComponentGridBagConstraints(Component component, int x, int y) {
@@ -129,7 +128,7 @@ public class SelectNumberOfPlayersView extends AbstractView {
         player6Label.setVisible(isVisible);
     }
 
-    public void setNrOfPlayersSelected(String nrOfPlayersSelected) {
-        nrOfPlayersComboBox.setSelectedItem(nrOfPlayersSelected);
+    public void setNrOfPlayersSelected(Integer nrOfPlayersSelected) {
+        nrOfPlayersComboBox.setNrOfPlayersSelected(nrOfPlayersSelected);
     }
 }

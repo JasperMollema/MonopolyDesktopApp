@@ -23,7 +23,7 @@ public class SelectNumberOfPlayersController extends AbstractController {
     private void showSelectNumberOfPlayers() {
         selectNumberOfPlayersView.setVisibilityStartGameBtn(false);
         selectNumberOfPlayersView.setVisibilityNrOfPlayersComboBox(true);
-        selectNumberOfPlayersView.setNrOfPlayersSelected("4 players");
+        selectNumberOfPlayersView.setNrOfPlayersSelected(DEFAULT_NR_OF_PLAYERS);
         setNrOfPlayerFieldsShown(DEFAULT_NR_OF_PLAYERS);
     }
 
@@ -43,16 +43,16 @@ public class SelectNumberOfPlayersController extends AbstractController {
         if (nrOfFields == 2) {
             showTwoPlayerFields();
         }
-        else if (nrOfFields ==3) {
+        else if (nrOfFields == 3) {
             showThreePlayerFields();
         }
-        else if (nrOfFields ==4) {
+        else if (nrOfFields == 4) {
             showFourPlayerFields();
         }
-        else if (nrOfFields ==5) {
+        else if (nrOfFields == 5) {
             showFivePlayerFields();
         }
-        else if (nrOfFields ==6) {
+        else if (nrOfFields == 6) {
             showSixPlayerFields();
         }
     }
