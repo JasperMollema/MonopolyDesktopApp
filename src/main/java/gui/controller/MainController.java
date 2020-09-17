@@ -6,6 +6,8 @@ public class MainController extends AbstractController {
     private MainView mainView;
     private MainMenuView mainMenuView;
     private MenuController menuController;
+    private MonopolyGameView monopolyGameView;
+    private MonopolyGameController monopolyGameController;
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private SelectNumberOfPlayersController selectNumberOfPlayersController;
 
@@ -21,17 +23,20 @@ public class MainController extends AbstractController {
     private void initializeChildViews() {
         mainMenuView = (MainMenuView) ViewFactory.getView(ViewFactory.MENU);
         selectNumberOfPlayersView = (SelectNumberOfPlayersView) ViewFactory.getView(ViewFactory.SELECT_NR_OF_PLAYERS);
+        monopolyGameView = (MonopolyGameView) ViewFactory.getView(ViewFactory.MONOPOLY_GAME);
     }
 
     private void initializeChildControllers() {
         menuController = (MenuController) ControllerFactory.getController(mainMenuView);
         menuController.setMainMenuListener(() -> {showSelectNumberOfPlayersView();});
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
+        monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
     }
 
     private void addChildViewsToMainView() {
         mainView.addView(mainMenuView, mainMenuView.getViewName());
         mainView.addView(selectNumberOfPlayersView, selectNumberOfPlayersView.getViewName());
+        mainView.addView(monopolyGameView, monopolyGameView.getViewName());
     }
 
     @Override
