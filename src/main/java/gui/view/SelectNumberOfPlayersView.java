@@ -19,6 +19,7 @@ public class SelectNumberOfPlayersView extends AbstractMenuView {
     private JTextField player5Name;
     private JLabel player6Label;
     private JTextField player6Name;
+    private JButton startGame;
 
     @Override
     public void initializeView() {
@@ -36,16 +37,9 @@ public class SelectNumberOfPlayersView extends AbstractMenuView {
         player5Name = new JTextField(getMessage("selectNrOfPlayers.player", "5"), COLUMN_SIZE);
         player6Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "6"));
         player6Name = new JTextField(getMessage("selectNrOfPlayers.player", "6"), COLUMN_SIZE);
+        startGame = new JButton(getMessage("selectNrOfPlayers.startGame"));
 
         layoutComponents();
-
-        setVisibilityNrOfPlayersComboBox(false);
-        setVisibilityPlayer1Fields(false);
-        setVisibilityPlayer2Fields(false);
-        setVisibilityPlayer3Fields(false);
-        setVisibilityPlayer4Fields(false);
-        setVisibilityPlayer5Fields(false);
-        setVisibilityPlayer6Fields(false);
     }
 
     private void layoutComponents() {
@@ -63,14 +57,15 @@ public class SelectNumberOfPlayersView extends AbstractMenuView {
         addComponentToGridBagConstraints(player5Name, 2, 6);
         addComponentToGridBagConstraints(player6Label, 1, 7);
         addComponentToGridBagConstraints(player6Name, 2, 7);
+        addComponentToGridBagConstraints(startGame, 1, 8);
     }
 
     public void addActionListenerNrOfPlayersComboBox(ActionListener actionListener) {
         nrOfPlayersComboBox.addActionListener(actionListener);
     }
 
-    public void setVisibilityNrOfPlayersComboBox(boolean isVisible) {
-        nrOfPlayersComboBox.setVisible(isVisible);
+    public void addActionListenerStartGameButton(ActionListener actionListener) {
+        startGame.addActionListener(actionListener);
     }
 
     public void setVisibilityPlayer1Fields(boolean isVisible) {

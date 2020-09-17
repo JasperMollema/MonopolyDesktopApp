@@ -28,8 +28,9 @@ public class MainController extends AbstractController {
 
     private void initializeChildControllers() {
         menuController = (MenuController) ControllerFactory.getController(mainMenuView);
-        menuController.setMainMenuListener(() -> {showSelectNumberOfPlayersView();});
+        menuController.setMainMenuListener(() -> showSelectNumberOfPlayersView());
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
+        selectNumberOfPlayersController.setSelectNumberOfPlayersListener(() ->showMonopolyGameView());
         monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
     }
 
@@ -52,6 +53,11 @@ public class MainController extends AbstractController {
     private void showSelectNumberOfPlayersView() {
         showView(selectNumberOfPlayersView);
         selectNumberOfPlayersController.startView();
+    }
+
+    private void showMonopolyGameView() {
+        showView(monopolyGameView);
+        monopolyGameController.startView();
     }
 
     private void showView(AbstractView view) {

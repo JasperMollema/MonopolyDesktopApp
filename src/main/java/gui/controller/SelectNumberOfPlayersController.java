@@ -1,12 +1,15 @@
 package gui.controller;
 
 import gui.component.NrOfPlayersComboBox;
+import gui.listeners.SelectNumberOfPlayersListener;
 import gui.view.SelectNumberOfPlayersView;
 
 public class SelectNumberOfPlayersController extends AbstractController {
-    private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private final String NAME_CONTROLLER = "SelectNumberOfPlayersController";
-    private static final Integer DEFAULT_NR_OF_PLAYERS = 4;
+    private final Integer DEFAULT_NR_OF_PLAYERS = 4;
+
+    private SelectNumberOfPlayersView selectNumberOfPlayersView;
+    private SelectNumberOfPlayersListener selectNumberOfPlayersListener;
 
     public SelectNumberOfPlayersController(SelectNumberOfPlayersView selectNumberOfPlayersView) {
         this.selectNumberOfPlayersView = selectNumberOfPlayersView;
@@ -16,21 +19,30 @@ public class SelectNumberOfPlayersController extends AbstractController {
     public void startView() {
         System.out.println(NAME_CONTROLLER + " : startView()");
         addActionListeners();
-        setNrOfPlayerFieldsShown(4);
-        selectNumberOfPlayersView.setVisibilityNrOfPlayersComboBox(true);
         selectNumberOfPlayersView.setNrOfPlayersSelected(DEFAULT_NR_OF_PLAYERS);
     }
 
     private void addActionListeners() {
         addActionListenerNrOfPlayerComboBox();
+        addActionListenerStartGameButton();
     }
 
     private void addActionListenerNrOfPlayerComboBox() {
-        selectNumberOfPlayersView.addActionListenerNrOfPlayersComboBox(event -> {
-            NrOfPlayersComboBox nrOfPlayersComboBox = (NrOfPlayersComboBox) event.getSource();
-            int nrOfPlayers = nrOfPlayersComboBox.getNrOfPlayersSelected();
-            setNrOfPlayerFieldsShown(nrOfPlayers);
-        });
+        selectNumberOfPlayersView.addActionListenerNrOfPlayersComboBox(
+                event -> {
+                    NrOfPlayersComboBox nrOfPlayersComboBox = (NrOfPlayersComboBox) event.getSource();
+                    int nrOfPlayers = nrOfPlayersComboBox.getNrOfPlayersSelected();
+                    setNrOfPlayerFieldsShown(nrOfPlayers);
+                }
+            );
+    }
+
+    private void addActionListenerStartGameButton() {
+        selectNumberOfPlayersView.addActionListenerStartGameButton(
+                event -> {
+                    selectNumberOfPlayersListener.startGameButtonPressed();
+                }
+        );
     }
 
     private void setNrOfPlayerFieldsShown(int nrOfFields) {
@@ -100,5 +112,9 @@ public class SelectNumberOfPlayersController extends AbstractController {
     @Override
     public String getControllerName() {
         return NAME_CONTROLLER;
+    }
+
+    public void setSelectNumberOfPlayersListener(SelectNumberOfPlayersListener selectNumberOfPlayersListener) {
+        this.selectNumberOfPlayersListener = selectNumberOfPlayersListener;
     }
 }
