@@ -49,6 +49,7 @@ public class SelectNumberOfPlayersView extends AbstractMenuView {
     }
 
     private void layoutComponents() {
+        initializeGridBagConstraints();
         addComponentToGridBagConstraints(nrOfPlayersComboBox, 1, 1);
         addComponentToGridBagConstraints(player1Label, 1, 2);
         addComponentToGridBagConstraints(player1Name, 2, 2);

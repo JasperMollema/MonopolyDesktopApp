@@ -15,6 +15,7 @@ public class MainMenuView extends AbstractMenuView {
     }
 
     private void layOutComponents() {
+        initializeGridBagConstraints();
         addComponentToGridBagConstraints(newGameButton, 1, 1);
     }
 

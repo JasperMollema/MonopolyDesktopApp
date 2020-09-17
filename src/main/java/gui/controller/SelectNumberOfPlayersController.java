@@ -6,6 +6,7 @@ import gui.view.SelectNumberOfPlayersView;
 public class SelectNumberOfPlayersController extends AbstractController {
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private final String NAME_CONTROLLER = "SelectNumberOfPlayersController";
+    private static final Integer DEFAULT_NR_OF_PLAYERS = 4;
 
     public SelectNumberOfPlayersController(SelectNumberOfPlayersView selectNumberOfPlayersView) {
         this.selectNumberOfPlayersView = selectNumberOfPlayersView;
@@ -17,6 +18,7 @@ public class SelectNumberOfPlayersController extends AbstractController {
         addActionListeners();
         setNrOfPlayerFieldsShown(4);
         selectNumberOfPlayersView.setVisibilityNrOfPlayersComboBox(true);
+        selectNumberOfPlayersView.setNrOfPlayersSelected(DEFAULT_NR_OF_PLAYERS);
     }
 
     private void addActionListeners() {
