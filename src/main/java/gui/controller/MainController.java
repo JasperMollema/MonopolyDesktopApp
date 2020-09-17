@@ -1,6 +1,7 @@
 package gui.controller;
 
 import gui.listeners.MainMenuListenerImpl;
+import gui.listeners.SelectNumberOfPlayersListenerImpl;
 import gui.view.*;
 
 public class MainController extends AbstractController {
@@ -31,7 +32,7 @@ public class MainController extends AbstractController {
         menuController = (MenuController) ControllerFactory.getController(mainMenuView);
         menuController.setMainMenuListener(new MainMenuListenerImpl(this));
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
-        selectNumberOfPlayersController.setSelectNumberOfPlayersListener(() ->showMonopolyGameView());
+        selectNumberOfPlayersController.setSelectNumberOfPlayersListener(new SelectNumberOfPlayersListenerImpl(this));
         monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
     }
 
@@ -47,7 +48,7 @@ public class MainController extends AbstractController {
         showMenu();
     }
 
-    private void showMenu() {
+    public void showMenu() {
         showView(mainMenuView);
     }
 

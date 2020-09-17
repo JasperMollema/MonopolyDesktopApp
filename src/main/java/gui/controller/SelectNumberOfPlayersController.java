@@ -25,6 +25,7 @@ public class SelectNumberOfPlayersController extends AbstractController {
     private void addActionListeners() {
         addActionListenerNrOfPlayerComboBox();
         addActionListenerStartGameButton();
+        addActionListenerGoToMainMenuButton();
     }
 
     private void addActionListenerNrOfPlayerComboBox() {
@@ -39,9 +40,13 @@ public class SelectNumberOfPlayersController extends AbstractController {
 
     private void addActionListenerStartGameButton() {
         selectNumberOfPlayersView.addActionListenerStartGameButton(
-                event -> {
-                    selectNumberOfPlayersListener.startGameButtonPressed();
-                }
+                event -> selectNumberOfPlayersListener.startGameButtonPressed()
+        );
+    }
+
+    private void addActionListenerGoToMainMenuButton() {
+        selectNumberOfPlayersView.addActionListenerGoToMainMenuButton(
+                event -> selectNumberOfPlayersListener.goToMainMenuButtonPressed()
         );
     }
 
