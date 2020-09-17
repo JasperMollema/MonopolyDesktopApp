@@ -1,13 +1,10 @@
 package gui.controller;
 
-import gui.view.MainView;
-import gui.view.MenuView;
-import gui.view.SelectNumberOfPlayersView;
-import gui.view.ViewFactory;
+import gui.view.*;
 
 public class MainController extends AbstractController {
     private MainView mainView;
-    private MenuView menuView;
+    private MainMenuView mainMenuView;
     private MenuController menuController;
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private SelectNumberOfPlayersController selectNumberOfPlayersController;
@@ -18,22 +15,42 @@ public class MainController extends AbstractController {
         this.mainView = mainView;
         initializeChildViews();
         initializeChildControllers();
-        mainView.initializeView();
+        addChildViewsToMainView();
     }
 
     private void initializeChildViews() {
-        menuView = (MenuView) ViewFactory.getView(ViewFactory.MENU);
+        mainMenuView = (MainMenuView) ViewFactory.getView(ViewFactory.MENU);
         selectNumberOfPlayersView = (SelectNumberOfPlayersView) ViewFactory.getView(ViewFactory.SELECT_NR_OF_PLAYERS);
     }
 
     private void initializeChildControllers() {
-        menuController = (MenuController) ControllerFactory.getController(menuView);
+        menuController = (MenuController) ControllerFactory.getController(mainMenuView);
+        menuController.setMainMenuListener(() -> {showSelectNumberOfPlayersView();});
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
+    }
+
+    private void addChildViewsToMainView() {
+        mainView.addView(mainMenuView, mainMenuView.getViewName());
+        mainView.addView(selectNumberOfPlayersView, selectNumberOfPlayersView.getViewName());
     }
 
     @Override
     public void startView() {
         System.out.println(NAME_CONTROLLER + " : startView()");
+        showMenu();
+    }
+
+    private void showMenu() {
+        showView(mainMenuView);
+    }
+
+    private void showSelectNumberOfPlayersView() {
+        showView(selectNumberOfPlayersView);
+        selectNumberOfPlayersController.startView();
+    }
+
+    private void showView(AbstractView view) {
+        mainView.showView(view.getViewName());
     }
 
     @Override

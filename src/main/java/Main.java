@@ -15,8 +15,11 @@ public class Main {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
 
-        SwingUtilities.invokeLater(
-                MainFrame::new
-        );
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new MainFrame();
+            }
+        });
     }
 }

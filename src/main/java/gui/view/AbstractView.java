@@ -9,11 +9,12 @@ public abstract class AbstractView extends JPanel implements View {
     public final int COLUMN_SIZE = 10;
 
     public AbstractView() {
-        System.out.println("Start View : " + getViewName());
+        System.out.println("Constructor View : " + getViewName());
         setVisible(false);
         if (messages == null) {
             messages = new Messages();
         }
+        initializeView();
     }
 
     public abstract String getViewName();

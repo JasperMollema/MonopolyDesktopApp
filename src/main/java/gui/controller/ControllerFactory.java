@@ -1,7 +1,7 @@
 package gui.controller;
 
+import gui.view.MainMenuView;
 import gui.view.MainView;
-import gui.view.MenuView;
 import gui.view.SelectNumberOfPlayersView;
 import gui.view.View;
 
@@ -11,8 +11,8 @@ public class ControllerFactory {
         if (view instanceof MainView) {
             return new MainController((MainView) view);
         }
-        else if (view instanceof MenuView) {
-            return new MenuController((MenuView) view);
+        else if (view instanceof MainMenuView) {
+            return new MenuController((MainMenuView) view);
         }
 
         else if (view instanceof SelectNumberOfPlayersView) {

@@ -8,7 +8,7 @@ public class ViewFactory {
     public static View getView(String view) {
         switch (view) {
             case MAIN: return new MainView();
-            case MENU: return new MenuView();
+            case MENU: return new MainMenuView();
             case SELECT_NR_OF_PLAYERS: return new SelectNumberOfPlayersView();
             default: return new NullView();
         }

@@ -3,10 +3,9 @@ package gui.view;
 import gui.component.NrOfPlayersComboBox;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class SelectNumberOfPlayersView extends AbstractView {
+public class SelectNumberOfPlayersView extends AbstractMenuView {
     private NrOfPlayersComboBox nrOfPlayersComboBox;
     private JLabel player1Label;
     private JTextField player1Name;
@@ -20,8 +19,6 @@ public class SelectNumberOfPlayersView extends AbstractView {
     private JTextField player5Name;
     private JLabel player6Label;
     private JTextField player6Name;
-
-    private GridBagConstraints gridBagConstraints = new GridBagConstraints();
 
     @Override
     public void initializeView() {
@@ -52,26 +49,19 @@ public class SelectNumberOfPlayersView extends AbstractView {
     }
 
     private void layoutComponents() {
-        setLayout(new GridBagLayout());
-        addComponentGridBagConstraints(nrOfPlayersComboBox, 1, 1);
-        addComponentGridBagConstraints(player1Label, 1, 2);
-        addComponentGridBagConstraints(player1Name, 2, 2);
-        addComponentGridBagConstraints(player2Label, 1, 3);
-        addComponentGridBagConstraints(player2Name, 2, 3);
-        addComponentGridBagConstraints(player3Label, 1, 4);
-        addComponentGridBagConstraints(player3Name, 2, 4);
-        addComponentGridBagConstraints(player4Label, 1, 5);
-        addComponentGridBagConstraints(player4Name, 2, 5);
-        addComponentGridBagConstraints(player5Label, 1, 6);
-        addComponentGridBagConstraints(player5Name, 2, 6);
-        addComponentGridBagConstraints(player6Label, 1, 7);
-        addComponentGridBagConstraints(player6Name, 2, 7);
-    }
-
-    private void addComponentGridBagConstraints(Component component, int x, int y) {
-        gridBagConstraints.gridx = x;
-        gridBagConstraints.gridy = y;
-        add(component, gridBagConstraints);
+        addComponentToGridBagConstraints(nrOfPlayersComboBox, 1, 1);
+        addComponentToGridBagConstraints(player1Label, 1, 2);
+        addComponentToGridBagConstraints(player1Name, 2, 2);
+        addComponentToGridBagConstraints(player2Label, 1, 3);
+        addComponentToGridBagConstraints(player2Name, 2, 3);
+        addComponentToGridBagConstraints(player3Label, 1, 4);
+        addComponentToGridBagConstraints(player3Name, 2, 4);
+        addComponentToGridBagConstraints(player4Label, 1, 5);
+        addComponentToGridBagConstraints(player4Name, 2, 5);
+        addComponentToGridBagConstraints(player5Label, 1, 6);
+        addComponentToGridBagConstraints(player5Name, 2, 6);
+        addComponentToGridBagConstraints(player6Label, 1, 7);
+        addComponentToGridBagConstraints(player6Name, 2, 7);
     }
 
     public void addActionListenerNrOfPlayersComboBox(ActionListener actionListener) {

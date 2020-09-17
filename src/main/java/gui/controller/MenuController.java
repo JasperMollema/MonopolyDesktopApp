@@ -1,13 +1,24 @@
 package gui.controller;
 
-import gui.view.MenuView;
+import gui.listeners.MainMenuListener;
+import gui.view.MainMenuView;
 
 public class MenuController extends AbstractController {
-    private MenuView menuView;
+    private MainMenuView mainMenuView;
     private final String NAME_CONTROLLER = "MenuController";
+    private MainMenuListener mainMenuListener;
 
-    public MenuController(MenuView menuView) {
-        this.menuView = menuView;
+    public MenuController(MainMenuView mainMenuView) {
+        this.mainMenuView = mainMenuView;
+        addActionListenersToNewGameButton();
+    }
+
+    private void addActionListenersToNewGameButton() {
+        mainMenuView.setActionListenerNewGameButton(
+                event -> {
+                    mainMenuListener.newGameButtonPressed();
+                }
+        );
     }
 
     @Override
@@ -17,6 +28,10 @@ public class MenuController extends AbstractController {
 
     @Override
     public void startView() {
+        mainMenuView.initializeView();
+    }
 
+    public void setMainMenuListener(MainMenuListener mainMenuListener) {
+        this.mainMenuListener = mainMenuListener;
     }
 }
