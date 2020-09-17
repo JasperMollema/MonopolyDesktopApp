@@ -32,7 +32,7 @@ public class MainController extends AbstractController {
         menuController = (MenuController) ControllerFactory.getController(mainMenuView);
         menuController.setMainMenuListener(new MainMenuListenerImpl(this));
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
-        selectNumberOfPlayersController.setSelectNumberOfPlayersListener(new SelectNumberOfPlayersListenerImpl(this));
+        selectNumberOfPlayersController.setSelectNumberOfPlayersListener(new SelectNumberOfPlayersListenerImpl(this, selectNumberOfPlayersController));
         monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
     }
 

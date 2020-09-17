@@ -109,6 +109,34 @@ public class SelectNumberOfPlayersView extends AbstractMenuView {
         nrOfPlayersComboBox.setNrOfPlayersSelected(nrOfPlayersSelected);
     }
 
+    public String getNamePlayer1() {
+        return player1Name.getText();
+    }
+
+    public String getNamePlayer2() {
+        return player2Name.getText();
+    }
+
+    public String getNamePlayer3() {
+        return player3Name.getText();
+    }
+
+    public String getNamePlayer4() {
+        return player4Name.getText();
+    }
+
+    public String getNamePlayer5() {
+        return player5Name.getText();
+    }
+
+    public String getNamePlayer6() {
+        return player6Name.getText();
+    }
+
+    public int getNumberOfPlayers() {
+        return nrOfPlayersComboBox.getNrOfPlayersSelected();
+    }
+
     @Override
     public String getViewName() {
         return "SelectNumberOfPlayersView";

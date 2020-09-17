@@ -114,6 +114,32 @@ public class SelectNumberOfPlayersController extends AbstractController {
         selectNumberOfPlayersView.setVisibilityPlayer6Fields(true);
     }
 
+    public int getNumberOfPlayers() {
+        return selectNumberOfPlayersView.getNumberOfPlayers();
+    }
+
+    public String getPlayerName(int playerNr) {
+        if (playerNr == 1) {
+            return selectNumberOfPlayersView.getNamePlayer1();
+        }
+        else if (playerNr == 2) {
+            return selectNumberOfPlayersView.getNamePlayer2();
+        }
+        else if (playerNr == 3) {
+            return selectNumberOfPlayersView.getNamePlayer3();
+        }
+        else if (playerNr == 4) {
+            return selectNumberOfPlayersView.getNamePlayer4();
+        }
+        else if (playerNr == 5) {
+            return selectNumberOfPlayersView.getNamePlayer5();
+        }
+        else if (playerNr == 6) {
+            return selectNumberOfPlayersView.getNamePlayer6();
+        }
+        throw new RuntimeException("SelectNumberOfPlayersController: Error in entering player Name");
+    }
+
     @Override
     public String getControllerName() {
         return NAME_CONTROLLER;
