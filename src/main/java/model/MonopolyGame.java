@@ -12,6 +12,7 @@ public class MonopolyGame {
     }
 
     public void addPlayer(Player player) {
+        playerList.add(player);
         System.out.println("MonopolyGame addPlayer(): Added player : " + player);
     }
 }

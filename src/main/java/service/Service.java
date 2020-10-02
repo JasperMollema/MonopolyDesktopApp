@@ -3,7 +3,7 @@ package service;
 import model.MonopolyGame;
 
 public class Service {
-    private MonopolyGame monopolyGame;
+    private static MonopolyGame monopolyGame;
 
     public MonopolyGame getMonopolyGame() {
         if (monopolyGame == null) {
