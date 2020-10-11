@@ -11,8 +11,4 @@ public class Service {
         }
         return monopolyGame;
     }
-
-    public void startNewMonopolyGame() {
-        monopolyGame = new MonopolyGame();
-    }
 }

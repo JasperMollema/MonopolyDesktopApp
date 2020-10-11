@@ -1,15 +1,15 @@
 package gui.controller;
 
 import gui.listeners.MainMenuListener;
-import gui.view.MainMenuView;
+import gui.view.MainMenuBagView;
 
 public class MenuController extends AbstractController {
     private final String NAME_CONTROLLER = "MenuController";
 
-    private MainMenuView mainMenuView;
+    private MainMenuBagView mainMenuView;
     private MainMenuListener mainMenuListener;
 
-    public MenuController(MainMenuView mainMenuView) {
+    public MenuController(MainMenuBagView mainMenuView) {
         this.mainMenuView = mainMenuView;
         addActionListenersToNewGameButton();
     }

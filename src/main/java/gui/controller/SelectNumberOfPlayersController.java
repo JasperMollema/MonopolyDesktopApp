@@ -13,12 +13,12 @@ public class SelectNumberOfPlayersController extends AbstractController {
 
     public SelectNumberOfPlayersController(SelectNumberOfPlayersView selectNumberOfPlayersView) {
         this.selectNumberOfPlayersView = selectNumberOfPlayersView;
+        addActionListeners();
     }
 
     @Override
     public void startView() {
         System.out.println(NAME_CONTROLLER + " : startView()");
-        addActionListeners();
         selectNumberOfPlayersView.setNrOfPlayersSelected(DEFAULT_NR_OF_PLAYERS);
     }
 

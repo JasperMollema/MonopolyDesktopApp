@@ -9,8 +9,8 @@ public class ControllerFactory {
             return new MainController((MainView) view);
         }
 
-        else if (view instanceof MainMenuView) {
-            return new MenuController((MainMenuView) view);
+        else if (view instanceof MainMenuBagView) {
+            return new MenuController((MainMenuBagView) view);
         }
 
         else if (view instanceof SelectNumberOfPlayersView) {

@@ -6,7 +6,7 @@ import gui.view.*;
 
 public class MainController extends AbstractController {
     private MainView mainView;
-    private MainMenuView mainMenuView;
+    private MainMenuBagView mainMenuView;
     private MenuController menuController;
     private MonopolyGameView monopolyGameView;
     private MonopolyGameController monopolyGameController;
@@ -23,7 +23,7 @@ public class MainController extends AbstractController {
     }
 
     private void initializeChildViews() {
-        mainMenuView = (MainMenuView) ViewFactory.getView(ViewFactory.MENU);
+        mainMenuView = (MainMenuBagView) ViewFactory.getView(ViewFactory.MENU);
         selectNumberOfPlayersView = (SelectNumberOfPlayersView) ViewFactory.getView(ViewFactory.SELECT_NR_OF_PLAYERS);
         monopolyGameView = (MonopolyGameView) ViewFactory.getView(ViewFactory.MONOPOLY_GAME);
     }

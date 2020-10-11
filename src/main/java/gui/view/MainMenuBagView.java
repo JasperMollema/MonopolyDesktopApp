@@ -3,7 +3,7 @@ package gui.view;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
-public class MainMenuView extends AbstractMenuView {
+public class MainMenuBagView extends AbstractGridBagView {
     private final String NAME_VIEW = "MainMenuView";
     private JButton newGameButton;
 

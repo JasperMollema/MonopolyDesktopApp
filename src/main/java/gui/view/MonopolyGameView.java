@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class MonopolyGameView extends AbstractView {
     private JLabel monopolyGame;
+    private PlayersOverView playersOverView;
 
     @Override
     public String getViewName() {
@@ -14,5 +15,9 @@ public class MonopolyGameView extends AbstractView {
     public void initializeView() {
         monopolyGame = new JLabel("Monopoly Game");
         add(monopolyGame);
+    }
+
+    public void addPlayerLabel(String playerName) {
+
     }
 }
