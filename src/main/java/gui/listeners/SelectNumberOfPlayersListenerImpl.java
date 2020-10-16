@@ -1,8 +1,9 @@
 package gui.listeners;
 
+import exceptions.BadNameException;
 import gui.controller.MainController;
 import gui.controller.SelectNumberOfPlayersController;
-import service.SelectNumberOfPlayersService;
+import services.SelectNumberOfPlayersService;
 
 public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersListener {
     private MainController mainController;
@@ -20,9 +21,17 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
         int nrOfPlayers = selectNumberOfPlayersController.getNumberOfPlayers();
         for (int i = 0; i < nrOfPlayers; i++) {
             String playerName = selectNumberOfPlayersController.getPlayerName(i + 1);
-            selectNumberOfPlayersService.addPlayer(playerName);
+            addPlayer(playerName);
         }
         mainController.showMonopolyGameView();
+    }
+
+    private void addPlayer(String playerName) {
+        try {
+            selectNumberOfPlayersService.addPlayer(playerName);
+        } catch (BadNameException badNameException) {
+            // TODO: Add a popup with the message that a same name is added.
+        }
     }
 
     @Override

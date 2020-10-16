@@ -1,6 +1,5 @@
 package gui.listeners;
 
-import commands.StartMonopolyGameCommand;
 import gui.controller.MainController;
 
 public class MainMenuListenerImpl implements MainMenuListener {
@@ -11,8 +10,6 @@ public class MainMenuListenerImpl implements MainMenuListener {
     }
     @Override
     public void newGameButtonPressed() {
-        StartMonopolyGameCommand startMonopolyGameCommand = new StartMonopolyGameCommand();
-        startMonopolyGameCommand.setMainController(mainController);
-        startMonopolyGameCommand.execute();
+        mainController.showSelectNumberOfPlayersView();
     }
 }

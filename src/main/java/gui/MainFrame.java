@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
         mainView.setLayoutToContainer();
         mainController = (MainController) ControllerFactory.getController(mainView);
         add(mainView);
-        mainController.startView();
+        mainController.startController();
         setVisible(true);
         pack();
     }

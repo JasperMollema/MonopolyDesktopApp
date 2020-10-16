@@ -26,7 +26,7 @@ public class ControllerFactory {
 
     private static class NullController implements Controller {
         @Override
-        public void startView() {
+        public void startController() {
 
         }
     }

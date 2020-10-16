@@ -15,6 +15,7 @@ public class MonopolyGameController extends AbstractController {
     }
 
     @Override
-    public void startView() {
+    public void startController() {
+
     }
 }

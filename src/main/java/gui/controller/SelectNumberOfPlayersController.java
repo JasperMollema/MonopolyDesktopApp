@@ -17,7 +17,7 @@ public class SelectNumberOfPlayersController extends AbstractController {
     }
 
     @Override
-    public void startView() {
+    public void startController() {
         System.out.println(NAME_CONTROLLER + " : startView()");
         selectNumberOfPlayersView.setNrOfPlayersSelected(DEFAULT_NR_OF_PLAYERS);
     }

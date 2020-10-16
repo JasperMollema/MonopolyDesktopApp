@@ -28,7 +28,7 @@ public class MenuController extends AbstractController {
     }
 
     @Override
-    public void startView() {
+    public void startController() {
         mainMenuView.initializeView();
     }
 

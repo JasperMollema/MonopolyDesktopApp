@@ -43,7 +43,7 @@ public class MainController extends AbstractController {
     }
 
     @Override
-    public void startView() {
+    public void startController() {
         System.out.println(NAME_CONTROLLER + " : startView()");
         showMenu();
     }
@@ -54,12 +54,12 @@ public class MainController extends AbstractController {
 
     public void showSelectNumberOfPlayersView() {
         showView(selectNumberOfPlayersView);
-        selectNumberOfPlayersController.startView();
+        selectNumberOfPlayersController.startController();
     }
 
     public void showMonopolyGameView() {
         showView(monopolyGameView);
-        monopolyGameController.startView();
+        monopolyGameController.startController();
     }
 
     private void showView(AbstractView view) {
