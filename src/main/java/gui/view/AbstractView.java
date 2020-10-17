@@ -6,7 +6,6 @@ import javax.swing.*;
 
 public abstract class AbstractView extends JPanel implements View {
     private static Messages messages;
-    public final int COLUMN_SIZE = 10;
 
     public AbstractView() {
         System.out.println("Constructor View : " + getViewName());
