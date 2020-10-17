@@ -9,6 +9,7 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
     private MainController mainController;
     private SelectNumberOfPlayersController selectNumberOfPlayersController;
     private SelectNumberOfPlayersService selectNumberOfPlayersService;
+    private boolean incorrectInput;
 
     public SelectNumberOfPlayersListenerImpl(MainController mainController, SelectNumberOfPlayersController selectNumberOfPlayersController) {
         this.mainController = mainController;
@@ -19,10 +20,17 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
     @Override
     public void startGameButtonPressed() {
         int nrOfPlayers = selectNumberOfPlayersController.getNumberOfPlayers();
-        for (int i = 0; i < nrOfPlayers; i++) {
+
+        for (int i = 0; i < nrOfPlayers && !incorrectInput; i++) {
             String playerName = selectNumberOfPlayersController.getPlayerName(i + 1);
             addPlayer(playerName);
         }
+
+        if (incorrectInput) {
+            incorrectInput = false;
+            return;
+        }
+
         mainController.showMonopolyGameView();
     }
 
@@ -30,8 +38,20 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
         try {
             selectNumberOfPlayersService.addPlayer(playerName);
         } catch (BadNameException badNameException) {
-            // TODO: Add a popup with the message that a same name is added.
+            handleBadNameException(badNameException.getBadNameType());
         }
+    }
+
+    private void handleBadNameException(BadNameException.BadNameType badNameType) {
+        if (badNameType == BadNameException.BadNameType.EMPTY_NAME) {
+            selectNumberOfPlayersController.showWarningMessagesEmptyName();
+        }
+
+        if (badNameType == BadNameException.BadNameType.IDENTICAL_NAME) {
+            selectNumberOfPlayersController.showWarningMessageSamePlayerNames();
+        }
+
+        incorrectInput = true;
     }
 
     @Override

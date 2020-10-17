@@ -148,4 +148,12 @@ public class SelectNumberOfPlayersController extends AbstractController {
     public void setSelectNumberOfPlayersListener(SelectNumberOfPlayersListener selectNumberOfPlayersListener) {
         this.selectNumberOfPlayersListener = selectNumberOfPlayersListener;
     }
+
+    public void showWarningMessagesEmptyName() {
+        selectNumberOfPlayersView.showWarningMessagesEmptyName();
+    }
+
+    public void showWarningMessageSamePlayerNames() {
+        selectNumberOfPlayersView.showWarningMessageSamePlayerNames();
+    }
 }

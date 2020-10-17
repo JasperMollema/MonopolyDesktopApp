@@ -110,6 +110,22 @@ public class SelectNumberOfPlayersView extends AbstractGridBagView {
         nrOfPlayersComboBox.setNrOfPlayersSelected(nrOfPlayersSelected);
     }
 
+    public void showWarningMessagesEmptyName() {
+        JOptionPane.showMessageDialog(
+                null,
+                getMessage("selectNrOfPlayers.messageEmptyPlayerName"),
+                getMessage("selectNrOfPlayers.messageEmptyPlayerNameTitle"),
+                JOptionPane.OK_OPTION);
+    }
+
+    public void showWarningMessageSamePlayerNames() {
+        JOptionPane.showMessageDialog(
+                null,
+                getMessage("selectNrOfPlayers.messageIdenticalPlayerName"),
+                getMessage("selectNrOfPlayers.messageIdenticalPlayerNameTitle"),
+                JOptionPane.OK_OPTION);
+    }
+
     public String getNamePlayer1() {
         return player1Name.getText();
     }

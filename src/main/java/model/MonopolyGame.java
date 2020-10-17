@@ -6,8 +6,12 @@ public class MonopolyGame {
     private List<Player> playerList;
 
     public MonopolyGame(List<Player> playerList) {
+        this.playerList = playerList;
         System.out.println("MONOPOLY GAME INITIALIZED");
         validatePlayerList();
+        for (Player player : playerList) {
+            System.out.println(player);
+        }
     }
 
     private void validatePlayerList() {
