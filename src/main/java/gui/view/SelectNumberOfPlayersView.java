@@ -1,6 +1,7 @@
 package gui.view;
 
 import gui.component.NrOfPlayersComboBox;
+import gui.component.PlayerNameTextField;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -27,17 +28,17 @@ public class SelectNumberOfPlayersView extends AbstractGridBagView {
         System.out.println("Initialize SelectNumberOfPlayers View");
         nrOfPlayersComboBox = new NrOfPlayersComboBox();
         player1Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "1"));
-        player1Name = new JTextField(getMessage("selectNrOfPlayers.player", "1"), COLUMN_SIZE);
+        player1Name = new PlayerNameTextField(getMessage("selectNrOfPlayers.player", "1"));
         player2Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "2"));
-        player2Name = new JTextField(getMessage("selectNrOfPlayers.player", "2"), COLUMN_SIZE);
+        player2Name = new PlayerNameTextField(getMessage("selectNrOfPlayers.player", "2"));
         player3Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "3"));
-        player3Name = new JTextField(getMessage("selectNrOfPlayers.player", "3"), COLUMN_SIZE);
+        player3Name = new PlayerNameTextField(getMessage("selectNrOfPlayers.player", "3"));
         player4Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "4"));
-        player4Name = new JTextField(getMessage("selectNrOfPlayers.player", "4"), COLUMN_SIZE);
+        player4Name = new PlayerNameTextField(getMessage("selectNrOfPlayers.player", "4"));
         player5Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "5"));
-        player5Name = new JTextField(getMessage("selectNrOfPlayers.player", "5"), COLUMN_SIZE);
+        player5Name = new PlayerNameTextField(getMessage("selectNrOfPlayers.player", "5"));
         player6Label = new JLabel(getMessage("selectNrOfPlayers.playerName", "6"));
-        player6Name = new JTextField(getMessage("selectNrOfPlayers.player", "6"), COLUMN_SIZE);
+        player6Name = new PlayerNameTextField(getMessage("selectNrOfPlayers.player", "6"));
         startGame = new JButton(getMessage("selectNrOfPlayers.startGame"));
         goToMainMenu = new JButton(getMessage("selectNrOfPlayers.goToMainMenu"));
 
