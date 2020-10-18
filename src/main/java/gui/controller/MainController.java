@@ -4,6 +4,8 @@ import gui.listeners.MainMenuListenerImpl;
 import gui.listeners.SelectNumberOfPlayersListenerImpl;
 import gui.view.*;
 
+import java.util.List;
+
 public class MainController extends AbstractController {
     private MainView mainView;
     private MainMenuBagView mainMenuView;
@@ -12,6 +14,7 @@ public class MainController extends AbstractController {
     private MonopolyGameController monopolyGameController;
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private SelectNumberOfPlayersController selectNumberOfPlayersController;
+
 
     private final String NAME_CONTROLLER = "MainController";
 
@@ -46,6 +49,11 @@ public class MainController extends AbstractController {
     public void startController() {
         System.out.println(NAME_CONTROLLER + " : startView()");
         showMenu();
+    }
+
+    public void startMonopolyGame(List<String> playerNames) {
+        showMonopolyGameView();
+        monopolyGameController.startMonopolyGame(playerNames);
     }
 
     public void showMenu() {

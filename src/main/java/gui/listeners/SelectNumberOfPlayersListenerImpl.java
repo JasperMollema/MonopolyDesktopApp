@@ -31,12 +31,12 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
             return;
         }
 
-        mainController.showMonopolyGameView();
+        mainController.startMonopolyGame(selectNumberOfPlayersService.getPlayerNamesList());
     }
 
     private void addPlayer(String playerName) {
         try {
-            selectNumberOfPlayersService.addPlayer(playerName);
+            selectNumberOfPlayersService.addPlayerName(playerName);
         } catch (BadNameException badNameException) {
             handleBadNameException(badNameException.getBadNameType());
         }

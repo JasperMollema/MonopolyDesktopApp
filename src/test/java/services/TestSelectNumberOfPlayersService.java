@@ -22,34 +22,34 @@ public class TestSelectNumberOfPlayersService {
 
     @Test
     void canNotAddPlayersWithSameName() throws BadNameException {
-        selectNumberOfPlayersService.addPlayer(name);
-        assertThrows(IdenticalNameException.class, () -> selectNumberOfPlayersService.addPlayer(name));
+        selectNumberOfPlayersService.addPlayerName(name);
+        assertThrows(IdenticalNameException.class, () -> selectNumberOfPlayersService.addPlayerName(name));
         assertTrue(numberOfPlayersIs(0));
     }
 
     @Test
     void canAddPlayerWithDifferentName() throws BadNameException {
-        selectNumberOfPlayersService.addPlayer(name);
-        selectNumberOfPlayersService.addPlayer(differentName);
+        selectNumberOfPlayersService.addPlayerName(name);
+        selectNumberOfPlayersService.addPlayerName(differentName);
         assertTrue(numberOfPlayersIs(2));
     }
 
     @Test
     void testEmptyName() {
-        assertThrows(EmptyNameException.class, () -> selectNumberOfPlayersService.addPlayer(null));
-        assertThrows(EmptyNameException.class, () -> selectNumberOfPlayersService.addPlayer(""));
-        assertThrows(EmptyNameException.class, () -> selectNumberOfPlayersService.addPlayer("    "));
+        assertThrows(EmptyNameException.class, () -> selectNumberOfPlayersService.addPlayerName(null));
+        assertThrows(EmptyNameException.class, () -> selectNumberOfPlayersService.addPlayerName(""));
+        assertThrows(EmptyNameException.class, () -> selectNumberOfPlayersService.addPlayerName("    "));
         assertTrue(numberOfPlayersIs(0));
     }
 
     @Test
     void testNameTooLong() {
-        assertThrows(RuntimeException.class, () -> selectNumberOfPlayersService.addPlayer(createNameThatIsTooLong()));
+        assertThrows(RuntimeException.class, () -> selectNumberOfPlayersService.addPlayerName(createNameThatIsTooLong()));
         assertTrue(numberOfPlayersIs(0));
     }
 
     private boolean numberOfPlayersIs(int numberOfPlayers) {
-        return selectNumberOfPlayersService.getPlayerList().size() == numberOfPlayers;
+        return selectNumberOfPlayersService.getPlayerNamesList().size() == numberOfPlayers;
     }
 
     private String createNameThatIsTooLong() {
