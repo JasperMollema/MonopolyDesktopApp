@@ -21,6 +21,10 @@ public class ControllerFactory {
             return new MonopolyGameController((MonopolyGameView) view);
         }
 
+        else if (view instanceof PlayersView) {
+            return new PlayersController((PlayersView) view);
+        }
+
         else return new NullController();
     }
 

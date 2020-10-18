@@ -1,10 +1,7 @@
 package gui.view;
 
-import javax.swing.*;
-
 public class MonopolyGameView extends AbstractView {
-    private JLabel monopolyGame;
-    private PlayersOverView playersOverView;
+    private PlayersView playersView;
 
     @Override
     public String getViewName() {
@@ -13,11 +10,14 @@ public class MonopolyGameView extends AbstractView {
 
     @Override
     public void initializeView() {
-        monopolyGame = new JLabel("Monopoly Game");
-        add(monopolyGame);
+        System.out.println(getViewName() + " InitializeView()");
     }
 
-    public void addPlayerLabel(String playerName) {
+    public void showChildViews() {
+        add(playersView);
+    }
 
+    public void setPlayersView(PlayersView playersView) {
+        this.playersView = playersView;
     }
 }

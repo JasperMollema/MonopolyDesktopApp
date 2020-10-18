@@ -5,6 +5,7 @@ public class ViewFactory {
     public static final String MENU = "menu";
     public static final String SELECT_NR_OF_PLAYERS = "selectNrOfPlayers";
     public static final String MONOPOLY_GAME = "monopolyGame";
+    public static final String PLAYERS = "players";
 
     public static View getView(String view) {
         switch (view) {
@@ -12,6 +13,7 @@ public class ViewFactory {
             case MENU: return new MainMenuBagView();
             case SELECT_NR_OF_PLAYERS: return new SelectNumberOfPlayersView();
             case MONOPOLY_GAME: return new MonopolyGameView();
+            case PLAYERS: return new PlayersView();
             default: return new NullView();
         }
     }
