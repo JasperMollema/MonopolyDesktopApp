@@ -57,6 +57,9 @@ public class BoardView extends AbstractGridBagView {
             new BoardComponent("VelperPlein")
     };
 
+    private BoardComponent chance = new BoardComponent("Kans");
+    private BoardComponent fonds = new BoardComponent("Algemeen fonds");
+
     public BoardView() {
 
         setVisible(true);
@@ -66,6 +69,8 @@ public class BoardView extends AbstractGridBagView {
         layOutWestBoardComponents();
         layOutEastBoardComponents();
         layOutNorthBoardComponents();
+        addComponentToGridBagConstraints(fonds, SEVENTH_ROW, FOURTH_COLUMN);
+        addComponentToGridBagConstraints(chance, FOURTH_ROW, SEVENTH_COLUMN);
 
         setBackground(Color.BLACK);
     }
@@ -107,13 +112,13 @@ public class BoardView extends AbstractGridBagView {
     }
 
     private void layOutEastBoardComponents() {
-        // Leg op 11e column, en van 2 tot en met 11e rij
+        // Leg op 12e column, en van 2 tot en met 11e rij
         int row = 2;
         for (int i = 0; i < boardComponentsEast.length; i++) {
             BoardComponent boardComponent = boardComponentsEast[i];
             add(boardComponent);
             boardComponent.setVisible(true);
-            addComponentToGridBagConstraints(boardComponent, row, ELEVENTH_COLUMN);
+            addComponentToGridBagConstraints(boardComponent, row, TWELFTH_COLUMN);
             row++;
         }
     }
