@@ -2,6 +2,7 @@ package gui.view;
 
 public class MonopolyGameView extends AbstractView {
     private PlayersView playersView;
+    private BoardView boardView;
 
     @Override
     public String getViewName() {
@@ -15,9 +16,14 @@ public class MonopolyGameView extends AbstractView {
 
     public void showChildViews() {
         add(playersView);
+        add(boardView);
     }
 
     public void setPlayersView(PlayersView playersView) {
         this.playersView = playersView;
+    }
+
+    public void setBoardView(BoardView boardView) {
+        this.boardView = boardView;
     }
 }

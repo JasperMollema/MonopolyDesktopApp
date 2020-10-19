@@ -13,7 +13,8 @@ public class PlayersView extends AbstractGridBagView {
     @Override
     public void initializeView() {
         initializeGridBagConstraints();
-        setVisible(true);
+        setVisible(true
+        );
         JLabel playersView = new JLabel("PlayersView");
         add(playersView);
         playersView.setVisible(true);

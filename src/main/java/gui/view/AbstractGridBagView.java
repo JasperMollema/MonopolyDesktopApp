@@ -15,6 +15,8 @@ public abstract class AbstractGridBagView extends AbstractView {
     protected final int EIGHT_ROW = 8;
     protected final int NINTH_ROW = 9;
     protected final int TENTH_ROW = 10;
+    protected final int ELEVENTH_ROW = 11;
+    protected final int TWELFTH_ROW = 12;
 
     protected final int FIRST_COLUMN = 1;
     protected final int SECOND_COLUMN = 2;
@@ -26,6 +28,8 @@ public abstract class AbstractGridBagView extends AbstractView {
     protected final int EIGHT_COLUMN = 8;
     protected final int NINTH_COLUMN = 9;
     protected final int TENTH_COLUMN = 10;
+    protected final int ELEVENTH_COLUMN = 11;
+    protected final int TWELFTH_COLUMN = 12;
 
     protected void addComponentToGridBagConstraints(Component component, int row, int column) {
         gridBagConstraints.gridx = column;
