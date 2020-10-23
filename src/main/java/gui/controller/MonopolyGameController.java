@@ -9,29 +9,27 @@ import services.MonopolyGameService;
 import java.util.Arrays;
 import java.util.List;
 
+/** Ik denk niet dat deze controller gelijke controlle moet hebben over de views. Hij kan
+ delegeren aan de childcontrollers. Alleen het de control panel/view ontvangt daadwerklijk input van de gebruiker.
+ dus daar kan een listener op komen. */
+
 public class MonopolyGameController extends AbstractController {
     private MonopolyGameView monopolyGameView;
     private MonopolyGameService monopolyGameService;
-    private PlayersView playersView;
     private PlayersController playersController;
-    private BoardView boardView;
     private BoardController boardController;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
-        initializeChildViews();
-        initializeChildControllers();
+        PlayersView playersView = (PlayersView) ViewFactory.getView(ViewFactory.PLAYERS);
+        BoardView boardView = (BoardView) ViewFactory.getView(ViewFactory.BOARD);
+        monopolyGameView.setPlayersView(playersView);
+        monopolyGameView.setBoardView(boardView);
+        initializeChildControllers(playersView, boardView);
         monopolyGameService = new MonopolyGameService();
     }
 
-    private void initializeChildViews() {
-        playersView = (PlayersView) ViewFactory.getView(ViewFactory.PLAYERS);
-        boardView = (BoardView) ViewFactory.getView(ViewFactory.BOARD);
-        monopolyGameView.setPlayersView(playersView);
-        monopolyGameView.setBoardView(boardView);
-    }
-
-    private void initializeChildControllers() {
+    private void initializeChildControllers(PlayersView playersView, BoardView boardView) {
         playersController = (PlayersController) ControllerFactory.getController(playersView);
         boardController = (BoardController) ControllerFactory.getController(boardView);
     }
@@ -50,8 +48,8 @@ public class MonopolyGameController extends AbstractController {
     }
 
     private void initializeBoard() {
-        String[] boardSpaceMessageResources = monopolyGameService.getMonopolyBoardSpacesMessageResources();
-        // Initialize board.
+        String[] boardComponentMessageResources = monopolyGameService.getMonopolyBoardSpacesMessageResources();
+        boardController.initializeBoard(boardComponentMessageResources);
     }
 
     public void startMonopolyGame(List<String> playerNames) {

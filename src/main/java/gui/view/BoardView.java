@@ -5,6 +5,7 @@ import gui.component.BoardComponent;
 import java.awt.*;
 
 public class BoardView extends AbstractGridBagView {
+    private BoardComponent[] boardComponents;
 
     private BoardComponent[] boardComponentsSouth = new BoardComponent[]{
             new BoardComponent("Start"),
@@ -124,7 +125,19 @@ public class BoardView extends AbstractGridBagView {
         }
     }
 
+    public void fillBoardComponents(String[] boardComponentMessageResources) {
+        int numberOfBoardComponents = boardComponentMessageResources.length;
+        boardComponents = new BoardComponent[numberOfBoardComponents];
+        for (int i = 0; i < numberOfBoardComponents; i++) {
+            String boardComponentName = getMessage(boardComponentMessageResources[i]);
+            boardComponents[i] = new BoardComponent(boardComponentName);
+        }
+    }
 
+    public void addBoardComponent(int boardComponentIndex, int gridX, int gridY) {
+        BoardComponent boardComponent = boardComponents[boardComponentIndex];
+        addComponentToGridBagConstraints(boardComponent, gridX, gridY);
+    }
 
     @Override
     public void initializeView() {
