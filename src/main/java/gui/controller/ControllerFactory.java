@@ -25,6 +25,10 @@ public class ControllerFactory {
             return new PlayersController((PlayersView) view);
         }
 
+        else if (view instanceof BoardView) {
+            return new BoardController((BoardView) view);
+        }
+
         else return new NullController();
     }
 

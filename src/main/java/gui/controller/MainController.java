@@ -48,7 +48,7 @@ public class MainController extends AbstractController {
     @Override
     public void startController() {
         System.out.println(NAME_CONTROLLER + " : startView()");
-        showMonopolyGameView();
+        showMenu();
     }
 
     public void startMonopolyGame(List<String> playerNames) {

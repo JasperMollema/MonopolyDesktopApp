@@ -14,6 +14,8 @@ public class MonopolyGameController extends AbstractController {
     private MonopolyGameService monopolyGameService;
     private PlayersView playersView;
     private PlayersController playersController;
+    private BoardView boardView;
+    private BoardController boardController;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
@@ -24,12 +26,14 @@ public class MonopolyGameController extends AbstractController {
 
     private void initializeChildViews() {
         playersView = (PlayersView) ViewFactory.getView(ViewFactory.PLAYERS);
+        boardView = (BoardView) ViewFactory.getView(ViewFactory.BOARD);
         monopolyGameView.setPlayersView(playersView);
-        monopolyGameView.setBoardView(new BoardView());
+        monopolyGameView.setBoardView(boardView);
     }
 
     private void initializeChildControllers() {
         playersController = (PlayersController) ControllerFactory.getController(playersView);
+        boardController = (BoardController) ControllerFactory.getController(boardView);
     }
 
     @Override
@@ -42,6 +46,12 @@ public class MonopolyGameController extends AbstractController {
         monopolyGameView.initializeView();
         playersController.startController();
         startMonopolyGame(Arrays.asList(new String[]{"Jasper", "Sara"}));
+        initializeBoard();
+    }
+
+    private void initializeBoard() {
+        String[] boardSpaceMessageResources = monopolyGameService.getMonopolyBoardSpacesMessageResources();
+        // Initialize board.
     }
 
     public void startMonopolyGame(List<String> playerNames) {

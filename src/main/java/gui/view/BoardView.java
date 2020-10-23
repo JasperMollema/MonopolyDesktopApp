@@ -5,6 +5,7 @@ import gui.component.BoardComponent;
 import java.awt.*;
 
 public class BoardView extends AbstractGridBagView {
+
     private BoardComponent[] boardComponentsSouth = new BoardComponent[]{
             new BoardComponent("Start"),
             new BoardComponent("Dorp"),

@@ -13,13 +13,13 @@ public class Messages {
         }
     }
 
-    public String getMessage(String messageResource) {
+    public static String getMessage(String messageResource) {
         return ResourceBundle
                 .getBundle("monopoly", locale)
                 .getString(messageResource);
     }
 
-    public String getMessage(String messageResource, String ... args) {
+    public static String getMessage(String messageResource, String ... args) {
         String format = getMessage(messageResource);
 
         return MessageFormat.format(format, args);
