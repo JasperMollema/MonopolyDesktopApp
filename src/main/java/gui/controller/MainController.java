@@ -51,7 +51,8 @@ public class MainController extends AbstractController {
         showMenu();
     }
 
-    public void startMonopolyGame(List<String> playerNames) {
+    public void
+    startMonopolyGame(List<String> playerNames) {
         showMonopolyGameView();
         monopolyGameController.startMonopolyGame(playerNames);
     }

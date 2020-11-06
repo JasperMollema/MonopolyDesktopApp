@@ -11,9 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TestBoardCoordinateCalculator {
     private BoardCoordinateCalculator boardCoordinateCalculator;
 
-    private final int BOARD_SIZE = 40;
     private final Integer[] BOARD_SIZES_THAT_CANNOT_BE_DIVIDED_BY_FOUR = new Integer[]{3, 11, 18, 0, 99, 15};
-    private final Integer[] BOARD_SIZES_THAT_CAN_BE_DIVIDED_BY_FOUR = new Integer[]{4, 16, 44, 60, 100};
 
     private final int FOUR_SQUARES = 4;
     private final int SIXTEEN_SQUARES = 16;

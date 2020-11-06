@@ -6,7 +6,6 @@ import gui.view.PlayersView;
 import gui.view.ViewFactory;
 import services.MonopolyGameService;
 
-import java.util.Arrays;
 import java.util.List;
 
 /** Ik denk niet dat deze controller gelijke controlle moet hebben over de views. Hij kan
@@ -43,7 +42,6 @@ public class MonopolyGameController extends AbstractController {
     public void startController() {
         monopolyGameView.initializeView();
         playersController.startController();
-        startMonopolyGame(Arrays.asList(new String[]{"Jasper", "Sara"}));
         initializeBoard();
     }
 

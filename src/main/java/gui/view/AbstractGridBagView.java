@@ -31,9 +31,9 @@ public abstract class AbstractGridBagView extends AbstractView {
     protected final int ELEVENTH_COLUMN = 11;
     protected final int TWELFTH_COLUMN = 12;
 
-    protected void addComponentToGridBagConstraints(Component component, int row, int column) {
-        gridBagConstraints.gridx = column;
-        gridBagConstraints.gridy = row;
+    protected void addComponentToGridBagConstraints(Component component, int gridX, int gridY) {
+        gridBagConstraints.gridx = gridX;
+        gridBagConstraints.gridy = gridY;
         add(component, gridBagConstraints);
     }
 

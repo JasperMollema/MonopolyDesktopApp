@@ -47,21 +47,24 @@ public class SelectNumberOfPlayersView extends AbstractGridBagView {
 
     private void layoutComponents() {
         initializeGridBagConstraints();
-        addComponentToGridBagConstraints(nrOfPlayersComboBox, FIRST_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player1Label, SECOND_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player1Name, SECOND_ROW, SECOND_COLUMN);
-        addComponentToGridBagConstraints(player2Label, THIRD_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player2Name, THIRD_ROW, SECOND_COLUMN);
-        addComponentToGridBagConstraints(player3Label, FOURTH_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player3Name, FOURTH_ROW, SECOND_COLUMN);
-        addComponentToGridBagConstraints(player4Label, FIFTH_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player4Name, FIFTH_ROW, SECOND_COLUMN);
-        addComponentToGridBagConstraints(player5Label, SIXTH_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player5Name, SIXTH_ROW, SECOND_COLUMN);
-        addComponentToGridBagConstraints(player6Label, SEVENTH_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(player6Name, SEVENTH_ROW, SECOND_COLUMN);
-        addComponentToGridBagConstraints(startGame, EIGHT_ROW, FIRST_COLUMN);
-        addComponentToGridBagConstraints(goToMainMenu, EIGHT_ROW, SECOND_COLUMN);
+        int xCoordinateFirstColumn = 1;
+        int xCoordinateSecondColumn = 2;
+        int yCoordinate = 1;
+        addComponentToGridBagConstraints(nrOfPlayersComboBox, xCoordinateFirstColumn, yCoordinate++);
+        addComponentToGridBagConstraints(player1Label, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(player1Name, xCoordinateSecondColumn, yCoordinate++);
+        addComponentToGridBagConstraints(player2Label, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(player2Name, xCoordinateSecondColumn, yCoordinate++);
+        addComponentToGridBagConstraints(player3Label, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(player3Name, xCoordinateSecondColumn, yCoordinate++);
+        addComponentToGridBagConstraints(player4Label, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(player4Name, xCoordinateSecondColumn, yCoordinate++);
+        addComponentToGridBagConstraints(player5Label, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(player5Name, xCoordinateSecondColumn, yCoordinate++);
+        addComponentToGridBagConstraints(player6Label, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(player6Name, xCoordinateSecondColumn, yCoordinate++);
+        addComponentToGridBagConstraints(startGame, xCoordinateFirstColumn, yCoordinate);
+        addComponentToGridBagConstraints(goToMainMenu, xCoordinateSecondColumn, yCoordinate);
     }
 
     public void addActionListenerNrOfPlayersComboBox(ActionListener actionListener) {
