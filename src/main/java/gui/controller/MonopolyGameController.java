@@ -56,5 +56,12 @@ public class MonopolyGameController extends AbstractController {
         playersController.fillPlayerNames(this.playerNames);
         monopolyGameService.startMonopolyGame(this.playerNames);
         monopolyGameView.showChildViews();
+        setPlayersOnBoard();
+    }
+
+    private void setPlayersOnBoard() {
+        for (String name : playerNames) {
+            boardController.setPlayerOnStart(name);
+        }
     }
 }

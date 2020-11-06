@@ -35,6 +35,10 @@ public class BoardView extends AbstractGridBagView {
         addComponentToGridBagConstraints(boardComponent, gridX, gridY);
     }
 
+    public void setPlayerOnStart(String playerName) {
+        boardComponents[0].addPlayer(playerName);
+    }
+
     @Override
     public void initializeView() {
 

@@ -35,4 +35,8 @@ public class BoardController extends AbstractController {
             boardView.addBoardComponent(i, gridX, gridY);
         }
     }
+
+    public void setPlayerOnStart(String playerName) {
+        boardView.setPlayerOnStart(playerName);
+    }
 }
