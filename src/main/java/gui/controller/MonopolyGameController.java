@@ -17,6 +17,7 @@ public class MonopolyGameController extends AbstractController {
     private MonopolyGameService monopolyGameService;
     private PlayersController playersController;
     private BoardController boardController;
+    private List<String> playerNames;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
@@ -51,7 +52,9 @@ public class MonopolyGameController extends AbstractController {
     }
 
     public void startMonopolyGame(List<String> playerNames) {
-        monopolyGameService.startMonopolyGame(playerNames);
+        this.playerNames = playerNames;
+        playersController.fillPlayerNames(this.playerNames);
+        monopolyGameService.startMonopolyGame(this.playerNames);
         monopolyGameView.showChildViews();
     }
 }

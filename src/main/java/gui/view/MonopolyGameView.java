@@ -1,5 +1,7 @@
 package gui.view;
 
+import java.awt.*;
+
 public class MonopolyGameView extends AbstractView {
     private PlayersView playersView;
     private BoardView boardView;
@@ -15,8 +17,9 @@ public class MonopolyGameView extends AbstractView {
     }
 
     public void showChildViews() {
-        add(playersView);
-        add(boardView);
+        setLayout(new BorderLayout());
+        add(playersView, BorderLayout.EAST);
+        add(boardView, BorderLayout.CENTER);
     }
 
     public void setPlayersView(PlayersView playersView) {

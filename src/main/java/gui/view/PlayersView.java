@@ -13,41 +13,37 @@ public class PlayersView extends AbstractGridBagView {
     @Override
     public void initializeView() {
         initializeGridBagConstraints();
-        setVisible(true
-        );
-        JLabel playersView = new JLabel("PlayersView");
-        add(playersView);
-        playersView.setVisible(true);
+        setVisible(true);
     }
 
     public void initializePlayer1(String name) {
         player1 = new JLabel(name);
-        add(player1);
+        addComponentToGridBagConstraints(player1, FIRST_COLUMN, FIRST_ROW);
     }
 
     public void initializePlayer2(String name) {
         player2 = new JLabel(name);
-        add(player2);
+        addComponentToGridBagConstraints(player2, SECOND_COLUMN, FIRST_ROW);
     }
 
     public void initializePlayer3(String name) {
         player3 = new JLabel(name);
-        add(player3);
+        addComponentToGridBagConstraints(player3, FIRST_COLUMN, SECOND_ROW);
     }
 
     public void initializePlayer4(String name) {
         player4 = new JLabel(name);
-        add(player4);
+        addComponentToGridBagConstraints(player4, SECOND_COLUMN, SECOND_ROW);
     }
 
     public void initializePlayer5(String name) {
         player5 = new JLabel(name);
-        add(player5);
+        addComponentToGridBagConstraints(player5, FIRST_COLUMN, THIRD_ROW);
     }
 
     public void initializePlayer6(String name) {
         player6 = new JLabel(name);
-        add(player6);
+        addComponentToGridBagConstraints(player6, SECOND_COLUMN, THIRD_ROW);
     }
 
     @Override
