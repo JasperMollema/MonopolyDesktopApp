@@ -1,7 +1,10 @@
 package gui.controller;
 
-import gui.util.BoardCoordinateCalculator;
+import gui.util.GridLayoutBoardMaker;
 import gui.view.BoardView;
+
+import java.awt.*;
+import java.util.Map;
 
 public class BoardController extends AbstractController {
     private BoardView boardView;
@@ -20,20 +23,9 @@ public class BoardController extends AbstractController {
 
     }
 
-    public void initializeBoard(String[] boardComponentMessageResources) {
-        boardView.fillBoardComponents(boardComponentMessageResources);
-        int numberOfBoardComponents = boardComponentMessageResources.length;
-        drawBoard(numberOfBoardComponents);
-    }
-
-    private void drawBoard(int numberOfBoardComponents) {
-        BoardCoordinateCalculator boardCoordinateCalculator = new BoardCoordinateCalculator(numberOfBoardComponents);
-        for (int i = 0; i < numberOfBoardComponents; i++) {
-            int boardSpaceNumber = i + 1;
-            int gridX = boardCoordinateCalculator.getXCoordinate(boardSpaceNumber);
-            int gridY = boardCoordinateCalculator.getYCoordinate(boardSpaceNumber);
-            boardView.addBoardComponent(i, gridX, gridY);
-        }
+    public void initializeBoard(String[] boardComponentMessageResources, Map<String, Color> playerColors) {
+        GridLayoutBoardMaker gridLayoutBoardMaker = new GridLayoutBoardMaker(boardComponentMessageResources);
+        boardView.fillBoardComponents(gridLayoutBoardMaker.makeBoard(), playerColors);
     }
 
     public void setPlayerOnStart(String playerName) {

@@ -8,7 +8,9 @@ public abstract class AbstractView extends JPanel implements View {
     private static Messages messages;
 
     public AbstractView() {
-        System.out.println("Constructor View : " + getViewName());
+        if (getViewName() != null) {
+            System.out.println("Constructor View : " + getViewName());
+        }
         setVisible(false);
         if (messages == null) {
             messages = new Messages();

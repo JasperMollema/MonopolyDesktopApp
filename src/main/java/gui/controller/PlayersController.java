@@ -2,7 +2,9 @@ package gui.controller;
 
 import gui.view.PlayersView;
 
+import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public class PlayersController extends AbstractController {
     private PlayersView playersView;
@@ -16,25 +18,26 @@ public class PlayersController extends AbstractController {
         playersView.initializeView();
     }
 
-    public void fillPlayerNames(List<String> playerNames) {
-        for (int i = 0; i < playerNames.size(); i++) {
-            addPlayerToView(playerNames.get(i), i);
+    public void fillPlayerNames(List<String> playerNames, Map<String, Color> players) {
+        int playerNumber = 0;
+        for (String name : playerNames) {
+            addPlayerToView(playerNumber, name, players.get(name));
         }
     }
 
-    private void addPlayerToView(String name, int index) {
-        switch (index) {
-            case 0: playersView.initializePlayer1(name);
+    private void addPlayerToView(int playerNumber, String name, Color color) {
+        switch (playerNumber) {
+            case 0: playersView.initializePlayer1(name, color);
             break;
-            case 1: playersView.initializePlayer2(name);
+            case 1: playersView.initializePlayer2(name, color);
             break;
-            case 2: playersView.initializePlayer3(name);
+            case 2: playersView.initializePlayer3(name, color);
             break;
-            case 3: playersView.initializePlayer4(name);
+            case 3: playersView.initializePlayer4(name, color);
             break;
-            case 4: playersView.initializePlayer5(name);
+            case 4: playersView.initializePlayer5(name, color);
             break;
-            case 5: playersView.initializePlayer6(name);
+            case 5: playersView.initializePlayer6(name, color);
             break;
             default: return;
         }

@@ -6,7 +6,11 @@ import gui.view.PlayersView;
 import gui.view.ViewFactory;
 import services.MonopolyGameService;
 
+import java.awt.*;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Ik denk niet dat deze controller gelijke controlle moet hebben over de views. Hij kan
  delegeren aan de childcontrollers. Alleen het de control panel/view ontvangt daadwerklijk input van de gebruiker.
@@ -43,17 +47,19 @@ public class MonopolyGameController extends AbstractController {
     public void startController() {
         monopolyGameView.initializeView();
         playersController.startController();
-        initializeBoard();
+        startMonopolyGame(Arrays.asList("Jasper", "Sara", "Douwe", "Ria", "Tijs", "Alexander"));
     }
 
-    private void initializeBoard() {
+    private void initializeBoard(Map<String, Color> playerColors) {
         String[] boardComponentMessageResources = monopolyGameService.getMonopolyBoardSpacesMessageResources();
-        boardController.initializeBoard(boardComponentMessageResources);
+        boardController.initializeBoard(boardComponentMessageResources, playerColors);
     }
 
     public void startMonopolyGame(List<String> playerNames) {
         this.playerNames = playerNames;
-        playersController.fillPlayerNames(this.playerNames);
+        Map playerColors = attachColorsToPlayers();
+        initializeBoard(playerColors);
+        playersController.fillPlayerNames(this.playerNames, playerColors);
         monopolyGameService.startMonopolyGame(this.playerNames);
         monopolyGameView.showChildViews();
         setPlayersOnBoard();
@@ -63,5 +69,27 @@ public class MonopolyGameController extends AbstractController {
         for (String name : playerNames) {
             boardController.setPlayerOnStart(name);
         }
+    }
+
+    private Map<String, Color> attachColorsToPlayers() {
+        Map<String, Color> players = new HashMap<>();
+        int i = 0;
+        for (String name : playerNames) {
+            players.put(name, getColor(i));
+            i++;
+        }
+        return players;
+    }
+
+    private Color getColor(int index) {
+        switch (index) {
+            case 0 : return Color.RED;
+            case 1 : return Color.BLUE;
+            case 2 : return Color.GREEN;
+            case 3 : return Color.YELLOW;
+            case 4 : return Color.PINK;
+            case 5 : return Color.CYAN;
+        }
+        return null;
     }
 }

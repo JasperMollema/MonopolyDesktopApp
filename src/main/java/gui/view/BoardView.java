@@ -3,36 +3,30 @@ package gui.view;
 import gui.component.BoardComponent;
 
 import java.awt.*;
+import java.util.Map;
 
-public class BoardView extends AbstractGridBagView {
+public class BoardView extends AbstractView {
     private BoardComponent[] boardComponents;
 
-    private BoardComponent chance = new BoardComponent("Kans");
-    private BoardComponent fonds = new BoardComponent("Algemeen fonds");
-
     public BoardView() {
-
         setVisible(true);
-
-        initializeGridBagConstraints();
-        addComponentToGridBagConstraints(fonds, SEVENTH_ROW, FOURTH_COLUMN);
-        addComponentToGridBagConstraints(chance, FOURTH_ROW, SEVENTH_COLUMN);
-
-        setBackground(Color.BLACK);
+        setLayout(new GridLayout(11,11));
+        setBackground(Color.LIGHT_GRAY);
     }
 
-    public void fillBoardComponents(String[] boardComponentMessageResources) {
-        int numberOfBoardComponents = boardComponentMessageResources.length;
-        boardComponents = new BoardComponent[numberOfBoardComponents];
+    public void fillBoardComponents(String[] boardComponents, Map<String, Color> playerColors) {
+        int numberOfBoardComponents = boardComponents.length;
+        this.boardComponents = new BoardComponent[numberOfBoardComponents];
         for (int i = 0; i < numberOfBoardComponents; i++) {
-            String boardComponentName = getMessage(boardComponentMessageResources[i]);
-            boardComponents[i] = new BoardComponent(boardComponentName);
+
+            String boardComponentName = fillName(boardComponents[i]);
+            this.boardComponents[i] = new BoardComponent(boardComponentName, playerColors);
+            add(this.boardComponents[i]);
         }
     }
 
-    public void addBoardComponent(int boardComponentIndex, int gridX, int gridY) {
-        BoardComponent boardComponent = boardComponents[boardComponentIndex];
-        addComponentToGridBagConstraints(boardComponent, gridX, gridY);
+    private String fillName(String messageResource) {
+        return messageResource == null ? null : getMessage(messageResource);
     }
 
     public void setPlayerOnStart(String playerName) {
