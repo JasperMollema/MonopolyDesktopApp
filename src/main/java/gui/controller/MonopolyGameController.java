@@ -7,7 +7,6 @@ import gui.view.ViewFactory;
 import services.MonopolyGameService;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,6 @@ public class MonopolyGameController extends AbstractController {
     public void startController() {
         monopolyGameView.initializeView();
         playersController.startController();
-        startMonopolyGame(Arrays.asList("Jasper", "Sara", "Douwe", "Ria", "Tijs", "Alexander"));
     }
 
     private void initializeBoard(Map<String, Color> playerColors) {

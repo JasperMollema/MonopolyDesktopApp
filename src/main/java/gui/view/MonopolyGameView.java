@@ -2,7 +2,7 @@ package gui.view;
 
 import java.awt.*;
 
-public class MonopolyGameView extends AbstractGridBagView {
+public class MonopolyGameView extends AbstractView{
     private PlayersView playersView;
     private BoardView boardView;
 
@@ -18,9 +18,8 @@ public class MonopolyGameView extends AbstractGridBagView {
 
     public void showChildViews() {
         setLayout(new BorderLayout());
-        initializeGridBagConstraints();
-        addComponentToGridBagConstraints(playersView, 2, 1);
-        addComponentToGridBagConstraints(boardView, 1, 1);
+        add(boardView, BorderLayout.CENTER);
+        add(playersView, BorderLayout.EAST);
     }
 
     public void setPlayersView(PlayersView playersView) {

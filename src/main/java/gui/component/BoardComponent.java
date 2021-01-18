@@ -7,51 +7,29 @@ import java.awt.*;
 import java.util.Map;
 
 public class BoardComponent extends AbstractGridBagView {
-    private JLabel player1 = new JLabel();
-    private JLabel player2 = new JLabel();
-    private JLabel player3 = new JLabel();
-    private JLabel player4 = new JLabel();
-    private JLabel player5 = new JLabel();
-    private JLabel player6 = new JLabel();
-    private JLabel[] players;
-    private String name;
+    private String viewName;
+    private JLabel name;
+    private PlayerOnBoardSpaceComponent playerSpot;
 
-    public BoardComponent(String name, Map<String, Color> playerColors) {
-        this.name = name;
-        players = new JLabel[]{player1, player2, player3, player4, player5, player6};
-        setPlayersInvisible();
-    }
-
-    private void setPlayersInvisible() {
-        for (int i = 0; i < players.length; i++) {
-            players[i].setVisible(false);
+    public BoardComponent(String viewName, Map<String, Color> playerColors) {
+        this.viewName = viewName;
+        setLayout(new BorderLayout());
+        if (viewName != null) {
+            playerSpot = new PlayerOnBoardSpaceComponent(playerColors);
+            add(playerSpot, BorderLayout.CENTER);
+            playerSpot.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
-    }
 
-    public void addPlayer(String playerName) {
-        JLabel playerSpot = firstAvailablePlayerSpot();
-        playerSpot.setText(playerName);
-        playerSpot.setVisible(true);
-    }
-
-    private JLabel firstAvailablePlayerSpot() {
-        JLabel playerSpot = null;
-        for (int i = 0; i < players.length; i++) {
-            playerSpot = players[i];
-            if (isEmpty(playerSpot)) {
-                break;
-            }
+        if (viewName != null) {
+            name = new JLabel(viewName);
+            add(name, BorderLayout.NORTH);
+            name.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         }
-        return playerSpot;
-    }
-
-    private boolean isEmpty(JLabel playersSpot) {
-        return playersSpot.getText() == null;
     }
 
     @Override
     public String getViewName() {
-        return name;
+        return viewName;
     }
 
     @Override

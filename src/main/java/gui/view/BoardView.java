@@ -14,14 +14,20 @@ public class BoardView extends AbstractView {
         setBackground(Color.LIGHT_GRAY);
     }
 
-    public void fillBoardComponents(String[] boardComponents, Map<String, Color> playerColors) {
-        int numberOfBoardComponents = boardComponents.length;
-        this.boardComponents = new BoardComponent[numberOfBoardComponents];
+    public void fillBoardComponents(String[] boardComponentsToBeFilled, Map<String, Color> playerColors) {
+        int numberOfBoardComponents = boardComponentsToBeFilled.length;
+        boardComponents = new BoardComponent[numberOfBoardComponents];
         for (int i = 0; i < numberOfBoardComponents; i++) {
 
-            String boardComponentName = fillName(boardComponents[i]);
-            this.boardComponents[i] = new BoardComponent(boardComponentName, playerColors);
-            add(this.boardComponents[i]);
+            String boardComponentName = fillName(boardComponentsToBeFilled[i]);
+            BoardComponent boardComponent = new BoardComponent(boardComponentName, playerColors);
+            boardComponents[i] = boardComponent;
+            add(boardComponent);
+            boardComponent.setVisible(true);
+            if (boardComponentName != null) {
+                System.out.println("BoardView : Add " + boardComponentName + " to board.");
+            }
+
         }
     }
 
@@ -30,7 +36,6 @@ public class BoardView extends AbstractView {
     }
 
     public void setPlayerOnStart(String playerName) {
-        boardComponents[0].addPlayer(playerName);
     }
 
     @Override
