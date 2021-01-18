@@ -7,6 +7,7 @@ public class ViewFactory {
     public static final String MONOPOLY_GAME = "monopolyGame";
     public static final String PLAYERS = "players";
     public static final String BOARD = "board";
+    public static final String CONTROL_PANEL = "controlPanel";
 
     public static View getView(String view) {
         switch (view) {
@@ -16,6 +17,7 @@ public class ViewFactory {
             case MONOPOLY_GAME: return new MonopolyGameView();
             case PLAYERS: return new PlayersView();
             case BOARD: return new BoardView();
+            case CONTROL_PANEL: return new ControlPanelView();
             default: return new NullView();
         }
     }

@@ -1,9 +1,6 @@
 package gui.controller;
 
-import gui.view.BoardView;
-import gui.view.MonopolyGameView;
-import gui.view.PlayersView;
-import gui.view.ViewFactory;
+import gui.view.*;
 import services.MonopolyGameService;
 
 import java.awt.*;
@@ -20,21 +17,25 @@ public class MonopolyGameController extends AbstractController {
     private MonopolyGameService monopolyGameService;
     private PlayersController playersController;
     private BoardController boardController;
+    private ControlPanelController controlPanelController;
     private List<String> playerNames;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
         PlayersView playersView = (PlayersView) ViewFactory.getView(ViewFactory.PLAYERS);
         BoardView boardView = (BoardView) ViewFactory.getView(ViewFactory.BOARD);
+        ControlPanelView controlPanelView = (ControlPanelView) ViewFactory.getView(ViewFactory.CONTROL_PANEL);
         monopolyGameView.setPlayersView(playersView);
         monopolyGameView.setBoardView(boardView);
-        initializeChildControllers(playersView, boardView);
+        monopolyGameView.setControlPanelView(controlPanelView);
+        initializeChildControllers(playersView, boardView, controlPanelView);
         monopolyGameService = new MonopolyGameService();
     }
 
-    private void initializeChildControllers(PlayersView playersView, BoardView boardView) {
+    private void initializeChildControllers(PlayersView playersView, BoardView boardView, ControlPanelView controlPanelView) {
         playersController = (PlayersController) ControllerFactory.getController(playersView);
         boardController = (BoardController) ControllerFactory.getController(boardView);
+        controlPanelController = (ControlPanelController) ControllerFactory.getController(controlPanelView);
     }
 
     @Override

@@ -29,6 +29,10 @@ public class ControllerFactory {
             return new BoardController((BoardView) view);
         }
 
+        else if (view instanceof ControlPanelView) {
+            return new ControlPanelController((ControlPanelView) view);
+        }
+
         else return new NullController();
     }
 
