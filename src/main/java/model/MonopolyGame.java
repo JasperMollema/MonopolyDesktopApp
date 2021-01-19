@@ -10,11 +10,15 @@ public class MonopolyGame implements Serializable {
     private List<Player> players;
     private Player playerToMove;
 
-    public MonopolyGame(List<Player> players) {
-        this.players = players;
-    }
-
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void startGame(List<Player> players) {
+        this.players = players;
+        playerToMove = players.get(0);
+    }
+    public String getActivePlayer() {
+        return playerToMove.toString();
     }
 }

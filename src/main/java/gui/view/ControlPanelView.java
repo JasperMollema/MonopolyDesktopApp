@@ -1,18 +1,22 @@
 package gui.view;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class ControlPanelView extends AbstractView {
-    private JLabel infoMessage;
+    private JLabel statusMessage;
     private JButton throwDiceButton;
 
     public ControlPanelView() {
-        infoMessage = new JLabel();
-        infoMessage.setText(getMessage("controlPanel.playerCanThrowDice", "[Name of player]"));
+        statusMessage = new JLabel();
         throwDiceButton = new JButton(getMessage("controlPanel.throwDice"));
-        add(infoMessage);
+        add(statusMessage);
         add(throwDiceButton);
         setVisible(true);
+    }
+
+    public void addActionListenerToThrowDiceButton(ActionListener actionListener) {
+        throwDiceButton.addActionListener(actionListener);
     }
 
     @Override
@@ -22,5 +26,9 @@ public class ControlPanelView extends AbstractView {
 
     @Override
     public void initializeView() {
+    }
+
+    public void fillStatusMessage(String messageResource, String[] args) {
+        statusMessage.setText(getMessage(messageResource, args));
     }
 }

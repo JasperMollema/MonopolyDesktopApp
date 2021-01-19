@@ -1,7 +1,9 @@
 package gui.controller;
 
+import gui.listeners.ControlPanelListenerImpl;
 import gui.view.*;
 import services.MonopolyGameService;
+import valueObjects.MonopolyGameValueObject;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class MonopolyGameController extends AbstractController {
         playersController = (PlayersController) ControllerFactory.getController(playersView);
         boardController = (BoardController) ControllerFactory.getController(boardView);
         controlPanelController = (ControlPanelController) ControllerFactory.getController(controlPanelView);
+        controlPanelController.setControlPanelListener(new ControlPanelListenerImpl());
     }
 
     @Override
@@ -54,19 +57,20 @@ public class MonopolyGameController extends AbstractController {
         boardController.initializeBoard(boardComponentMessageResources, playerColors);
     }
 
-    public void startMonopolyGame(List<String> playerNames) {
-        this.playerNames = playerNames;
+    public void startMonopolyGame(List<String> players) {
+        playerNames = players;
         Map playerColors = attachColorsToPlayers();
         initializeBoard(playerColors);
-        playersController.fillPlayerNames(this.playerNames, playerColors);
-        monopolyGameService.startMonopolyGame(this.playerNames);
+        playersController.fillPlayerNames(playerNames, playerColors);
+        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.startMonopolyGame(playerNames);
+        setPlayersOnBoard(monopolyGameValueObject.playerPositions);
+        controlPanelController.fillStatusMessage(monopolyGameValueObject.statusMessage, monopolyGameValueObject.statusMessageArgs);
         monopolyGameView.showChildViews();
-        setPlayersOnBoard();
     }
 
-    private void setPlayersOnBoard() {
-        for (String name : playerNames) {
-            boardController.setPlayerOnStart(name);
+    private void setPlayersOnBoard(Map<String, String> playerPositions) {
+        for (String name : playerPositions.keySet()) {
+            boardController.setPlayerOnBoardComponent(name, playerPositions.get(name));
         }
     }
 

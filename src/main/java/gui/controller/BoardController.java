@@ -2,7 +2,6 @@ package gui.controller;
 
 import gui.util.GridLayoutBoardMaker;
 import gui.view.BoardView;
-import model.MonopolyBoardSpaces;
 
 import java.awt.*;
 import java.util.Map;
@@ -29,11 +28,7 @@ public class BoardController extends AbstractController {
         boardView.fillBoardComponents(gridLayoutBoardMaker.makeBoard(), playerColors);
     }
 
-    public void setPlayerOnStart(String playerName) {
-        setPlayerOnBoardComponent(playerName, MonopolyBoardSpaces.MESSAGE_RESOURCE_START);
-    }
-
-    private void setPlayerOnBoardComponent(String playerName, String boardComponentMessageResource) {
+    public void setPlayerOnBoardComponent(String playerName, String boardComponentMessageResource) {
         boardView.setPlayerOnBoardComponent(playerName, boardComponentMessageResource);
     }
 }
