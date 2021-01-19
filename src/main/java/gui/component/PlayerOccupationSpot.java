@@ -4,13 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PlayerOccupationSpot extends JPanel {
+    private boolean isOccupied;
 
     public void fillWithColor(Color color) {
-        setVisible(true);
         setBackground(color);
+        setVisible(true);
+        isOccupied = true;
     }
 
-    public void empty() {
-        setVisible(false);
-    }
+    public boolean isOccupied() {
+        return isOccupied;}
 }

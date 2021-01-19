@@ -3,10 +3,10 @@ package gui.view;
 import gui.component.BoardComponent;
 
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
 
 public class BoardView extends AbstractView {
-    private BoardComponent[] boardComponents;
+    private Set<BoardComponent> boardComponents;
 
     public BoardView() {
         setVisible(true);
@@ -15,16 +15,15 @@ public class BoardView extends AbstractView {
     }
 
     public void fillBoardComponents(String[] boardComponentsToBeFilled, Map<String, Color> playerColors) {
-        int numberOfBoardComponents = boardComponentsToBeFilled.length;
-        boardComponents = new BoardComponent[numberOfBoardComponents];
-        for (int i = 0; i < numberOfBoardComponents; i++) {
+        boardComponents = new HashSet<>();
+        for (String boardComponentMessageResource : Arrays.asList(boardComponentsToBeFilled)) {
 
-            String boardComponentName = fillName(boardComponentsToBeFilled[i]);
+            String boardComponentName = fillName(boardComponentMessageResource);
             BoardComponent boardComponent = new BoardComponent(boardComponentName, playerColors);
-            boardComponents[i] = boardComponent;
             add(boardComponent);
             boardComponent.setVisible(true);
             if (boardComponentName != null) {
+                boardComponents.add(boardComponent);
                 System.out.println("BoardView : Add " + boardComponentName + " to board.");
             }
 
@@ -35,7 +34,15 @@ public class BoardView extends AbstractView {
         return messageResource == null ? null : getMessage(messageResource);
     }
 
-    public void setPlayerOnStart(String playerName) {
+    public void setPlayerOnBoardComponent(String playerName, String boardComponentMessageResource) {
+        String boardComponentName = getMessage(boardComponentMessageResource);
+        Optional<BoardComponent> boardComponentOptional = boardComponents.stream()
+                .filter(boardComp -> boardComp.getName().equals(boardComponentName))
+                .findFirst();
+
+        if (boardComponentOptional.isPresent()) {
+            boardComponentOptional.get().putPlayerOnBoardSpace(playerName);
+        }
     }
 
     @Override

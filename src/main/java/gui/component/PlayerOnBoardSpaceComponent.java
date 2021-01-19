@@ -14,17 +14,27 @@ public class PlayerOnBoardSpaceComponent extends JPanel {
     public PlayerOnBoardSpaceComponent(Map<String, Color> playerColors) {
         playerColorMap = playerColors;
         setLayout(new GridLayout());
-        addPlayers();
+        addPlayerOccupationSpots();
     }
 
-    private void addPlayers() {
+    private void addPlayerOccupationSpots() {
         playerOccupationSpots = new ArrayList<>();
-        for (String player : playerColorMap.keySet()) {
+        for (int i = 0; i < playerColorMap.size(); i++) {
             PlayerOccupationSpot occupationSpot = new PlayerOccupationSpot();
-            occupationSpot.fillWithColor(playerColorMap.get(player));
             playerOccupationSpots.add(occupationSpot);
             add(occupationSpot);
 
         }
+    }
+
+    public void setPlayersOnBoardSpace(String player) {
+        Color color = playerColorMap.get(player);
+        for (PlayerOccupationSpot playerOccupationSpot : playerOccupationSpots) {
+            if (!playerOccupationSpot.isOccupied()) {
+                playerOccupationSpot.fillWithColor(color);
+                return;
+            }
+        }
+        throw new RuntimeException("PlayerOnBoardSpaceComponent : setPlayerOnBoarSpace() Trying to put a player on a full boardspace.");
     }
 }
