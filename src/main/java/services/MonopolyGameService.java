@@ -4,6 +4,7 @@ import model.MonopolyBoardSpaces;
 import model.MonopolyGame;
 import model.Player;
 import model.PlayerNameValidator;
+import valueObjects.BoardSpaceValueObject;
 import valueObjects.MonopolyGameValueObject;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Random;
 
 public class MonopolyGameService {
     private MonopolyGame monopolyGame;
-
+    private MonopolyGameValueObject monopolyGameValueObject;
 
     public MonopolyGameValueObject startMonopolyGame(List<String> playerNames) {
         if (!PlayerNameValidator.validatePlayers(playerNames)) {
@@ -21,10 +22,11 @@ public class MonopolyGameService {
         monopolyGame = new MonopolyGame();
         monopolyGame.startGame(createPlayers(playerNames));
 
-        MonopolyGameValueObject monopolyGameValueObject = new MonopolyGameValueObject();
+        monopolyGameValueObject = new MonopolyGameValueObject();
         monopolyGameValueObject.playerPositions = monopolyGame.getPlayerPositions();
         monopolyGameValueObject.statusMessage = "controlPanel.playerCanThrowDice";
         monopolyGameValueObject.statusMessageArgs = new String[]{monopolyGame.getActivePlayer()};
+        monopolyGameValueObject.boardSpaces = createBoardSpaceValueObjects();
         return monopolyGameValueObject;
     }
 
@@ -36,8 +38,16 @@ public class MonopolyGameService {
         return players;
     }
 
-    public String[] getMonopolyBoardSpacesMessageResources() {
-        return MonopolyBoardSpaces.getBoardNames();
+    private List<BoardSpaceValueObject> createBoardSpaceValueObjects() {
+        List<BoardSpaceValueObject> boardSpaceValueObjects = new ArrayList<>();
+        String[] boardSpaceNames = MonopolyBoardSpaces.getBoardNames();
+        for (int i = 0; i < boardSpaceNames.length; i++) {
+            BoardSpaceValueObject boardSpaceValueObject = new BoardSpaceValueObject();
+            boardSpaceValueObject.identifier = i;
+            boardSpaceValueObject.name = boardSpaceNames[i];
+            boardSpaceValueObjects.add(boardSpaceValueObject);
+        }
+        return boardSpaceValueObjects;
     }
 
     public void throwDice() {
@@ -45,5 +55,9 @@ public class MonopolyGameService {
         int diceTrow = random.nextInt(11) + 1;
 
         monopolyGame.moveActivePlayer(diceTrow);
+    }
+
+    public MonopolyGameValueObject getMonopolyGameValueObject() {
+        return monopolyGameValueObject;
     }
 }

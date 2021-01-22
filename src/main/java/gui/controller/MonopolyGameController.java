@@ -3,6 +3,7 @@ package gui.controller;
 import gui.listeners.ControlPanelListenerImpl;
 import gui.view.*;
 import services.MonopolyGameService;
+import valueObjects.BoardSpaceValueObject;
 import valueObjects.MonopolyGameValueObject;
 
 import java.awt.*;
@@ -53,16 +54,16 @@ public class MonopolyGameController extends AbstractController {
     }
 
     private void initializeBoard(Map<String, Color> playerColors) {
-        String[] boardComponentMessageResources = monopolyGameService.getMonopolyBoardSpacesMessageResources();
-        boardController.initializeBoard(boardComponentMessageResources, playerColors);
+        List<BoardSpaceValueObject> boardSpaceValueObjects = monopolyGameService.getMonopolyGameValueObject().boardSpaces;
+        boardController.initializeBoard(boardSpaceValueObjects, playerColors);
     }
 
     public void startMonopolyGame(List<String> players) {
         playerNames = players;
         Map playerColors = attachColorsToPlayers();
+        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.startMonopolyGame(playerNames);
         initializeBoard(playerColors);
         playersController.fillPlayerNames(playerNames, playerColors);
-        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.startMonopolyGame(playerNames);
         setPlayersOnBoard(monopolyGameValueObject.playerPositions);
         controlPanelController.fillStatusMessage(monopolyGameValueObject.statusMessage, monopolyGameValueObject.statusMessageArgs);
         monopolyGameView.showChildViews();

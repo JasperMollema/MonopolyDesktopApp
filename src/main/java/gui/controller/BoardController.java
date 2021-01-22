@@ -2,8 +2,10 @@ package gui.controller;
 
 import gui.util.GridLayoutBoardMaker;
 import gui.view.BoardView;
+import valueObjects.BoardSpaceValueObject;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 public class BoardController extends AbstractController {
@@ -23,9 +25,10 @@ public class BoardController extends AbstractController {
 
     }
 
-    public void initializeBoard(String[] boardComponentMessageResources, Map<String, Color> playerColors) {
-        GridLayoutBoardMaker gridLayoutBoardMaker = new GridLayoutBoardMaker(null);
-        boardView.fillBoardComponents(null, playerColors);
+    public void initializeBoard(List<BoardSpaceValueObject> boardSpaceValueObjects, Map<String, Color> playerColors) {
+        GridLayoutBoardMaker gridLayoutBoardMaker = new GridLayoutBoardMaker(boardSpaceValueObjects);
+
+        boardView.fillBoardComponents(gridLayoutBoardMaker.makeBoard(), playerColors);
     }
 
     public void setPlayerOnBoardComponent(String playerName, Integer boardComponentIdentifier) {

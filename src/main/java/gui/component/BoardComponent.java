@@ -9,11 +9,9 @@ public class BoardComponent extends JPanel {
     private PlayerOnBoardSpaceComponent playerOnBoardSpaceComponent;
     private Integer boardComponentIdentifier;
 
-    public BoardComponent(String name, Map<String, Color> playerColors, Integer boardComponentIdentifier) {
-        if (name == null) {
-            return;
-        }
+    public BoardComponent() {}
 
+    public BoardComponent(String name, Integer boardComponentIdentifier, Map<String, Color> playerColors) {
         this.boardComponentIdentifier = boardComponentIdentifier;
 
         setName(name);

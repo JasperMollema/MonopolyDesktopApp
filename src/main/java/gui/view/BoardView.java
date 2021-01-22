@@ -1,12 +1,11 @@
 package gui.view;
 
 import gui.component.BoardComponent;
+import valueObjects.BoardSpaceValueObject;
 
 import java.awt.*;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.List;
+import java.util.*;
 
 public class BoardView extends AbstractView {
     private Set<BoardComponent> boardComponents;
@@ -17,20 +16,24 @@ public class BoardView extends AbstractView {
         setBackground(Color.LIGHT_GRAY);
     }
 
-    public void fillBoardComponents(String[] boardComponentsToBeFilled, Map<String, Color> playerColors) {
+    public void fillBoardComponents(List<BoardSpaceValueObject> boardSpaceValueObjects, Map<String, Color> playerColors) {
         boardComponents = new HashSet<>();
-        for (int i = 0; i < boardComponentsToBeFilled.length; i++) {
+        for (BoardSpaceValueObject boardSpaceValueObject : boardSpaceValueObjects) {
+            BoardComponent boardComponent;
 
-            String boardComponentName = fillName(boardComponentsToBeFilled[i]);
-            BoardComponent boardComponent = new BoardComponent(boardComponentName, playerColors, i);
-            add(boardComponent);
-            boardComponent.setVisible(true);
-            if (boardComponentName != null) {
+            if (boardSpaceValueObject == null) {
+                boardComponent = new BoardComponent();
+            } else {
+                String boardComponentName = getMessage(boardSpaceValueObject.name);
+                int boardComponentIdentifier = boardSpaceValueObject.identifier;
+                boardComponent = new BoardComponent(boardComponentName, boardComponentIdentifier, playerColors);
                 boardComponents.add(boardComponent);
                 System.out.println("BoardView : Add " + boardComponentName + " to board.");
             }
-
+            boardComponent.setVisible(true);
+            add(boardComponent);
         }
+
     }
 
     private String fillName(String messageResource) {
