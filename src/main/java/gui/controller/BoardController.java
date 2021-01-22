@@ -24,11 +24,11 @@ public class BoardController extends AbstractController {
     }
 
     public void initializeBoard(String[] boardComponentMessageResources, Map<String, Color> playerColors) {
-        GridLayoutBoardMaker gridLayoutBoardMaker = new GridLayoutBoardMaker(boardComponentMessageResources);
-        boardView.fillBoardComponents(gridLayoutBoardMaker.makeBoard(), playerColors);
+        GridLayoutBoardMaker gridLayoutBoardMaker = new GridLayoutBoardMaker(null);
+        boardView.fillBoardComponents(null, playerColors);
     }
 
-    public void setPlayerOnBoardComponent(String playerName, String boardComponentMessageResource) {
-        boardView.setPlayerOnBoardComponent(playerName, boardComponentMessageResource);
+    public void setPlayerOnBoardComponent(String playerName, Integer boardComponentIdentifier) {
+        boardView.setPlayerOnBoardComponent(playerName, boardComponentIdentifier);
     }
 }

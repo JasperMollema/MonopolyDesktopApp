@@ -7,11 +7,14 @@ import java.util.Map;
 public class BoardComponent extends JPanel {
     private JLabel nameLabel;
     private PlayerOnBoardSpaceComponent playerOnBoardSpaceComponent;
+    private Integer boardComponentIdentifier;
 
-    public BoardComponent(String name, Map<String, Color> playerColors) {
+    public BoardComponent(String name, Map<String, Color> playerColors, Integer boardComponentIdentifier) {
         if (name == null) {
             return;
         }
+
+        this.boardComponentIdentifier = boardComponentIdentifier;
 
         setName(name);
 
@@ -27,5 +30,9 @@ public class BoardComponent extends JPanel {
 
     public void putPlayerOnBoardSpace(String player) {
         playerOnBoardSpaceComponent.setPlayersOnBoardSpace(player);
+    }
+
+    public Integer getBoardComponentIdentifier() {
+        return boardComponentIdentifier;
     }
 }

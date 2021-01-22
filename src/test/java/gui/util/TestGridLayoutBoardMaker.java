@@ -1,12 +1,14 @@
 package gui.util;
 
 import org.junit.jupiter.api.Test;
+import valueObjects.BoardSpaceValueObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestGridLayoutBoardMaker {
     private final List<Integer> LEGAL_BOARD_SIZES = Arrays.asList(4, 16, 100, 172, 836);
@@ -17,25 +19,26 @@ public class TestGridLayoutBoardMaker {
     private final int SIXTEEN_BOARD_COMPONENTS = 16;
     private final int FORTY_BOARD_COMPONENTS = 40;
 
-    private final Integer[] FOUR_BOARD_COMPONENTS_OUTCOME = new Integer[]{
+    private final Integer[] FOUR_BOARD_COMPONENTS_ARRAY = new Integer[]{
             2, 3,   // First row.
             1, 0    // Second row.
     };
-    private final Integer[] TWELVE_BOARD_COMPONENTS_OUTCOME = new Integer[]{
+
+    private final Integer[] TWELVE_BOARD_COMPONENTS_ARRAY = new Integer[]{
             6, 7, 8, 9,         // First row.
             5, null, null, 10,  // Second row.
             4, null, null, 11,  // Third row.
             3, 2, 1, 0          // Fourth row.
 
     };
-    private final Integer[] SIXTEEN_BOARD_COMPONENTS_OUTCOME = new Integer[]{
+    private final Integer[] SIXTEEN_BOARD_COMPONENTS_ARRAY = new Integer[]{
             8, 9, 10, 11, 12,           // First row.
             7, null, null, null, 13,    // Second row.
             6, null, null, null, 14,    // Third row.
             5, null, null, null, 15,    // Fourth row.
             4, 3, 2, 1, 0               // Fifth row.
     };
-    private final Integer[] FORTY_BOARD_COMPONENTS_OUTCOME = new Integer[]{
+    private final Integer[] FORTY_BOARD_COMPONENTS_ARRAY = new Integer[]{
             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,         // First row.
             19, null, null, null , null, null, null, null, null, null, 31,  // Second row.
             18, null, null, null , null, null, null, null, null, null, 32,  // Third row.
@@ -50,77 +53,99 @@ public class TestGridLayoutBoardMaker {
 
     };
 
+    private final List<MockBoardSpaceValueObject> FOUR_BOARD_COMPONENTS_EXPECTED_OUTCOME;
+    private final List<MockBoardSpaceValueObject> TWELVE_BOARD_COMPONENTS_EXPECTED_OUTCOME;
+    private final List<MockBoardSpaceValueObject> SIXTEEN_BOARD_COMPONENTS_EXPECTED_OUTCOME;
+    private final List<MockBoardSpaceValueObject> FORTY_BOARD_COMPONENTS_EXPECTED_OUTCOME;
+
     private GridLayoutBoardMaker gridLayoutBoardMaker;
     private String[] gridLayoutBoard;
+
+    public TestGridLayoutBoardMaker() {
+        FOUR_BOARD_COMPONENTS_EXPECTED_OUTCOME = makeMockBoardSpaceList(FOUR_BOARD_COMPONENTS_ARRAY);
+        TWELVE_BOARD_COMPONENTS_EXPECTED_OUTCOME = makeMockBoardSpaceList(TWELVE_BOARD_COMPONENTS_ARRAY);
+        SIXTEEN_BOARD_COMPONENTS_EXPECTED_OUTCOME = makeMockBoardSpaceList(SIXTEEN_BOARD_COMPONENTS_ARRAY);
+        FORTY_BOARD_COMPONENTS_EXPECTED_OUTCOME = makeMockBoardSpaceList(FORTY_BOARD_COMPONENTS_ARRAY);
+    }
+
+    private List<MockBoardSpaceValueObject> makeMockBoardSpaceList(Integer[] boardIdentifiers) {
+        List<MockBoardSpaceValueObject> mockBoardSpaceValueObjects = new ArrayList<>(boardIdentifiers.length);
+        for (Integer identifier : boardIdentifiers) {
+            mockBoardSpaceValueObjects.add(new MockBoardSpaceValueObject(identifier));
+        }
+        return mockBoardSpaceValueObjects;
+    }
 
     @Test
     void testCanMakeBoardsWithLegalBoardSizes() {
         for (Integer integer : LEGAL_BOARD_SIZES) {
-            String[] boardComponents = makeStringArray(integer);
-            new GridLayoutBoardMaker(boardComponents);
+            List<BoardSpaceValueObject> boardSpaceValueObjects = makeBoardSpaceValueObjectList(integer);
+            new GridLayoutBoardMaker(boardSpaceValueObjects);
         }
     }
 
     @Test
     void cannotMakeBoardWithIllegalBoardSizes() {
         for (Integer integer : ILLEGAL_BOARD_SIZES) {
-            String[] boardComponents = makeStringArray(integer);
-            assertThrows(RuntimeException.class, () -> new GridLayoutBoardMaker(boardComponents));
+            List<BoardSpaceValueObject> boardSpaceValueObjects = makeBoardSpaceValueObjectList(integer);
+            assertThrows(RuntimeException.class, () -> new GridLayoutBoardMaker(boardSpaceValueObjects));
         }
     }
 
     @Test
     void testForFourBoardComponents() {
-        makeGridLayoutBoard(FOUR_BOARD_COMPONENTS);
-        String[] expectedOutcome = convertToStringArray(FOUR_BOARD_COMPONENTS_OUTCOME);
-        assertTrue(gridLayoutBoardMatch(expectedOutcome));
+        List<MockBoardSpaceValueObject> actualOutcome = makeGridLayoutBoard(FOUR_BOARD_COMPONENTS);
+        assertEquals(FOUR_BOARD_COMPONENTS_EXPECTED_OUTCOME, actualOutcome);
     }
 
     @Test
     void testForTwelveBoardComponents() {
-        makeGridLayoutBoard(TWELVE_BOARD_COMPONENTS);
-        String[] expectedOutcome = convertToStringArray(TWELVE_BOARD_COMPONENTS_OUTCOME);
-        assertTrue(gridLayoutBoardMatch(expectedOutcome));
+        List<MockBoardSpaceValueObject> actualOutcome = makeGridLayoutBoard(TWELVE_BOARD_COMPONENTS);
+        assertEquals(TWELVE_BOARD_COMPONENTS_EXPECTED_OUTCOME, actualOutcome);
     }
 
     @Test
     void testForSixteenBoardComponents() {
-        makeGridLayoutBoard(SIXTEEN_BOARD_COMPONENTS);
-        String[] expectedOutcome = convertToStringArray(SIXTEEN_BOARD_COMPONENTS_OUTCOME);
-        assertTrue(gridLayoutBoardMatch(expectedOutcome));
+        List<MockBoardSpaceValueObject> actualOutcome = makeGridLayoutBoard(SIXTEEN_BOARD_COMPONENTS);
+        assertEquals(SIXTEEN_BOARD_COMPONENTS_EXPECTED_OUTCOME, actualOutcome);
     }
 
     @Test
     void testForFortyBoardComponents() {
-        makeGridLayoutBoard(FORTY_BOARD_COMPONENTS);
-        String[] expectedOutcome = convertToStringArray(FORTY_BOARD_COMPONENTS_OUTCOME);
-        assertTrue(gridLayoutBoardMatch(expectedOutcome));
+        List<MockBoardSpaceValueObject> actualOutcome = makeGridLayoutBoard(FORTY_BOARD_COMPONENTS);
+        assertEquals(FORTY_BOARD_COMPONENTS_EXPECTED_OUTCOME, actualOutcome);
     }
 
-    private void makeGridLayoutBoard(int size) {
-        String[] boardComponents = makeStringArray(size);
-        gridLayoutBoardMaker = new GridLayoutBoardMaker(boardComponents);
-        gridLayoutBoard = gridLayoutBoardMaker.makeBoard();
-    }
-
-    private String[] makeStringArray(int length) {
-        String[] strings = new String[length];
-        for (int i = 0; i < length; i++) {
-            strings[i] = Integer.valueOf(i).toString();
+    private List<MockBoardSpaceValueObject> makeGridLayoutBoard(int size) {
+        gridLayoutBoardMaker = new GridLayoutBoardMaker(makeBoardSpaceValueObjectList(size));
+        List<BoardSpaceValueObject> boardSpaceValueObjects = gridLayoutBoardMaker.makeBoard();
+        List<MockBoardSpaceValueObject> mockBoardSpaceValueObjects = new ArrayList<>();
+        for (BoardSpaceValueObject boardSpaceValueObject : boardSpaceValueObjects) {
+            mockBoardSpaceValueObjects.add((MockBoardSpaceValueObject) boardSpaceValueObject);
         }
-        return strings;
+        return mockBoardSpaceValueObjects;
     }
 
-    private String[] convertToStringArray(Integer[] integers) {
-        String[] strings = new String[integers.length];
-        for (int i = 0; i < integers.length; i++) {
-            Integer integer = integers[i];
-            strings[i] = integer == null ? null : integer.toString();
+    private List<BoardSpaceValueObject> makeBoardSpaceValueObjectList(int size) {
+        List<BoardSpaceValueObject> boardSpaceValueObjects = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            boardSpaceValueObjects.add(new MockBoardSpaceValueObject(i));
         }
-        return strings;
+        return boardSpaceValueObjects;
     }
 
-    public boolean gridLayoutBoardMatch(String [] expectedOutcome) {
-        return Arrays.equals(gridLayoutBoard, expectedOutcome);
+    private class MockBoardSpaceValueObject extends BoardSpaceValueObject {
+        public MockBoardSpaceValueObject(Integer identifier) {
+            this.identifier = identifier;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return true;
+            }
+            MockBoardSpaceValueObject mockBoardSpaceValueObject = (MockBoardSpaceValueObject) obj;
+            return mockBoardSpaceValueObject.identifier == this.identifier;
+        }
     }
 }

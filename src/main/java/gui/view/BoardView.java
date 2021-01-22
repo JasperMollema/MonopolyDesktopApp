@@ -3,7 +3,10 @@ package gui.view;
 import gui.component.BoardComponent;
 
 import java.awt.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public class BoardView extends AbstractView {
     private Set<BoardComponent> boardComponents;
@@ -16,10 +19,10 @@ public class BoardView extends AbstractView {
 
     public void fillBoardComponents(String[] boardComponentsToBeFilled, Map<String, Color> playerColors) {
         boardComponents = new HashSet<>();
-        for (String boardComponentMessageResource : Arrays.asList(boardComponentsToBeFilled)) {
+        for (int i = 0; i < boardComponentsToBeFilled.length; i++) {
 
-            String boardComponentName = fillName(boardComponentMessageResource);
-            BoardComponent boardComponent = new BoardComponent(boardComponentName, playerColors);
+            String boardComponentName = fillName(boardComponentsToBeFilled[i]);
+            BoardComponent boardComponent = new BoardComponent(boardComponentName, playerColors, i);
             add(boardComponent);
             boardComponent.setVisible(true);
             if (boardComponentName != null) {
@@ -34,10 +37,9 @@ public class BoardView extends AbstractView {
         return messageResource == null ? null : getMessage(messageResource);
     }
 
-    public void setPlayerOnBoardComponent(String playerName, String boardComponentMessageResource) {
-        String boardComponentName = getMessage(boardComponentMessageResource);
+    public void setPlayerOnBoardComponent(String playerName, Integer boardComponentIdentifier) {
         Optional<BoardComponent> boardComponentOptional = boardComponents.stream()
-                .filter(boardComp -> boardComp.getName().equals(boardComponentName))
+                .filter(boardComp -> boardComp.getBoardComponentIdentifier().equals(boardComponentIdentifier))
                 .findFirst();
 
         if (boardComponentOptional.isPresent()) {

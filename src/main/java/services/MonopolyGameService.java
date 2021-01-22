@@ -7,17 +7,12 @@ import model.PlayerNameValidator;
 import valueObjects.MonopolyGameValueObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
 public class MonopolyGameService {
     private MonopolyGame monopolyGame;
-    private Map<String, String> playerPositions;
 
-    public MonopolyGameService() {
-        playerPositions = new HashMap<>();
-    }
 
     public MonopolyGameValueObject startMonopolyGame(List<String> playerNames) {
         if (!PlayerNameValidator.validatePlayers(playerNames)) {
@@ -25,10 +20,9 @@ public class MonopolyGameService {
         }
         monopolyGame = new MonopolyGame();
         monopolyGame.startGame(createPlayers(playerNames));
-        putPlayersOnStart();
 
         MonopolyGameValueObject monopolyGameValueObject = new MonopolyGameValueObject();
-        monopolyGameValueObject.playerPositions = playerPositions;
+        monopolyGameValueObject.playerPositions = monopolyGame.getPlayerPositions();
         monopolyGameValueObject.statusMessage = "controlPanel.playerCanThrowDice";
         monopolyGameValueObject.statusMessageArgs = new String[]{monopolyGame.getActivePlayer()};
         return monopolyGameValueObject;
@@ -42,12 +36,14 @@ public class MonopolyGameService {
         return players;
     }
 
-    private void putPlayersOnStart() {
-        List<Player> players = monopolyGame.getPlayers();
-        players.stream().forEach(player -> playerPositions.put(player.toString(), MonopolyBoardSpaces.MESSAGE_RESOURCE_START));
-    }
-
     public String[] getMonopolyBoardSpacesMessageResources() {
         return MonopolyBoardSpaces.getBoardNames();
+    }
+
+    public void throwDice() {
+        Random random = new Random();
+        int diceTrow = random.nextInt(11) + 1;
+
+        monopolyGame.moveActivePlayer(diceTrow);
     }
 }

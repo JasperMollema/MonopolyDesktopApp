@@ -38,7 +38,7 @@ public class MonopolyGameController extends AbstractController {
         playersController = (PlayersController) ControllerFactory.getController(playersView);
         boardController = (BoardController) ControllerFactory.getController(boardView);
         controlPanelController = (ControlPanelController) ControllerFactory.getController(controlPanelView);
-        controlPanelController.setControlPanelListener(new ControlPanelListenerImpl());
+        controlPanelController.setControlPanelListener(new ControlPanelListenerImpl(this, controlPanelController, monopolyGameService));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class MonopolyGameController extends AbstractController {
         monopolyGameView.showChildViews();
     }
 
-    private void setPlayersOnBoard(Map<String, String> playerPositions) {
+    private void setPlayersOnBoard(Map<String, Integer> playerPositions) {
         for (String name : playerPositions.keySet()) {
             boardController.setPlayerOnBoardComponent(name, playerPositions.get(name));
         }
