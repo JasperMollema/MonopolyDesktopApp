@@ -36,10 +36,6 @@ public class BoardView extends AbstractView {
 
     }
 
-    private String fillName(String messageResource) {
-        return messageResource == null ? null : getMessage(messageResource);
-    }
-
     public void setPlayerOnBoardComponent(String playerName, Integer boardComponentIdentifier) {
         Optional<BoardComponent> boardComponentOptional = boardComponents.stream()
                 .filter(boardComp -> boardComp.getBoardComponentIdentifier().equals(boardComponentIdentifier))
@@ -47,6 +43,16 @@ public class BoardView extends AbstractView {
 
         if (boardComponentOptional.isPresent()) {
             boardComponentOptional.get().putPlayerOnBoardSpace(playerName);
+        }
+    }
+
+    public void removePlayerFromBoardComponent(String playerName, Integer boardComponentIdentifier) {
+        Optional<BoardComponent> boardComponentOptional = boardComponents.stream()
+                .filter(boardComp -> boardComp.getBoardComponentIdentifier().equals(boardComponentIdentifier))
+                .findFirst();
+
+        if (boardComponentOptional.isPresent()) {
+            boardComponentOptional.get().removePlayerFromBoardSpace(playerName);
         }
     }
 

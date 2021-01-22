@@ -12,6 +12,7 @@ public class GridLayoutBoardMaker {
     private int totalBoardSpaceValueObjects;
     private List<BoardSpaceValueObject> newBoardSpaceValueObjectList;
     private BoardCoordinateCalculator boardCoordinateCalculator;
+
     public GridLayoutBoardMaker(List<BoardSpaceValueObject> boardSpaceValueObjects) {
         if (boardSize % 4 != 0) {
             throw new RuntimeException("GridLayoutBoardMaker: Try to make board with illegal board size.");

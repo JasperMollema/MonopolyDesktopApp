@@ -3,6 +3,9 @@ package gui.listeners;
 import gui.controller.ControlPanelController;
 import gui.controller.MonopolyGameController;
 import services.MonopolyGameService;
+import valueObjects.MonopolyGameValueObject;
+
+import java.util.Map;
 
 public class ControlPanelListenerImpl implements ControlPanelListener {
     private MonopolyGameController monopolyGameController;
@@ -24,6 +27,15 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
         // pass on move to next player.
 
         // Let model know a dice have been thrown or to throw a dice.
-        monopolyGameService.throwDice();
+        String activePlayer = monopolyGameService.getMonopolyGameValueObject().activePlayer;
+        Map<String, Integer> playerPositions = monopolyGameService.getMonopolyGameValueObject().playerPositions;
+        int oldPosition = playerPositions.get(activePlayer);
+
+        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.throwDice();
+        controlPanelController.fillStatusMessage(monopolyGameValueObject.statusMessage, monopolyGameValueObject.statusMessageArgs);
+
+        int newPosition = monopolyGameValueObject.playerPositions.get(activePlayer);
+
+        monopolyGameController.movePlayer(activePlayer, oldPosition, newPosition);
     }
 }

@@ -15,6 +15,10 @@ public class MonopolyGameService {
     private MonopolyGame monopolyGame;
     private MonopolyGameValueObject monopolyGameValueObject;
 
+    public MonopolyGameService() {
+        monopolyGameValueObject = new MonopolyGameValueObject();
+    }
+
     public MonopolyGameValueObject startMonopolyGame(List<String> playerNames) {
         if (!PlayerNameValidator.validatePlayers(playerNames)) {
             throw new RuntimeException("MonopolyGame : createPlayers() Player names are not valid!");
@@ -22,11 +26,11 @@ public class MonopolyGameService {
         monopolyGame = new MonopolyGame();
         monopolyGame.startGame(createPlayers(playerNames));
 
-        monopolyGameValueObject = new MonopolyGameValueObject();
         monopolyGameValueObject.playerPositions = monopolyGame.getPlayerPositions();
         monopolyGameValueObject.statusMessage = "controlPanel.playerCanThrowDice";
         monopolyGameValueObject.statusMessageArgs = new String[]{monopolyGame.getActivePlayer()};
         monopolyGameValueObject.boardSpaces = createBoardSpaceValueObjects();
+        monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer();
         return monopolyGameValueObject;
     }
 
@@ -50,11 +54,15 @@ public class MonopolyGameService {
         return boardSpaceValueObjects;
     }
 
-    public void throwDice() {
+    public MonopolyGameValueObject throwDice() {
         Random random = new Random();
         int diceTrow = random.nextInt(11) + 1;
 
         monopolyGame.moveActivePlayer(diceTrow);
+        monopolyGameValueObject.playerPositions = monopolyGame.getPlayerPositions();
+        monopolyGameValueObject.statusMessageArgs = new String[]{monopolyGame.getActivePlayer()};
+        monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer();
+        return monopolyGameValueObject;
     }
 
     public MonopolyGameValueObject getMonopolyGameValueObject() {

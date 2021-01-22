@@ -8,4 +8,5 @@ public class MonopolyGameValueObject {
     public Map<String, Integer> playerPositions;
     public String statusMessage;
     public String[] statusMessageArgs;
+    public String activePlayer;
 }

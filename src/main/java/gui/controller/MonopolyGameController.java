@@ -25,6 +25,7 @@ public class MonopolyGameController extends AbstractController {
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
+        monopolyGameService = new MonopolyGameService();
         PlayersView playersView = (PlayersView) ViewFactory.getView(ViewFactory.PLAYERS);
         BoardView boardView = (BoardView) ViewFactory.getView(ViewFactory.BOARD);
         ControlPanelView controlPanelView = (ControlPanelView) ViewFactory.getView(ViewFactory.CONTROL_PANEL);
@@ -32,7 +33,6 @@ public class MonopolyGameController extends AbstractController {
         monopolyGameView.setBoardView(boardView);
         monopolyGameView.setControlPanelView(controlPanelView);
         initializeChildControllers(playersView, boardView, controlPanelView);
-        monopolyGameService = new MonopolyGameService();
     }
 
     private void initializeChildControllers(PlayersView playersView, BoardView boardView, ControlPanelView controlPanelView) {
@@ -69,10 +69,15 @@ public class MonopolyGameController extends AbstractController {
         monopolyGameView.showChildViews();
     }
 
-    private void setPlayersOnBoard(Map<String, Integer> playerPositions) {
+    public void setPlayersOnBoard(Map<String, Integer> playerPositions) {
         for (String name : playerPositions.keySet()) {
             boardController.setPlayerOnBoardComponent(name, playerPositions.get(name));
         }
+    }
+
+    public void movePlayer(String player, int oldPosition, int newPosition) {
+        boardController.removePlayerFromBoardComponent(player, oldPosition);
+        boardController.setPlayerOnBoardComponent(player, newPosition);
     }
 
     private Map<String, Color> attachColorsToPlayers() {

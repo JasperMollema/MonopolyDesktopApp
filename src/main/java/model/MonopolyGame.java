@@ -34,9 +34,29 @@ public class MonopolyGame implements Serializable {
     }
 
     public void moveActivePlayer(int diceTrow) {
+        // TODO: Unit test!
+        String player = playerPositions.keySet().stream()
+                .filter(playerName -> playerName.equals(playerToMove.toString()))
+                .findAny()
+                .get();
+
+        int newPosition = playerPositions.get(player) + diceTrow;
+        if (newPosition > MonopolyBoardSpaces.SPACENR_KALVERSTRAAT) {
+            newPosition = newPosition - MonopolyBoardSpaces.NR_OF_BOARDSPACES;
+        }
+
+        playerPositions.put(player, newPosition);
+        int indexActivePlayer = players.indexOf(playerToMove);
+        int indexNewActivePlayer = indexActivePlayer + 1;
+
+        if (indexNewActivePlayer == players.size()) {
+            indexNewActivePlayer = 0;
+        }
+        playerToMove = players.get(indexNewActivePlayer);
     }
 
     public Map<String, Integer> getPlayerPositions() {
         return playerPositions;
+        // TODO: Maybe return a copy.
     }
 }

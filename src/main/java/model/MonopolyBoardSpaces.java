@@ -1,7 +1,7 @@
 package model;
 
 public class MonopolyBoardSpaces {
-    private static final int NR_OF_BOARDSPACES = 40;
+    public static final int NR_OF_BOARDSPACES = 40;
 
     public static final int SPACENR_START = 0;
     public static final int SPACENR_DORPSSTRAAT = 1;

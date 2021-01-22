@@ -30,6 +30,10 @@ public class BoardComponent extends JPanel {
         playerOnBoardSpaceComponent.setPlayersOnBoardSpace(player);
     }
 
+    public void removePlayerFromBoardSpace(String player) {
+        playerOnBoardSpaceComponent.removePlayerFromBoardSpace(player);
+    }
+
     public Integer getBoardComponentIdentifier() {
         return boardComponentIdentifier;
     }

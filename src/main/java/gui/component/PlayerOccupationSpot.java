@@ -12,6 +12,11 @@ public class PlayerOccupationSpot extends JPanel {
         isOccupied = true;
     }
 
+    public void empty() {
+        setBackground(null);
+        isOccupied = false;
+    }
+
     public boolean isOccupied() {
         return isOccupied;}
 }
