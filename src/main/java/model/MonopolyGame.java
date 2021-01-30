@@ -1,6 +1,9 @@
 package model;
 
+import util.Util;
+
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,54 +12,69 @@ import java.util.Map;
  * This class contains all the data of the game and could be saved to or loaded from a file.
  */
 public class MonopolyGame implements Serializable {
-    private List<Player> players;
-    private Player playerToMove;
-    private Map<String, Integer> playerPositions;
+    private Player[] players;
+    private Player activePlayer;
+    private int nrOfDiceThrowsActivePlayer;
+    private boolean canPlayerThrowAgain;
+    private Map<Player, Integer> playerPositions;
 
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public void startGame(List<Player> players) {
-        this.players = players;
-        playerToMove = players.get(0);
+    public void startGame(List<Player> playerList) {
         playerPositions = new HashMap<>();
-        putPlayersOnStart();
+        players = Util.toPlayerArray(playerList);
+        putPlayersOnStart(playerList);
+        activePlayer = players[0];
     }
 
-    private void putPlayersOnStart() {
-        for (Player player : players) {
-            playerPositions.put(player.toString(), MonopolyBoardSpaces.SPACENR_START);
+    private void putPlayersOnStart(List<Player> playerList) {
+        for (Player player : playerList) {
+            playerPositions.put(player, MonopolyBoardSpaces.SPACENR_START);
         }
     }
-    public String getActivePlayer() {
-        return playerToMove.toString();
+
+    public void movePlayer(DiceThrow diceThrow) {
+        Integer newPosition = determineNewPosition(diceThrow);
+        playerPositions.put(activePlayer, newPosition);
+        nrOfDiceThrowsActivePlayer++;
+        canPlayerThrowAgain = diceThrow.isDoubleThrow() && nrOfDiceThrowsActivePlayer < 3;
     }
 
-    public void moveActivePlayer(int diceTrow) {
-        // TODO: Unit test!
-        String player = playerPositions.keySet().stream()
-                .filter(playerName -> playerName.equals(playerToMove.toString()))
-                .findAny()
-                .get();
+    private Integer determineNewPosition(DiceThrow diceThrow) {
+        int oldPosition = playerPositions.get(activePlayer);
+        int totalThrow = diceThrow.getTotalThrow();
 
-        int newPosition = playerPositions.get(player) + diceTrow;
+        int newPosition = oldPosition + totalThrow;
         if (newPosition > MonopolyBoardSpaces.SPACENR_KALVERSTRAAT) {
             newPosition = newPosition - MonopolyBoardSpaces.NR_OF_BOARDSPACES;
         }
 
-        playerPositions.put(player, newPosition);
-        int indexActivePlayer = players.indexOf(playerToMove);
-        int indexNewActivePlayer = indexActivePlayer + 1;
-
-        if (indexNewActivePlayer == players.size()) {
-            indexNewActivePlayer = 0;
-        }
-        playerToMove = players.get(indexNewActivePlayer);
+        return newPosition;
     }
 
-    public Map<String, Integer> getPlayerPositions() {
-        return playerPositions;
-        // TODO: Maybe return a copy.
+    public void endTurn() {
+        int playerIndex = 0;
+        for (int i = 0; i < players.length; i++) {
+            if (players[i] == activePlayer) {
+                playerIndex = i;
+            }
+        }
+        int newPlayerIndex = playerIndex + 1;
+        if (newPlayerIndex == players.length) {
+            newPlayerIndex = 0;
+        }
+        activePlayer = players[newPlayerIndex];
+        nrOfDiceThrowsActivePlayer = 0;
+        canPlayerThrowAgain = true;
+    }
+
+    public Map<Player, Integer> getPlayerPositions() {
+        return Collections.unmodifiableMap(playerPositions);
+    }
+
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
+    public boolean canPlayerThrowAgain() {
+        return canPlayerThrowAgain;
     }
 }

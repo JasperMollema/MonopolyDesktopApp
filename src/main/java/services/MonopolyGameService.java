@@ -1,37 +1,31 @@
 package services;
 
-import model.MonopolyBoardSpaces;
-import model.MonopolyGame;
-import model.Player;
-import model.PlayerNameValidator;
+import model.*;
 import valueObjects.BoardSpaceValueObject;
 import valueObjects.MonopolyGameValueObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MonopolyGameService {
     private MonopolyGame monopolyGame;
     private MonopolyGameValueObject monopolyGameValueObject;
+    private MonopolyGameValueObjectMapper monopolyGameValueObjectMapper;
 
     public MonopolyGameService() {
         monopolyGameValueObject = new MonopolyGameValueObject();
+        monopolyGameValueObject.boardSpaces = createBoardSpaceValueObjects();
+        monopolyGame = new MonopolyGame();
+        monopolyGameValueObjectMapper = new MonopolyGameValueObjectMapper(monopolyGameValueObject, monopolyGame);
     }
 
     public MonopolyGameValueObject startMonopolyGame(List<String> playerNames) {
         if (!PlayerNameValidator.validatePlayers(playerNames)) {
             throw new RuntimeException("MonopolyGame : createPlayers() Player names are not valid!");
         }
-        monopolyGame = new MonopolyGame();
         monopolyGame.startGame(createPlayers(playerNames));
-
-        monopolyGameValueObject.playerPositions = monopolyGame.getPlayerPositions();
-        monopolyGameValueObject.statusMessage = "controlPanel.playerCanThrowDice";
-        monopolyGameValueObject.statusMessageArgs = new String[]{monopolyGame.getActivePlayer()};
-        monopolyGameValueObject.boardSpaces = createBoardSpaceValueObjects();
-        monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer();
-        return monopolyGameValueObject;
+        monopolyGameValueObjectMapper.fillValueObject();
+        return monopolyGameValueObjectMapper.fillValueObject();
     }
 
     private List<Player> createPlayers(List<String> playerNames) {
@@ -55,14 +49,17 @@ public class MonopolyGameService {
     }
 
     public MonopolyGameValueObject throwDice() {
-        Random random = new Random();
-        int diceTrow = random.nextInt(11) + 1;
+        DiceThrower diceThrower = new DiceThrower();
+        DiceThrow diceThrow = diceThrower.throwDice();
 
-        monopolyGame.moveActivePlayer(diceTrow);
-        monopolyGameValueObject.playerPositions = monopolyGame.getPlayerPositions();
-        monopolyGameValueObject.statusMessageArgs = new String[]{monopolyGame.getActivePlayer()};
-        monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer();
-        return monopolyGameValueObject;
+        monopolyGame.movePlayer(diceThrow);
+
+        return monopolyGameValueObjectMapper.fillValueObject(diceThrow);
+    }
+
+    public MonopolyGameValueObject endTurn() {
+        monopolyGame.endTurn();
+        return monopolyGameValueObjectMapper.fillValueObject();
     }
 
     public MonopolyGameValueObject getMonopolyGameValueObject() {

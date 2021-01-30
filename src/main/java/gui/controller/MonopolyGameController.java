@@ -65,7 +65,8 @@ public class MonopolyGameController extends AbstractController {
         initializeBoard(playerColors);
         playersController.fillPlayerNames(playerNames, playerColors);
         setPlayersOnBoard(monopolyGameValueObject.playerPositions);
-        controlPanelController.fillStatusMessage(monopolyGameValueObject.statusMessage, monopolyGameValueObject.statusMessageArgs);
+        controlPanelController.fillInfoMessage1("controlPanel.playerTurn", new String[]{monopolyGameValueObject.activePlayer});
+        controlPanelController.showInfoMessage1();
         monopolyGameView.showChildViews();
     }
 

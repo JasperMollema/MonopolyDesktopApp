@@ -6,7 +6,8 @@ import java.util.Map;
 public class MonopolyGameValueObject {
     public List<BoardSpaceValueObject> boardSpaces;
     public Map<String, Integer> playerPositions;
-    public String statusMessage;
-    public String[] statusMessageArgs;
     public String activePlayer;
+    public String diceThrow1;
+    public String diceThrow2;
+    public Boolean canThrowAgain;
 }
