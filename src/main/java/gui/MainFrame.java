@@ -13,12 +13,14 @@ public class MainFrame extends JFrame {
     private MainController mainController;
     private CardLayout cardLayout;
     private Container container;
+    public static MainFrame mainFrame;
 
     public MainFrame() {
         System.out.println("Start Frame : MainFrame");
         cardLayout = new CardLayout();
         container = getContentPane();
         initializeFrame();
+        mainFrame = this;
     }
 
     public void initializeFrame() {

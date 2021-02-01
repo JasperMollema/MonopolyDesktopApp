@@ -1,6 +1,11 @@
 package gui.controller;
 
+import gui.MainFrame;
+import gui.component.SaveDialog;
+import gui.component.Toolbar;
 import gui.listeners.ControlPanelListenerImpl;
+import gui.listeners.SaveDialogListenerImpl;
+import gui.listeners.ToolbarListenerImpl;
 import gui.view.*;
 import services.MonopolyGameService;
 import valueObjects.BoardSpaceValueObject;
@@ -21,6 +26,7 @@ public class MonopolyGameController extends AbstractController {
     private PlayersController playersController;
     private BoardController boardController;
     private ControlPanelController controlPanelController;
+    private SaveDialog saveDialog;
     private List<String> playerNames;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
@@ -32,7 +38,10 @@ public class MonopolyGameController extends AbstractController {
         monopolyGameView.setPlayersView(playersView);
         monopolyGameView.setBoardView(boardView);
         monopolyGameView.setControlPanelView(controlPanelView);
+        monopolyGameView.setToolbar(new Toolbar(new ToolbarListenerImpl(this, monopolyGameService)));
         initializeChildControllers(playersView, boardView, controlPanelView);
+        saveDialog = new SaveDialog(MainFrame.mainFrame);
+        saveDialog.setSaveDialogListener(new SaveDialogListenerImpl(this, monopolyGameService));
     }
 
     private void initializeChildControllers(PlayersView playersView, BoardView boardView, ControlPanelView controlPanelView) {
@@ -79,6 +88,14 @@ public class MonopolyGameController extends AbstractController {
     public void movePlayer(String player, int oldPosition, int newPosition) {
         boardController.removePlayerFromBoardComponent(player, oldPosition);
         boardController.setPlayerOnBoardComponent(player, newPosition);
+    }
+
+    public void hideSaveDialog() {
+        saveDialog.setVisible(false);
+    }
+
+    public void showSaveDialog() {
+        saveDialog.setVisible(true);
     }
 
     private Map<String, Color> attachColorsToPlayers() {

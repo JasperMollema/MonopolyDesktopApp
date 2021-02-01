@@ -4,6 +4,7 @@ import model.*;
 import valueObjects.BoardSpaceValueObject;
 import valueObjects.MonopolyGameValueObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,11 @@ public class MonopolyGameService {
     public MonopolyGameValueObject endTurn() {
         monopolyGame.endTurn();
         return monopolyGameValueObjectMapper.fillValueObject();
+    }
+
+    public void save() throws IOException {
+        MonopolyGameSaver monopolyGameSaver = new MonopolyGameSaver();
+        monopolyGameSaver.saveMonopolyGame(monopolyGame, "mySavedGame");
     }
 
     public MonopolyGameValueObject getMonopolyGameValueObject() {

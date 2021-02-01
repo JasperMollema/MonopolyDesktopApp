@@ -2,6 +2,12 @@ package util;
 
 import model.Player;
 
+import javax.swing.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,5 +33,19 @@ public class Util {
             stringIntegerMap.put(playerName, position);
         }
         return stringIntegerMap;
+    }
+
+    public static ImageIcon createIcon(String imageName) {
+        Path path = Paths.get("./src/main/resources/images/" + imageName);
+        if (!Files.isRegularFile(path)) {
+            return null;
+        }
+        try {
+            URL url = path.toUri().toURL();
+            return new ImageIcon(url);
+        } catch (MalformedURLException e) {
+            System.err.println("Unable to load file " + path);
+            return null;
+        }
     }
 }
