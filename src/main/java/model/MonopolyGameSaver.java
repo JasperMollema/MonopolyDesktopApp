@@ -10,14 +10,18 @@ import java.nio.file.Paths;
 
 public class MonopolyGameSaver {
     private static final String SAVED_GAMES_DIRECTORY = "./monopolyGame/saved-games";
+    private static final String SEPARATOR = "/";
+    private static final String POST_FIX = ".mo";
 
     public void saveMonopolyGame(MonopolyGame monopolyGame, String name) throws IOException {
         createDirectoryIfDoesNotExist();
-        Path savedGame = Paths.get(SAVED_GAMES_DIRECTORY + "/" + name + ".mo");
+        Path savedGame = Paths.get(SAVED_GAMES_DIRECTORY + SEPARATOR + name + POST_FIX);
 
-        if (!Files.isRegularFile(savedGame)) {
-            Files.createFile(savedGame);
+        if (Files.isRegularFile(savedGame)) {
+            Files.delete(savedGame);
         }
+
+        Files.createFile(savedGame);
 
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(
                 new BufferedOutputStream(new FileOutputStream(savedGame.toFile())))) {

@@ -1,8 +1,12 @@
 package gui.controller;
 
+import gui.MainFrame;
+import gui.component.SaveDialog;
+import gui.listeners.LoadDialogListener;
 import gui.listeners.MainMenuListenerImpl;
 import gui.listeners.SelectNumberOfPlayersListenerImpl;
 import gui.view.*;
+import valueObjects.MonopolyGameValueObject;
 
 import java.util.List;
 
@@ -14,6 +18,7 @@ public class MainController extends AbstractController {
     private MonopolyGameController monopolyGameController;
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private SelectNumberOfPlayersController selectNumberOfPlayersController;
+    private SaveDialog loadGameDialog;
 
 
     private final String NAME_CONTROLLER = "MainController";
@@ -23,6 +28,9 @@ public class MainController extends AbstractController {
         initializeChildViews();
         initializeChildControllers();
         addChildViewsToMainView();
+        loadGameDialog = new SaveDialog(MainFrame.mainFrame, SaveDialog.SaveMode.LOAD);
+        loadGameDialog.setSaveDialogListener(new LoadDialogListener(this));
+        loadGameDialog.setVisible(false);
     }
 
     private void initializeChildViews() {
@@ -55,6 +63,18 @@ public class MainController extends AbstractController {
     startMonopolyGame(List<String> playerNames) {
         showMonopolyGameView();
         monopolyGameController.startMonopolyGame(playerNames);
+    }
+
+    public void showLoadGameDialog() {
+        loadGameDialog.setVisible(true);
+    }
+
+    public void hideLoadGameDialog() {
+        loadGameDialog.setVisible(false);
+    }
+
+    public void loadMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
+        monopolyGameController.startMonopolyGame(monopolyGameValueObject);
     }
 
     public void showMenu() {

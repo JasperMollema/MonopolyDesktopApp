@@ -1,10 +1,10 @@
 package services;
 
 import model.*;
+import util.Util;
 import valueObjects.BoardSpaceValueObject;
 import valueObjects.MonopolyGameValueObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,29 +12,22 @@ public class MonopolyGameService {
     private MonopolyGame monopolyGame;
     private MonopolyGameValueObject monopolyGameValueObject;
     private MonopolyGameValueObjectMapper monopolyGameValueObjectMapper;
+    private List <BoardSpaceValueObject> boardspaces;
 
     public MonopolyGameService() {
         monopolyGameValueObject = new MonopolyGameValueObject();
-        monopolyGameValueObject.boardSpaces = createBoardSpaceValueObjects();
+        boardspaces = createBoardSpaceValueObjects();
         monopolyGame = new MonopolyGame();
-        monopolyGameValueObjectMapper = new MonopolyGameValueObjectMapper(monopolyGameValueObject, monopolyGame);
+        monopolyGameValueObjectMapper = new MonopolyGameValueObjectMapper();
     }
 
     public MonopolyGameValueObject startMonopolyGame(List<String> playerNames) {
         if (!PlayerNameValidator.validatePlayers(playerNames)) {
             throw new RuntimeException("MonopolyGame : createPlayers() Player names are not valid!");
         }
-        monopolyGame.startGame(createPlayers(playerNames));
-        monopolyGameValueObjectMapper.fillValueObject();
-        return monopolyGameValueObjectMapper.fillValueObject();
-    }
-
-    private List<Player> createPlayers(List<String> playerNames) {
-        List<Player> players = new ArrayList<>();
-        for (String playerName : playerNames) {
-            players.add(new Player(playerName));
-        }
-        return players;
+        monopolyGame.startGame(Util.playerNamesToPlayerArray(playerNames));
+        monopolyGameValueObjectMapper.fillValueObject(monopolyGame);
+        return monopolyGameValueObjectMapper.fillValueObject(monopolyGame);
     }
 
     private List<BoardSpaceValueObject> createBoardSpaceValueObjects() {
@@ -55,20 +48,19 @@ public class MonopolyGameService {
 
         monopolyGame.movePlayer(diceThrow);
 
-        return monopolyGameValueObjectMapper.fillValueObject(diceThrow);
+        return monopolyGameValueObjectMapper.fillValueObject(diceThrow, monopolyGame);
     }
 
     public MonopolyGameValueObject endTurn() {
         monopolyGame.endTurn();
-        return monopolyGameValueObjectMapper.fillValueObject();
-    }
-
-    public void save() throws IOException {
-        MonopolyGameSaver monopolyGameSaver = new MonopolyGameSaver();
-        monopolyGameSaver.saveMonopolyGame(monopolyGame, "mySavedGame");
+        return monopolyGameValueObjectMapper.fillValueObject(monopolyGame);
     }
 
     public MonopolyGameValueObject getMonopolyGameValueObject() {
         return monopolyGameValueObject;
+    }
+
+    public List<BoardSpaceValueObject> getBoardspaces() {
+        return boardspaces;
     }
 }

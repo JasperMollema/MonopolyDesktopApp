@@ -1,11 +1,7 @@
 package model;
 
-import util.Util;
-
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,15 +14,15 @@ public class MonopolyGame implements Serializable {
     private boolean canPlayerThrowAgain;
     private Map<Player, Integer> playerPositions;
 
-    public void startGame(List<Player> playerList) {
+    public void startGame(Player[] players) {
         playerPositions = new HashMap<>();
-        players = Util.toPlayerArray(playerList);
-        putPlayersOnStart(playerList);
+        this.players = players;
+        putPlayersOnStart();
         activePlayer = players[0];
     }
 
-    private void putPlayersOnStart(List<Player> playerList) {
-        for (Player player : playerList) {
+    private void putPlayersOnStart() {
+        for (Player player : players) {
             playerPositions.put(player, MonopolyBoardSpaces.SPACENR_START);
         }
     }
@@ -66,15 +62,43 @@ public class MonopolyGame implements Serializable {
         canPlayerThrowAgain = true;
     }
 
-    public Map<Player, Integer> getPlayerPositions() {
-        return Collections.unmodifiableMap(playerPositions);
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
     }
 
     public Player getActivePlayer() {
         return activePlayer;
     }
 
+    public void setActivePlayer(Player activePlayer) {
+        this.activePlayer = activePlayer;
+    }
+
+    public int getNrOfDiceThrowsActivePlayer() {
+        return nrOfDiceThrowsActivePlayer;
+    }
+
+    public void setNrOfDiceThrowsActivePlayer(int nrOfDiceThrowsActivePlayer) {
+        this.nrOfDiceThrowsActivePlayer = nrOfDiceThrowsActivePlayer;
+    }
+
     public boolean canPlayerThrowAgain() {
         return canPlayerThrowAgain;
+    }
+
+    public void setCanPlayerThrowAgain(boolean canPlayerThrowAgain) {
+        this.canPlayerThrowAgain = canPlayerThrowAgain;
+    }
+
+    public Map<Player, Integer> getPlayerPositions() {
+        return playerPositions;
+    }
+
+    public void setPlayerPositions(Map<Player, Integer> playerPositions) {
+        this.playerPositions = playerPositions;
     }
 }

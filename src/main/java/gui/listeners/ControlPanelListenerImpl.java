@@ -21,11 +21,12 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
     @Override
     public void startTurnButtonPressed() {
         hideMessages();
-        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.getMonopolyGameValueObject();
+        MonopolyGameValueObject monopolyGameValueObject = monopolyGameController.getMonopolyGameValueObject();
         controlPanelController.fillInfoMessage1("controlPanel.playerCanThrowDice", new String[]{monopolyGameValueObject.activePlayer});
         controlPanelController.showInfoMessage1();
         controlPanelController.disableStartTurnButton();
         controlPanelController.enableThrowDiceButton();
+        monopolyGameController.setMonopolyGameValueObject(monopolyGameValueObject);
     }
 
     @Override
@@ -35,14 +36,14 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
         controlPanelController.fillInfoMessage1("controlPanel.playerTurn", new String[]{monopolyGameValueObject.activePlayer});
         controlPanelController.enableStartTurnButton();
         controlPanelController.disableEndTurnButton();
-        controlPanelController.hideInfoMessage1();
         controlPanelController.disableThrowDiceButton();
+        monopolyGameController.setMonopolyGameValueObject(monopolyGameValueObject);
     }
 
     @Override
     public void throwDiceButtonPressed() {
         hideMessages();
-        MonopolyGameValueObject beforeDiceThrow = monopolyGameService.getMonopolyGameValueObject();
+        MonopolyGameValueObject beforeDiceThrow = monopolyGameController.getMonopolyGameValueObject();
         String currentActivePlayer = beforeDiceThrow.activePlayer;
         Map<String, Integer> playerPositions = beforeDiceThrow.playerPositions;
         int oldPosition = playerPositions.get(currentActivePlayer);
@@ -61,6 +62,7 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
             controlPanelController.enableEndTurnButton();
         }
         controlPanelController.showInfoMessage2();
+        monopolyGameController.setMonopolyGameValueObject(afterDiceThrow);
     }
 
     private void hideMessages() {

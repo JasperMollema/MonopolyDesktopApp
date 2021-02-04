@@ -6,25 +6,27 @@ import util.Util;
 import valueObjects.MonopolyGameValueObject;
 
 public class MonopolyGameValueObjectMapper {
-    private MonopolyGameValueObject monopolyGameValueObject;
-    private MonopolyGame monopolyGame;
+    MonopolyGameValueObject monopolyGameValueObject;
+    MonopolyGame monopolyGame;
 
-    public MonopolyGameValueObjectMapper(MonopolyGameValueObject monopolyGameValueObject, MonopolyGame monopolyGame) {
-        this.monopolyGameValueObject = monopolyGameValueObject;
-        this.monopolyGame = monopolyGame;
-    }
-
-    public MonopolyGameValueObject fillValueObject() {
+    public MonopolyGameValueObject fillValueObject(MonopolyGame monopolyGame) {
+        monopolyGameValueObject = new MonopolyGameValueObject();
+        monopolyGameValueObject.playerNames = Util.playersToPlayerNameList(monopolyGame.getPlayers());
         monopolyGameValueObject.playerPositions = Util.toStringIntegerMap(monopolyGame.getPlayerPositions());
         monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer().toString();
         return monopolyGameValueObject;
     }
 
-    public MonopolyGameValueObject fillValueObject(DiceThrow diceThrow) {
-        fillValueObject();
+    public MonopolyGameValueObject fillValueObject(DiceThrow diceThrow, MonopolyGame monopolyGame) {
+        fillValueObject(monopolyGame);
         monopolyGameValueObject.diceThrow1 = Util.stringValue(diceThrow.getFirstDiceThrow());
         monopolyGameValueObject.diceThrow2 = Util.stringValue(diceThrow.getSecondDiceThrow());
         monopolyGameValueObject.canThrowAgain = monopolyGame.canPlayerThrowAgain();
         return monopolyGameValueObject;
+    }
+
+    public MonopolyGame fillMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
+        monopolyGame = new MonopolyGame();
+        return monopolyGame;
     }
 }

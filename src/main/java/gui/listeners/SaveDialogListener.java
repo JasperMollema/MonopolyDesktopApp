@@ -1,6 +1,7 @@
 package gui.listeners;
 
 public interface SaveDialogListener {
-    void saveButtonPressed();
+    void saveButtonPressed(String selectedFile);
     void cancelButtonPressed();
+    void loadButtonPressed(String selectedFile);
 }

@@ -12,14 +12,17 @@ public class MenuController extends AbstractController {
     public MenuController(MainMenuBagView mainMenuView) {
         this.mainMenuView = mainMenuView;
         addActionListenersToNewGameButton();
+        addActionListenersToLoadGameButton();
     }
 
     private void addActionListenersToNewGameButton() {
         mainMenuView.setActionListenerNewGameButton(
-                event -> {
-                    mainMenuListener.newGameButtonPressed();
-                }
-        );
+                event -> mainMenuListener.newGameButtonPressed());
+    }
+
+    private void addActionListenersToLoadGameButton() {
+        mainMenuView.setActionListenerToLoadGameButton(
+                event -> mainMenuListener.loadGameButtonPressed());
     }
 
     @Override

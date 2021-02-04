@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +18,21 @@ public class Util {
         return integer == null ? null : integer.toString();
     }
 
-    public static Player[] toPlayerArray(List<Player> playerList) {
-        Player[] playerArray = new Player[playerList.size()];
-        for (int i = 0; i < playerList.size(); i++) {
-            playerArray[i] = playerList.get(i);
+    public static Player[] playerNamesToPlayerArray(List<String> playerNames) {
+        Player[] players = new Player[playerNames.size()];
+        for (int i = 0; i < playerNames.size(); i++) {
+            Player player = new Player(playerNames.get(i));
+            players[i] = player;
         }
-        return playerArray;
+        return players;
+    }
+
+    public static List<String> playersToPlayerNameList(Player[] players) {
+        List<String> playerNames = new ArrayList<>();
+        for (Player player : players) {
+            playerNames.add(player.toString());
+        }
+        return playerNames;
     }
 
     public static Map<String, Integer> toStringIntegerMap(Map<Player, Integer> playerIntegerMap) {

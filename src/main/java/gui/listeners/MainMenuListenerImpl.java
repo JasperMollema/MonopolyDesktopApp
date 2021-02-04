@@ -12,4 +12,9 @@ public class MainMenuListenerImpl implements MainMenuListener {
     public void newGameButtonPressed() {
         mainController.showSelectNumberOfPlayersView();
     }
+
+    @Override
+    public void loadGameButtonPressed() {
+        mainController.showLoadGameDialog();
+    }
 }

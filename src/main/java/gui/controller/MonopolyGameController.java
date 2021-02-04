@@ -8,26 +8,24 @@ import gui.listeners.SaveDialogListenerImpl;
 import gui.listeners.ToolbarListenerImpl;
 import gui.view.*;
 import services.MonopolyGameService;
-import valueObjects.BoardSpaceValueObject;
+import services.SaveGamesService;
 import valueObjects.MonopolyGameValueObject;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Ik denk niet dat deze controller gelijke controlle moet hebben over de views. Hij kan
- delegeren aan de childcontrollers. Alleen het de control panel/view ontvangt daadwerklijk input van de gebruiker.
- dus daar kan een listener op komen. */
-
 public class MonopolyGameController extends AbstractController {
     private MonopolyGameView monopolyGameView;
     private MonopolyGameService monopolyGameService;
+    private SaveGamesService saveGamesService;
     private PlayersController playersController;
     private BoardController boardController;
     private ControlPanelController controlPanelController;
     private SaveDialog saveDialog;
-    private List<String> playerNames;
+    private MonopolyGameValueObject monopolyGameValueObject;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
@@ -38,10 +36,11 @@ public class MonopolyGameController extends AbstractController {
         monopolyGameView.setPlayersView(playersView);
         monopolyGameView.setBoardView(boardView);
         monopolyGameView.setControlPanelView(controlPanelView);
-        monopolyGameView.setToolbar(new Toolbar(new ToolbarListenerImpl(this, monopolyGameService)));
+        monopolyGameView.setToolbar(new Toolbar(new ToolbarListenerImpl(this)));
         initializeChildControllers(playersView, boardView, controlPanelView);
-        saveDialog = new SaveDialog(MainFrame.mainFrame);
-        saveDialog.setSaveDialogListener(new SaveDialogListenerImpl(this, monopolyGameService));
+        saveDialog = new SaveDialog(MainFrame.mainFrame, SaveDialog.SaveMode.SAVE);
+        saveDialog.setSaveDialogListener(new SaveDialogListenerImpl(this));
+        saveGamesService = new SaveGamesService();
     }
 
     private void initializeChildControllers(PlayersView playersView, BoardView boardView, ControlPanelView controlPanelView) {
@@ -62,17 +61,20 @@ public class MonopolyGameController extends AbstractController {
         playersController.startController();
     }
 
-    private void initializeBoard(Map<String, Color> playerColors) {
-        List<BoardSpaceValueObject> boardSpaceValueObjects = monopolyGameService.getMonopolyGameValueObject().boardSpaces;
-        boardController.initializeBoard(boardSpaceValueObjects, playerColors);
+    public void startMonopolyGame(List<String> players) {
+        monopolyGameValueObject = monopolyGameService.startMonopolyGame(players);
+        initializeGame();
     }
 
-    public void startMonopolyGame(List<String> players) {
-        playerNames = players;
+    public void startMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
+        this.monopolyGameValueObject = monopolyGameValueObject;
+        initializeGame();
+    }
+
+    private void initializeGame() {
         Map playerColors = attachColorsToPlayers();
-        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.startMonopolyGame(playerNames);
-        initializeBoard(playerColors);
-        playersController.fillPlayerNames(playerNames, playerColors);
+        boardController.initializeBoard(monopolyGameService.getBoardspaces(), playerColors);
+        playersController.fillPlayerNames(monopolyGameValueObject.playerNames, playerColors);
         setPlayersOnBoard(monopolyGameValueObject.playerPositions);
         controlPanelController.fillInfoMessage1("controlPanel.playerTurn", new String[]{monopolyGameValueObject.activePlayer});
         controlPanelController.showInfoMessage1();
@@ -90,6 +92,14 @@ public class MonopolyGameController extends AbstractController {
         boardController.setPlayerOnBoardComponent(player, newPosition);
     }
 
+    public void saveGame(String nameGame) {
+        try {
+            saveGamesService.save(nameGame, monopolyGameValueObject);
+        } catch (IOException ioException) {
+            System.out.println("Saving game failed.");
+        }
+    }
+
     public void hideSaveDialog() {
         saveDialog.setVisible(false);
     }
@@ -101,7 +111,7 @@ public class MonopolyGameController extends AbstractController {
     private Map<String, Color> attachColorsToPlayers() {
         Map<String, Color> players = new HashMap<>();
         int i = 0;
-        for (String name : playerNames) {
+        for (String name : monopolyGameValueObject.playerNames) {
             players.put(name, getColor(i));
             i++;
         }
@@ -118,5 +128,13 @@ public class MonopolyGameController extends AbstractController {
             case 5 : return Color.CYAN;
         }
         return null;
+    }
+
+    public MonopolyGameValueObject getMonopolyGameValueObject() {
+        return monopolyGameValueObject;
+    }
+
+    public void setMonopolyGameValueObject(MonopolyGameValueObject monopolyGameValueObject) {
+        this.monopolyGameValueObject = monopolyGameValueObject;
     }
 }
