@@ -62,10 +62,11 @@ public class MainController extends AbstractController {
     public void
     startMonopolyGame(List<String> playerNames) {
         showMonopolyGameView();
-        monopolyGameController.startMonopolyGame(playerNames);
+        monopolyGameController.loadMonopolyGame(playerNames);
     }
 
     public void showLoadGameDialog() {
+        loadGameDialog.initializeGamesList();
         loadGameDialog.setVisible(true);
     }
 
@@ -74,7 +75,9 @@ public class MainController extends AbstractController {
     }
 
     public void loadMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
-        monopolyGameController.startMonopolyGame(monopolyGameValueObject);
+        showMonopolyGameView();
+        hideLoadGameDialog();
+        monopolyGameController.loadMonopolyGame(monopolyGameValueObject);
     }
 
     public void showMenu() {

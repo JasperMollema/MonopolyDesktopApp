@@ -1,12 +1,12 @@
 package model;
 
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MonopolyGameSaver {
     private static final String SAVED_GAMES_DIRECTORY = "./monopolyGame/saved-games";
@@ -15,7 +15,7 @@ public class MonopolyGameSaver {
 
     public void saveMonopolyGame(MonopolyGame monopolyGame, String name) throws IOException {
         createDirectoryIfDoesNotExist();
-        Path savedGame = Paths.get(SAVED_GAMES_DIRECTORY + SEPARATOR + name + POST_FIX);
+        Path savedGame = createPathFromName(name);
 
         if (Files.isRegularFile(savedGame)) {
             Files.delete(savedGame);
@@ -29,10 +29,58 @@ public class MonopolyGameSaver {
         }
     }
 
-    private void createDirectoryIfDoesNotExist() throws IOException{
+    public MonopolyGame loadMonopolyGame(String gameName) throws IOException, ClassNotFoundException {
+        MonopolyGame monopolyGame = null;
+        Path path = createPathFromName(gameName);
+        File gameToLoad = path.toFile();
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(
+                new BufferedInputStream(new FileInputStream(gameToLoad))
+        )){
+            while (true) {
+                 Object object = objectInputStream.readObject();
+                 if (object instanceof MonopolyGame) {
+                     monopolyGame = (MonopolyGame) object;
+                 }
+            }
+        } catch (EOFException eofException) {
+
+        }
+        return monopolyGame;
+    }
+
+    private Path createPathFromName(String name) {
+        return Paths.get(SAVED_GAMES_DIRECTORY + SEPARATOR + name + POST_FIX);
+    }
+
+    public List<String> loadGames() throws IOException {
+        List<String> savedGames;
+        createDirectoryIfDoesNotExist();
+        Path savedGamesDirectory = Paths.get(SAVED_GAMES_DIRECTORY);
+            savedGames = Files.walk(savedGamesDirectory)
+                    .filter(path -> path.toString().endsWith(POST_FIX))
+                    .peek(System.out::println)
+                    .map(this::createNameFromPath)
+                    .peek(System.out::println)
+                    .collect(Collectors.toList());
+
+        return savedGames;
+    }
+
+    private String createNameFromPath(Path path) {
+        String name = path.toString();
+        String savedGamesDirectory = Paths.get(SAVED_GAMES_DIRECTORY).toString().concat(FileSystems.getDefault().getSeparator());
+        if (!name.contains(savedGamesDirectory) || !name.endsWith(POST_FIX)) {
+            return null;
+        }
+        name = name.replace(savedGamesDirectory, "").replace(POST_FIX, "");
+        return name;
+    }
+
+    private void createDirectoryIfDoesNotExist() throws IOException {
         Path savedGames = Paths.get(SAVED_GAMES_DIRECTORY);
         if (!Files.exists(savedGames)) {
             Files.createDirectories(savedGames);
         }
     }
+
 }

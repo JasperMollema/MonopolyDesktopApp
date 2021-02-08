@@ -10,4 +10,5 @@ public class MonopolyGameValueObject {
     public String diceThrow1;
     public String diceThrow2;
     public Boolean canThrowAgain;
+    public Integer nrOfDiceThrowsActivePlayer;
 }

@@ -61,13 +61,14 @@ public class MonopolyGameController extends AbstractController {
         playersController.startController();
     }
 
-    public void startMonopolyGame(List<String> players) {
+    public void loadMonopolyGame(List<String> players) {
         monopolyGameValueObject = monopolyGameService.startMonopolyGame(players);
         initializeGame();
     }
 
-    public void startMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
+    public void loadMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
         this.monopolyGameValueObject = monopolyGameValueObject;
+        monopolyGameService.loadMonopolyGame(monopolyGameValueObject);
         initializeGame();
     }
 

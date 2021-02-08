@@ -14,6 +14,7 @@ public class MonopolyGameValueObjectMapper {
         monopolyGameValueObject.playerNames = Util.playersToPlayerNameList(monopolyGame.getPlayers());
         monopolyGameValueObject.playerPositions = Util.toStringIntegerMap(monopolyGame.getPlayerPositions());
         monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer().toString();
+        monopolyGameValueObject.nrOfDiceThrowsActivePlayer = monopolyGame.getNrOfDiceThrowsActivePlayer();
         return monopolyGameValueObject;
     }
 
@@ -27,6 +28,12 @@ public class MonopolyGameValueObjectMapper {
 
     public MonopolyGame fillMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
         monopolyGame = new MonopolyGame();
+        monopolyGame.setPlayers(Util.playerNamesToPlayerArray(monopolyGameValueObject.playerNames));
+        monopolyGame.setPlayerPositions(Util.toPlayerIntegerMap(monopolyGameValueObject.playerPositions));
+        monopolyGame.fillActivePlayer(monopolyGameValueObject.activePlayer);
+        monopolyGame.setCanPlayerThrowAgain(Util.notNullBoolean(monopolyGameValueObject.canThrowAgain));
+        monopolyGame.setNrOfDiceThrowsActivePlayer(Util.notNullInteger(monopolyGameValueObject.nrOfDiceThrowsActivePlayer));
+
         return monopolyGame;
     }
 }

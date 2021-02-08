@@ -21,7 +21,7 @@ public class SaveDialog extends JDialog {
 
 
     public SaveDialog(Frame owner, SaveMode saveMode) {
-        super(owner, "Save Game", true);
+        super(owner, saveMode.name() + " Game", true);
         setSize(400, 600);
         setLocationRelativeTo(owner);
 
@@ -91,7 +91,16 @@ public class SaveDialog extends JDialog {
 
         if (saveMode == SaveMode.LOAD) {
             saveButton.setVisible(false);
-            gameToSave.setVisible(false);
+            gameToSave.setEnabled(false);
+            gameToSave.setText("");
+            selectedGame.setText(Messages.getMessage("saveDialog.gameToLoad"));
+        }
+    }
+
+    public void initializeGamesList() {
+        savedGamesList.initializeList();
+        if (!(savedGamesList.areGamesFound())) {
+            loadGameButton.setVisible(false);
         }
     }
 
@@ -102,8 +111,5 @@ public class SaveDialog extends JDialog {
     public void savedGameSelected(String selectedGame) {
         gameToSave.setText(selectedGame);
         saveButton.setText(Messages.getMessage("saveDialog.overwrite"));
-        if (saveMode == SaveMode.LOAD) {
-            this.selectedGame.setText(selectedGame);
-        }
     }
 }

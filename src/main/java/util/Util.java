@@ -1,6 +1,7 @@
 package util;
 
 import model.Player;
+import model.PlayerPositionMap;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
@@ -45,6 +46,16 @@ public class Util {
         return stringIntegerMap;
     }
 
+    public static PlayerPositionMap toPlayerIntegerMap(Map<String, Integer> stringIntegerMap) {
+        PlayerPositionMap playerPositionMap = new PlayerPositionMap();
+        for (String playerName: stringIntegerMap.keySet()) {
+            Player player = new Player(playerName);
+            Integer position = stringIntegerMap.get(playerName);
+            playerPositionMap.put(player, position);
+        }
+        return playerPositionMap;
+    }
+
     public static ImageIcon createIcon(String imageName) {
         Path path = Paths.get("./src/main/resources/images/" + imageName);
         if (!Files.isRegularFile(path)) {
@@ -57,5 +68,13 @@ public class Util {
             System.err.println("Unable to load file " + path);
             return null;
         }
+    }
+
+    public static Integer notNullInteger(Integer integer) {
+        return integer == null ? 0 : integer;
+    }
+
+    public static Boolean notNullBoolean(Boolean bool) {
+        return bool == null ? Boolean.FALSE : bool;
     }
 }

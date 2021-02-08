@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -10,12 +9,16 @@ import java.util.Map;
 public class MonopolyGame implements Serializable {
     private Player[] players;
     private Player activePlayer;
-    private int nrOfDiceThrowsActivePlayer;
-    private boolean canPlayerThrowAgain;
-    private Map<Player, Integer> playerPositions;
+    private Integer nrOfDiceThrowsActivePlayer;
+    private Boolean canPlayerThrowAgain;
+    private PlayerPositionMap playerPositions;
+
+    public MonopolyGame() {}
 
     public void startGame(Player[] players) {
-        playerPositions = new HashMap<>();
+        playerPositions = new PlayerPositionMap();
+        nrOfDiceThrowsActivePlayer = 0;
+        canPlayerThrowAgain = Boolean.FALSE;
         this.players = players;
         putPlayersOnStart();
         activePlayer = players[0];
@@ -74,23 +77,30 @@ public class MonopolyGame implements Serializable {
         return activePlayer;
     }
 
-    public void setActivePlayer(Player activePlayer) {
-        this.activePlayer = activePlayer;
+    public void fillActivePlayer(String playerName) {
+        if (players == null) {
+            throw new RuntimeException("fillActivePlayer() There are no Players");
+        }
+        for (Player player : players) {
+            if (player.toString().equals(playerName)) {
+                activePlayer = player;
+            }
+        }
     }
 
-    public int getNrOfDiceThrowsActivePlayer() {
+    public Integer getNrOfDiceThrowsActivePlayer() {
         return nrOfDiceThrowsActivePlayer;
     }
 
-    public void setNrOfDiceThrowsActivePlayer(int nrOfDiceThrowsActivePlayer) {
+    public void setNrOfDiceThrowsActivePlayer(Integer nrOfDiceThrowsActivePlayer) {
         this.nrOfDiceThrowsActivePlayer = nrOfDiceThrowsActivePlayer;
     }
 
-    public boolean canPlayerThrowAgain() {
+    public Boolean canPlayerThrowAgain() {
         return canPlayerThrowAgain;
     }
 
-    public void setCanPlayerThrowAgain(boolean canPlayerThrowAgain) {
+    public void setCanPlayerThrowAgain(Boolean canPlayerThrowAgain) {
         this.canPlayerThrowAgain = canPlayerThrowAgain;
     }
 
@@ -98,7 +108,7 @@ public class MonopolyGame implements Serializable {
         return playerPositions;
     }
 
-    public void setPlayerPositions(Map<Player, Integer> playerPositions) {
+    public void setPlayerPositions(PlayerPositionMap playerPositions) {
         this.playerPositions = playerPositions;
     }
 }

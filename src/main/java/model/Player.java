@@ -9,6 +9,8 @@ public class Player implements Serializable {
         this.name = name;
     }
 
+    public Player() {}
+
     @Override
     public String toString() {
         return name;

@@ -17,7 +17,6 @@ public class MonopolyGameService {
     public MonopolyGameService() {
         monopolyGameValueObject = new MonopolyGameValueObject();
         boardspaces = createBoardSpaceValueObjects();
-        monopolyGame = new MonopolyGame();
         monopolyGameValueObjectMapper = new MonopolyGameValueObjectMapper();
     }
 
@@ -25,9 +24,14 @@ public class MonopolyGameService {
         if (!PlayerNameValidator.validatePlayers(playerNames)) {
             throw new RuntimeException("MonopolyGame : createPlayers() Player names are not valid!");
         }
+        monopolyGame = new MonopolyGame();
         monopolyGame.startGame(Util.playerNamesToPlayerArray(playerNames));
         monopolyGameValueObjectMapper.fillValueObject(monopolyGame);
         return monopolyGameValueObjectMapper.fillValueObject(monopolyGame);
+    }
+
+    public void loadMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
+        monopolyGame = monopolyGameValueObjectMapper.fillMonopolyGame(monopolyGameValueObject);
     }
 
     private List<BoardSpaceValueObject> createBoardSpaceValueObjects() {
