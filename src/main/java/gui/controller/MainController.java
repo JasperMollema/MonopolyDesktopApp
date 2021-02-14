@@ -6,8 +6,10 @@ import gui.listeners.LoadDialogListener;
 import gui.listeners.MainMenuListenerImpl;
 import gui.listeners.SelectNumberOfPlayersListenerImpl;
 import gui.view.*;
+import messages.Messages;
 import valueObjects.MonopolyGameValueObject;
 
+import javax.swing.*;
 import java.util.List;
 
 public class MainController extends AbstractController {
@@ -67,6 +69,13 @@ public class MainController extends AbstractController {
 
     public void showLoadGameDialog() {
         loadGameDialog.initializeGamesList();
+        if (loadGameDialog.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    MainFrame.mainFrame,
+                    Messages.getMessage("mainController.noGamesToLoad")
+            );
+            return;
+        }
         loadGameDialog.setVisible(true);
     }
 

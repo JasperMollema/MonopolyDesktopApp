@@ -24,4 +24,9 @@ public class Player implements Serializable {
         Player playerToBeCompared = (Player) obj;
         return playerToBeCompared.name.equals(name);
     }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

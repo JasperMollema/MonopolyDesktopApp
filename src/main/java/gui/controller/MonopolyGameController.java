@@ -12,7 +12,6 @@ import services.SaveGamesService;
 import valueObjects.MonopolyGameValueObject;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +77,6 @@ public class MonopolyGameController extends AbstractController {
         playersController.fillPlayerNames(monopolyGameValueObject.playerNames, playerColors);
         setPlayersOnBoard(monopolyGameValueObject.playerPositions);
         controlPanelController.fillInfoMessage1("controlPanel.playerTurn", new String[]{monopolyGameValueObject.activePlayer});
-        controlPanelController.showInfoMessage1();
         monopolyGameView.showChildViews();
     }
 
@@ -88,17 +86,10 @@ public class MonopolyGameController extends AbstractController {
         }
     }
 
-    public void movePlayer(String player, int oldPosition, int newPosition) {
+    public void movePlayer(String player, int newPosition) {
+        int oldPosition = monopolyGameValueObject.playerPositions.get(player);
         boardController.removePlayerFromBoardComponent(player, oldPosition);
         boardController.setPlayerOnBoardComponent(player, newPosition);
-    }
-
-    public void saveGame(String nameGame) {
-        try {
-            saveGamesService.save(nameGame, monopolyGameValueObject);
-        } catch (IOException ioException) {
-            System.out.println("Saving game failed.");
-        }
     }
 
     public void hideSaveDialog() {
@@ -106,6 +97,7 @@ public class MonopolyGameController extends AbstractController {
     }
 
     public void showSaveDialog() {
+        saveDialog.initializeGamesList();
         saveDialog.setVisible(true);
     }
 

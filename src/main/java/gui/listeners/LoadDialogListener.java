@@ -35,4 +35,14 @@ public class LoadDialogListener implements SaveDialogListener {
             classNotFoundException.printStackTrace();
         }
     }
+
+    @Override
+    public void deleteButtonPressed(String selectedFile) {
+        SaveGamesService saveGamesService = new SaveGamesService();
+        try {
+            saveGamesService.deleteGame(selectedFile);
+        } catch (IOException ioException) {
+
+        }
+    }
 }

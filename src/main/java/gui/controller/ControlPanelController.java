@@ -23,11 +23,17 @@ public class ControlPanelController extends AbstractController {
     }
 
     public void fillInfoMessage1(String infoMessage, String[] args) {
-        controlPanelView.fillInfoMessage1(infoMessage, args);
+        if (infoMessage != null) {
+            controlPanelView.fillInfoMessage1(infoMessage, args);
+        }
+        controlPanelView.showInfoMessage1(infoMessage != null);
     }
 
     public void fillInfoMessage2(String infoMessage, String[] args) {
-        controlPanelView.fillInfoMessage2(infoMessage, args);
+        if (infoMessage != null) {
+            controlPanelView.fillInfoMessage2(infoMessage, args);
+        }
+        controlPanelView.showInfoMessage2(infoMessage != null);
     }
 
     public void enableStartTurnButton() {
@@ -52,22 +58,6 @@ public class ControlPanelController extends AbstractController {
 
     public void disableThrowDiceButton() {
         controlPanelView.disableThrowDiceTurnButton();
-    }
-
-    public void showInfoMessage1() {
-        controlPanelView.showInfoMessage1();
-    }
-
-    public void hideInfoMessage1() {
-        controlPanelView.hideInfoMessage1();
-    }
-
-    public void showInfoMessage2() {
-        controlPanelView.showInfoMessage2();
-    }
-
-    public void hideInfoMessage2() {
-        controlPanelView.hideInfoMessage2();
     }
 
     @Override

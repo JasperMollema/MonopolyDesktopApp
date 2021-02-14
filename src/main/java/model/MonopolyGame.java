@@ -1,6 +1,9 @@
 package model;
 
+import settings.Rules;
+
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,12 +14,12 @@ public class MonopolyGame implements Serializable {
     private Player activePlayer;
     private Integer nrOfDiceThrowsActivePlayer;
     private Boolean canPlayerThrowAgain;
-    private PlayerPositionMap playerPositions;
+    private HashMap<Player, Integer> playerPositions;
 
     public MonopolyGame() {}
 
     public void startGame(Player[] players) {
-        playerPositions = new PlayerPositionMap();
+        playerPositions = new HashMap<>();
         nrOfDiceThrowsActivePlayer = 0;
         canPlayerThrowAgain = Boolean.FALSE;
         this.players = players;
@@ -34,7 +37,7 @@ public class MonopolyGame implements Serializable {
         Integer newPosition = determineNewPosition(diceThrow);
         playerPositions.put(activePlayer, newPosition);
         nrOfDiceThrowsActivePlayer++;
-        canPlayerThrowAgain = diceThrow.isDoubleThrow() && nrOfDiceThrowsActivePlayer < 3;
+        canPlayerThrowAgain = diceThrow.isDoubleThrow() && nrOfDiceThrowsActivePlayer < Rules.MAX_THROWS;
     }
 
     private Integer determineNewPosition(DiceThrow diceThrow) {
@@ -50,6 +53,12 @@ public class MonopolyGame implements Serializable {
     }
 
     public void endTurn() {
+        determineNewActivePlayer();
+        nrOfDiceThrowsActivePlayer = 0;
+        canPlayerThrowAgain = true;
+    }
+
+    private void determineNewActivePlayer() {
         int playerIndex = 0;
         for (int i = 0; i < players.length; i++) {
             if (players[i] == activePlayer) {
@@ -61,8 +70,6 @@ public class MonopolyGame implements Serializable {
             newPlayerIndex = 0;
         }
         activePlayer = players[newPlayerIndex];
-        nrOfDiceThrowsActivePlayer = 0;
-        canPlayerThrowAgain = true;
     }
 
     public Player[] getPlayers() {
@@ -108,7 +115,7 @@ public class MonopolyGame implements Serializable {
         return playerPositions;
     }
 
-    public void setPlayerPositions(PlayerPositionMap playerPositions) {
+    public void setPlayerPositions(HashMap<Player, Integer> playerPositions) {
         this.playerPositions = playerPositions;
     }
 }

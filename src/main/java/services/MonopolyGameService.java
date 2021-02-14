@@ -49,9 +49,7 @@ public class MonopolyGameService {
     public MonopolyGameValueObject throwDice() {
         DiceThrower diceThrower = new DiceThrower();
         DiceThrow diceThrow = diceThrower.throwDice();
-
         monopolyGame.movePlayer(diceThrow);
-
         return monopolyGameValueObjectMapper.fillValueObject(diceThrow, monopolyGame);
     }
 

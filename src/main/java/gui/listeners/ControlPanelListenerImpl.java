@@ -5,12 +5,11 @@ import gui.controller.MonopolyGameController;
 import services.MonopolyGameService;
 import valueObjects.MonopolyGameValueObject;
 
-import java.util.Map;
-
 public class ControlPanelListenerImpl implements ControlPanelListener {
     private MonopolyGameController monopolyGameController;
     private ControlPanelController controlPanelController;
     private MonopolyGameService monopolyGameService;
+    private MonopolyGameValueObject monopolyGameValueObject;
 
     public ControlPanelListenerImpl(MonopolyGameController monopolyGameController, ControlPanelController controlPanelController, MonopolyGameService monopolyGameService) {
         this.monopolyGameController = monopolyGameController;
@@ -20,19 +19,17 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
 
     @Override
     public void startTurnButtonPressed() {
-        hideMessages();
-        MonopolyGameValueObject monopolyGameValueObject = monopolyGameController.getMonopolyGameValueObject();
-        controlPanelController.fillInfoMessage1("controlPanel.playerCanThrowDice", new String[]{monopolyGameValueObject.activePlayer});
-        controlPanelController.showInfoMessage1();
+        clearMessages();
+        String activePlayer = monopolyGameController.getMonopolyGameValueObject().activePlayer;
+        controlPanelController.fillInfoMessage1("controlPanel.playerCanThrowDice", new String[]{activePlayer});
         controlPanelController.disableStartTurnButton();
         controlPanelController.enableThrowDiceButton();
-        monopolyGameController.setMonopolyGameValueObject(monopolyGameValueObject);
     }
 
     @Override
     public void endTurnButtonPressed() {
-        hideMessages();
-        MonopolyGameValueObject monopolyGameValueObject = monopolyGameService.endTurn();
+        clearMessages();
+        monopolyGameValueObject = monopolyGameService.endTurn();
         controlPanelController.fillInfoMessage1("controlPanel.playerTurn", new String[]{monopolyGameValueObject.activePlayer});
         controlPanelController.enableStartTurnButton();
         controlPanelController.disableEndTurnButton();
@@ -42,31 +39,49 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
 
     @Override
     public void throwDiceButtonPressed() {
-        hideMessages();
-        MonopolyGameValueObject beforeDiceThrow = monopolyGameController.getMonopolyGameValueObject();
-        String currentActivePlayer = beforeDiceThrow.activePlayer;
-        Map<String, Integer> playerPositions = beforeDiceThrow.playerPositions;
-        int oldPosition = playerPositions.get(currentActivePlayer);
+        clearMessages();
+        monopolyGameValueObject = monopolyGameService.throwDice();
+        movePlayer();
+        fillMessagesAfterDiceThrow();
 
-        MonopolyGameValueObject afterDiceThrow = monopolyGameService.throwDice();
-        int newPosition = afterDiceThrow.playerPositions.get(currentActivePlayer);
-        monopolyGameController.movePlayer(currentActivePlayer, oldPosition, newPosition);
-        controlPanelController.fillInfoMessage1("controlPanel.resultDiceThrow",
-                new String[]{currentActivePlayer, afterDiceThrow.diceThrow1, afterDiceThrow.diceThrow2});
-        controlPanelController.showInfoMessage1();
-        if (afterDiceThrow.canThrowAgain) {
-            controlPanelController.fillInfoMessage2("controlPanel.playerCanThrowAgain", new String[]{currentActivePlayer});
-        } else {
-            controlPanelController.fillInfoMessage2("controlPanel.playerCanNotThrowAgain", new String[]{currentActivePlayer});
+        if (!monopolyGameValueObject.canThrowAgain) {
             controlPanelController.disableThrowDiceButton();
             controlPanelController.enableEndTurnButton();
         }
-        controlPanelController.showInfoMessage2();
-        monopolyGameController.setMonopolyGameValueObject(afterDiceThrow);
+
+        monopolyGameController.setMonopolyGameValueObject(monopolyGameValueObject);
     }
 
-    private void hideMessages() {
-        controlPanelController.hideInfoMessage1();
-        controlPanelController.hideInfoMessage2();
+    private void movePlayer() {
+        String player = monopolyGameValueObject.activePlayer;
+        int newPlayerPosition = monopolyGameValueObject.playerPositions.get(player);
+        monopolyGameController.movePlayer(player, newPlayerPosition);
+    }
+
+    private void fillMessagesAfterDiceThrow() {
+        fillResultDiceThrowMessage();
+        if (monopolyGameValueObject.canThrowAgain) {
+            fillThrowAgainMessage();
+        } else fillCanNotThrowAgainMessage();
+    }
+
+    private void fillResultDiceThrowMessage() {
+        controlPanelController.fillInfoMessage1(
+                "controlPanel.resultDiceThrow",
+                new String[]{monopolyGameValueObject.activePlayer, monopolyGameValueObject.diceThrow1, monopolyGameValueObject.diceThrow2}
+        );
+    }
+
+    private void fillThrowAgainMessage() {
+        controlPanelController.fillInfoMessage2("controlPanel.playerCanThrowAgain", new String[]{monopolyGameValueObject.activePlayer});
+    }
+
+    private void fillCanNotThrowAgainMessage() {
+        controlPanelController.fillInfoMessage2("controlPanel.playerCanNotThrowAgain", new String[]{monopolyGameValueObject.activePlayer});
+    }
+
+    private void clearMessages() {
+        controlPanelController.fillInfoMessage1(null, null);
+        controlPanelController.fillInfoMessage2(null, null);
     }
 }

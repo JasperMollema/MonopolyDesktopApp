@@ -3,6 +3,7 @@ package gui.component;
 import gui.listeners.SavedGamesListListener;
 import messages.Messages;
 import services.SaveGamesService;
+import util.Util;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,6 @@ public class SavedGamesList extends JPanel {
     private JList<String> savedGamesList;
     private DefaultListModel<String> savedGamesModel;
     private SavedGamesListListener savedGamesListListener;
-    private boolean areGamesFound;
 
     public SavedGamesList() {
         savedGamesList = new JList<>();
@@ -32,17 +32,34 @@ public class SavedGamesList extends JPanel {
     }
 
     public void initializeList() {
+        savedGamesModel.clear();
         List<String> savedGames = loadGames();
-        if (savedGames.isEmpty()) {
-            savedGames.add(Messages.getMessage("saveGamesList.noSavedGames"));
-            areGamesFound = false;
-        } else {
-            areGamesFound = true;
-        }
-
         for (String savedGame : savedGames) {
             savedGamesModel.addElement(savedGame);
         }
+    }
+
+    public void addGame(String name) {
+        savedGamesModel.addElement(name);
+    }
+
+    public void removeGame(String name) {
+        savedGamesModel.removeElement(name);
+    }
+
+    public void clearSelection() {
+        savedGamesList.clearSelection();
+    }
+
+    public String determineTextNewGame() {
+        Integer nrOfSavedGames = savedGamesModel.size();
+        String textNewGame;
+        do {
+            String newGameNr = Util.stringValue(++nrOfSavedGames);
+            textNewGame = Messages.getMessage("saveGamesList.newGame", newGameNr);
+        }
+        while (savedGamesModel.contains(textNewGame));
+        return textNewGame;
     }
 
     private List<String> loadGames() {
@@ -65,7 +82,7 @@ public class SavedGamesList extends JPanel {
         this.savedGamesListListener = savedGamesListListener;
     }
 
-    public boolean areGamesFound() {
-        return areGamesFound;
+    public boolean isEmpty() {
+        return savedGamesModel.isEmpty();
     }
 }

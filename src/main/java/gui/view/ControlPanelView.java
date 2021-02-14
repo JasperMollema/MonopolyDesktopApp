@@ -16,16 +16,17 @@ public class ControlPanelView extends AbstractView {
         startTurnButton = new JButton(getMessage("controlPanel.startTurn"));
         endTurnButton = new JButton(getMessage("controlPanel.endTurn"));
         throwDiceButton = new JButton(getMessage("controlPanel.throwDice"));
+
         add(startTurnButton);
+        add(endTurnButton);
+        add(throwDiceButton);
+        add(infoMessage1);
+        add(infoMessage2);
+
         startTurnButton.setEnabled(true);
         endTurnButton.setEnabled(false);
-        throwDiceButton.setEnabled(false);
-        add(endTurnButton);
-        add(infoMessage1);
-        hideInfoMessage1();
-        add(infoMessage2);
-        hideInfoMessage2();
-        add(throwDiceButton);
+        throwDiceButton.setEnabled(false);;
+
         setVisible(true);
     }
 
@@ -74,20 +75,12 @@ public class ControlPanelView extends AbstractView {
     public void initializeView() {
     }
 
-    public void showInfoMessage1() {
-        infoMessage1.setVisible(true);
+    public void showInfoMessage1(boolean showMessage) {
+        infoMessage1.setVisible(showMessage);
     }
 
-    public void hideInfoMessage1() {
-        infoMessage1.setVisible(false);
-    }
-
-    public void showInfoMessage2() {
-        infoMessage2.setVisible(true);
-    }
-
-    public void hideInfoMessage2() {
-        infoMessage2.setVisible(false);
+    public void showInfoMessage2(boolean showMessage) {
+        infoMessage2.setVisible(showMessage);
     }
 
     public void fillInfoMessage1(String messageResource, String[] args) {

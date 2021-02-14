@@ -29,9 +29,9 @@ public class MonopolyGameSaver {
         }
     }
 
-    public MonopolyGame loadMonopolyGame(String gameName) throws IOException, ClassNotFoundException {
+    public MonopolyGame loadMonopolyGame(String nameGame) throws IOException, ClassNotFoundException {
         MonopolyGame monopolyGame = null;
-        Path path = createPathFromName(gameName);
+        Path path = createPathFromName(nameGame);
         File gameToLoad = path.toFile();
         try (ObjectInputStream objectInputStream = new ObjectInputStream(
                 new BufferedInputStream(new FileInputStream(gameToLoad))
@@ -46,6 +46,13 @@ public class MonopolyGameSaver {
 
         }
         return monopolyGame;
+    }
+
+    public void deleteMonopolyGame(String nameGame) throws IOException {
+        Path path = createPathFromName(nameGame);
+        if (Files.isRegularFile(path)) {
+            Files.delete(path);
+        }
     }
 
     private Path createPathFromName(String name) {

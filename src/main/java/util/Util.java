@@ -1,7 +1,6 @@
 package util;
 
 import model.Player;
-import model.PlayerPositionMap;
 
 import javax.swing.*;
 import java.net.MalformedURLException;
@@ -46,8 +45,8 @@ public class Util {
         return stringIntegerMap;
     }
 
-    public static PlayerPositionMap toPlayerIntegerMap(Map<String, Integer> stringIntegerMap) {
-        PlayerPositionMap playerPositionMap = new PlayerPositionMap();
+    public static HashMap<Player, Integer> toPlayerIntegerMap(Map<String, Integer> stringIntegerMap) {
+        HashMap<Player, Integer> playerPositionMap = new HashMap<>();
         for (String playerName: stringIntegerMap.keySet()) {
             Player player = new Player(playerName);
             Integer position = stringIntegerMap.get(playerName);

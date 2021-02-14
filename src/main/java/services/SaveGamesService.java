@@ -16,7 +16,7 @@ public class SaveGamesService {
         monopolyGameValueObjectMapper = new MonopolyGameValueObjectMapper();
     }
 
-    public void save(String nameGame, MonopolyGameValueObject monopolyGameValueObject) throws IOException {
+    public void saveGame(String nameGame, MonopolyGameValueObject monopolyGameValueObject) throws IOException {
         MonopolyGame monopolyGame = monopolyGameValueObjectMapper.fillMonopolyGame(monopolyGameValueObject);
         monopolyGameSaver.saveMonopolyGame(monopolyGame, nameGame);
     }
@@ -29,5 +29,9 @@ public class SaveGamesService {
         MonopolyGame monopolyGame = monopolyGameSaver.loadMonopolyGame(nameGame);
         MonopolyGameValueObject monopolyGameValueObject = monopolyGameValueObjectMapper.fillValueObject(monopolyGame);
         return monopolyGameValueObject;
+    }
+
+    public void deleteGame(String nameGame) throws IOException {
+        monopolyGameSaver.deleteMonopolyGame(nameGame);
     }
 }
