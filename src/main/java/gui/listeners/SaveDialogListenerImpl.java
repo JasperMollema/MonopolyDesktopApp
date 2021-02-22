@@ -53,4 +53,9 @@ public class SaveDialogListenerImpl implements SaveDialogListener {
             ioException.printStackTrace();
         }
     }
+
+    @Override
+    public void savedGameDoubleClicked(String selectedFile) {
+
+    }
 }

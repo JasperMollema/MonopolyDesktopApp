@@ -1,5 +1,8 @@
 package gui.listeners;
 
+import gui.component.GameSlot;
+
 public interface SavedGamesListListener {
-    void savedGameSelected(String gameSelected);
+    void savedGameSelected(GameSlot gameSlot);
+    void saveGameDoubleClicked(GameSlot gameSlot);
 }

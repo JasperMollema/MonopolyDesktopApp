@@ -5,4 +5,5 @@ public interface SaveDialogListener {
     void cancelButtonPressed();
     void loadButtonPressed(String selectedFile);
     void deleteButtonPressed(String selectedFile);
+    void savedGameDoubleClicked(String selectedFile);
 }

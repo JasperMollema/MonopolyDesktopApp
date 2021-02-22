@@ -45,4 +45,9 @@ public class LoadDialogListener implements SaveDialogListener {
 
         }
     }
+
+    @Override
+    public void savedGameDoubleClicked(String selectedFile) {
+        loadButtonPressed(selectedFile);
+    }
 }

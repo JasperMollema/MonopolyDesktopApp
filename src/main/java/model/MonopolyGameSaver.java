@@ -65,9 +65,7 @@ public class MonopolyGameSaver {
         Path savedGamesDirectory = Paths.get(SAVED_GAMES_DIRECTORY);
             savedGames = Files.walk(savedGamesDirectory)
                     .filter(path -> path.toString().endsWith(POST_FIX))
-                    .peek(System.out::println)
                     .map(this::createNameFromPath)
-                    .peek(System.out::println)
                     .collect(Collectors.toList());
 
         return savedGames;

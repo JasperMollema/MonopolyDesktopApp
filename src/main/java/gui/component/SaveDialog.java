@@ -7,8 +7,9 @@ import messages.Messages;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class SaveDialog extends JDialog {
     private SavedGamesList savedGamesList;
@@ -18,7 +19,7 @@ public class SaveDialog extends JDialog {
     private JButton deleteButton;
     private SaveDialogListener saveDialogListener;
     private JLabel selectedGame;
-    private JTextField gameToSave;
+    private JTextField gameInputField;
     private SaveMode saveMode;
 
     public enum SaveMode {SAVE, LOAD}
@@ -34,7 +35,7 @@ public class SaveDialog extends JDialog {
         deleteButton = new JButton(Messages.getMessage("saveDialog.delete"));
         cancelButton = new JButton(Messages.getMessage("saveDialog.cancel"));
         selectedGame = new JLabel();
-        gameToSave = new JTextField(10);
+        gameInputField = new JTextField(10);
         savedGamesList = new SavedGamesList();
         this.saveMode = saveMode;
 
@@ -44,38 +45,30 @@ public class SaveDialog extends JDialog {
     }
 
     private void addActionListeners() {
-        gameToSave.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                savedGamesList.clearSelection();
-                saveButton.setText(Messages.getMessage("saveDialog.save"));
-                if (gameToSave.getText().isBlank()) {
-                    saveButton.setEnabled(false);
-                }
-            }
 
+        gameInputField.addKeyListener(new KeyAdapter() {
             @Override
-            public void focusLost(FocusEvent e) {
+            public void keyReleased(KeyEvent e) {
+                determineEnablingSaveButton();
             }
         });
 
         saveButton.addActionListener(event -> {
-            if (saveDialogListener != null) {
-                saveDialogListener.saveButtonPressed(gameToSave.getText());
-                savedGamesList.addGame(gameToSave.getText());
+            if (saveDialogListener != null && nameGameIsAllowed()) {
+                saveDialogListener.saveButtonPressed(gameInputField.getText());
             }
         });
 
         loadGameButton.addActionListener(event -> {
             if (saveDialogListener != null) {
-                saveDialogListener.loadButtonPressed(gameToSave.getText());
+                saveDialogListener.loadButtonPressed(gameInputField.getText());
             }
         });
 
         deleteButton.addActionListener(event -> {
-            if (saveDialogListener != null && reallyDeleteGame(gameToSave.getText())) {
-                saveDialogListener.deleteButtonPressed(gameToSave.getText());
-                savedGamesList.removeGame(gameToSave.getText());
+            if (saveDialogListener != null && reallyDeleteGame(gameInputField.getText())) {
+                saveDialogListener.deleteButtonPressed(gameInputField.getText());
+                savedGamesList.removeGame(gameInputField.getText());
                 deleteButton.setVisible(savedGamesList.isEmpty());
             }
         });
@@ -85,6 +78,43 @@ public class SaveDialog extends JDialog {
                 saveDialogListener.cancelButtonPressed();
             }
         });
+    }
+
+    private boolean nameGameIsAllowed() {
+        String nameGameToBeSaved = gameInputField.getText();
+        if (nameEqualsEmptySlot()) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    Messages.getMessage("saveDialog.nameNotAllowed"),
+                    Messages.getMessage("saveDialog.nameNotAllowed"),
+                    JOptionPane.OK_OPTION);
+            return false;
+        }
+
+        if (savedGamesList.nameIsInList(nameGameToBeSaved)) {
+            int overwriteGame = JOptionPane.showConfirmDialog(
+                    null,
+                    Messages.getMessage("saveDialog.wantToOverWrite"),
+                    Messages.getMessage("saveDialog.nameAlreadyExists"),
+                    JOptionPane.OK_CANCEL_OPTION);
+            return overwriteGame == JOptionPane.CANCEL_OPTION;
+        }
+
+        return true;
+    }
+
+    private boolean nameEqualsEmptySlot() {
+        List<String> emptySlotValues = Messages.getAllValues("saveGamesList.emptySlot");
+        for (String emptySlotValue : emptySlotValues) {
+            if (emptySlotValue.equals(gameInputField.getText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void determineEnablingSaveButton() {
+        saveButton.setEnabled(!gameInputField.getText().isBlank());
     }
 
     private boolean reallyDeleteGame(String nameGame) {
@@ -102,7 +132,7 @@ public class SaveDialog extends JDialog {
 
         JPanel saveGamePanel = new JPanel(new FlowLayout());
         saveGamePanel.add(selectedGame);
-        saveGamePanel.add(gameToSave);
+        saveGamePanel.add(gameInputField);
         add(saveGamePanel, BorderLayout.NORTH);
 
         add(savedGamesList, BorderLayout.CENTER);
@@ -125,7 +155,7 @@ public class SaveDialog extends JDialog {
 
         if (saveMode == SaveMode.LOAD) {
             saveButton.setVisible(false);
-            gameToSave.setVisible(false);
+            gameInputField.setVisible(false);
             selectedGame.setText(Messages.getMessage("saveDialog.gameToLoad"));
         }
     }
@@ -136,7 +166,12 @@ public class SaveDialog extends JDialog {
             loadGameButton.setVisible(false);
             deleteButton.setVisible(false);
         }
-        gameToSave.setText(savedGamesList.determineTextNewGame());
+
+        if (saveMode == SaveMode.SAVE) {
+            savedGamesList.addEmptySlot();
+        }
+
+        gameInputField.setText(savedGamesList.getFirstGame());
     }
 
     public boolean isEmpty() {
@@ -147,8 +182,14 @@ public class SaveDialog extends JDialog {
         this.saveDialogListener = saveDialogListener;
     }
 
-    public void savedGameSelected(String selectedGame) {
-        gameToSave.setText(selectedGame);
-        saveButton.setText(Messages.getMessage("saveDialog.overwrite"));
+    public void savedGameSelected(GameSlot selectedGame) {
+        gameInputField.setText(selectedGame.getName());
+        saveButton.setText(Messages.getMessage(
+                selectedGame.isEmptySlot() ? "saveDialog.save" : "saveDialog.overwrite"));
+    }
+
+    public void savedGameDoubleClicked(GameSlot selectedGame) {
+        savedGameSelected(selectedGame);
+        saveDialogListener.savedGameDoubleClicked(selectedGame.getName());
     }
 }

@@ -1,5 +1,6 @@
 package gui.listeners;
 
+import gui.component.GameSlot;
 import gui.component.SaveDialog;
 
 public class SaveGameListListenerImpl implements SavedGamesListListener {
@@ -10,7 +11,12 @@ public class SaveGameListListenerImpl implements SavedGamesListListener {
     }
 
     @Override
-    public void savedGameSelected(String gameSelected) {
+    public void savedGameSelected(GameSlot gameSelected) {
         saveDialog.savedGameSelected(gameSelected);
+    }
+
+    @Override
+    public void saveGameDoubleClicked(GameSlot gameSelected) {
+        saveDialog.savedGameDoubleClicked(gameSelected);
     }
 }
