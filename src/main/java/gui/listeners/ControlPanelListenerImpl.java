@@ -50,6 +50,7 @@ public class ControlPanelListenerImpl implements ControlPanelListener {
         }
 
         monopolyGameController.setMonopolyGameValueObject(monopolyGameValueObject);
+        monopolyGameController.setHasUnSavedChanges(true);
     }
 
     private void movePlayer() {

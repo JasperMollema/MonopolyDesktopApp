@@ -14,14 +14,14 @@ import java.util.List;
 
 public class SavedGamesList extends JPanel {
     private JList<GameSlot> gameSlots;
-    private DefaultListModel<GameSlot> savedGamesModel;
+    private DefaultListModel<GameSlot> gameSlotsModel;
     private SavedGamesListListener savedGamesListListener;
 
     public SavedGamesList() {
         gameSlots = new JList<>();
-        savedGamesModel = new DefaultListModel();
+        gameSlotsModel = new DefaultListModel();
 
-        gameSlots.setModel(savedGamesModel);
+        gameSlots.setModel(gameSlotsModel);
         gameSlots.setPreferredSize(new Dimension(300, 500));
         gameSlots.setBorder(BorderFactory.createEtchedBorder());
         gameSlots.setBackground(Color.BLACK);
@@ -47,16 +47,16 @@ public class SavedGamesList extends JPanel {
     }
 
     public void initializeList() {
-        savedGamesModel.clear();
-        List<String> savedGames = loadGames();
-        for (String savedGame : savedGames) {
-            savedGamesModel.addElement(new GameSlot(savedGame));
+        gameSlotsModel.clear();
+        List<GameSlot> savedGames = loadGames();
+        for (GameSlot savedGame : savedGames) {
+            gameSlotsModel.addElement(savedGame);
         }
     }
 
     public boolean nameIsInList(String nameGame) {
         boolean containsGame = false;
-        Iterator<GameSlot> gameSlotIterator = savedGamesModel.elements().asIterator();
+        Iterator<GameSlot> gameSlotIterator = gameSlotsModel.elements().asIterator();
         while (gameSlotIterator.hasNext() && !containsGame) {
             String nameGameSlot = gameSlotIterator.next().getName();
             containsGame = nameGameSlot.equals(nameGame);
@@ -65,21 +65,30 @@ public class SavedGamesList extends JPanel {
     }
 
     public void addEmptySlot() {
-        savedGamesModel.add(0, new GameSlot("Empty Slot", true));
+        gameSlotsModel.add(0, new GameSlot("Empty Slot", true));
         gameSlots.setSelectedIndex(0);
     }
 
     public String getFirstGame() {
-        return savedGamesModel.firstElement().getName();
+        if (!gameSlotsModel.isEmpty()) {
+            return gameSlotsModel.firstElement().getName();
+        }
+        return "";
     }
 
-    public void removeGame(String name) {
-        savedGamesModel.removeElement(name);
+    public boolean selectedGameIsEmptySlot() {
+        return gameSlots.getSelectedValue().isEmptySlot();
     }
 
-    private List<String> loadGames() {
+    public void removeSelectedGameSlot() {
+
+        boolean removed = gameSlotsModel.removeElement((gameSlots.getSelectedValue()));
+        System.out.println("Game removed : " + removed);
+    }
+
+    private List<GameSlot> loadGames() {
         SaveGamesService saveGamesService = new SaveGamesService();
-        List<String> savedGames = new ArrayList<>();
+        List<GameSlot> savedGames = new ArrayList<>();
         try {
             savedGames = saveGamesService.loadGames();
         } catch (IOException ioException) {
@@ -93,6 +102,6 @@ public class SavedGamesList extends JPanel {
     }
 
     public boolean isEmpty() {
-        return savedGamesModel.isEmpty();
+        return gameSlotsModel.isEmpty();
     }
 }

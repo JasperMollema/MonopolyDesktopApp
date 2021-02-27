@@ -4,6 +4,7 @@ import gui.MainFrame;
 import gui.component.SaveDialog;
 import gui.listeners.LoadDialogListener;
 import gui.listeners.MainMenuListenerImpl;
+import gui.listeners.MonopolyGameListenerImpl;
 import gui.listeners.SelectNumberOfPlayersListenerImpl;
 import gui.view.*;
 import messages.Messages;
@@ -27,12 +28,16 @@ public class MainController extends AbstractController {
 
     public MainController(MainView mainView) {
         this.mainView = mainView;
-        initializeChildViews();
-        initializeChildControllers();
-        addChildViewsToMainView();
+        initialize();
         loadGameDialog = new SaveDialog(MainFrame.mainFrame, SaveDialog.SaveMode.LOAD);
         loadGameDialog.setSaveDialogListener(new LoadDialogListener(this));
         loadGameDialog.setVisible(false);
+    }
+
+    private void initialize() {
+        initializeChildViews();
+        initializeChildControllers();
+        addChildViewsToMainView();
     }
 
     private void initializeChildViews() {
@@ -47,6 +52,7 @@ public class MainController extends AbstractController {
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
         selectNumberOfPlayersController.setSelectNumberOfPlayersListener(new SelectNumberOfPlayersListenerImpl(this, selectNumberOfPlayersController));
         monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
+        monopolyGameController.setMonopolyGameListener(new MonopolyGameListenerImpl(this));
     }
 
     private void addChildViewsToMainView() {
@@ -91,6 +97,10 @@ public class MainController extends AbstractController {
 
     public void showMenu() {
         showView(mainMenuView);
+    }
+
+    public void refresh() {
+        initialize();
     }
 
     public void showSelectNumberOfPlayersView() {

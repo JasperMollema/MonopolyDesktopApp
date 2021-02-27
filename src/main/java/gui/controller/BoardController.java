@@ -30,6 +30,10 @@ public class BoardController extends AbstractController {
         boardView.fillBoardComponents(gridLayoutBoardMaker.makeBoard(), playerColors);
     }
 
+    public void emptyBoard() {
+        boardView.emptyBoard();
+    }
+
     public void setPlayerOnBoardComponent(String playerName, Integer boardComponentIdentifier) {
         boardView.setPlayerOnBoardComponent(playerName, boardComponentIdentifier);
     }

@@ -47,4 +47,8 @@ public class PlayersController extends AbstractController {
     public String getControllerName() {
         return "PlayersController";
     }
+
+    public void emptyPlayers() {
+        playersView.emptyPlayers();
+    }
 }

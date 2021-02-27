@@ -1,25 +1,57 @@
 package gui.listeners;
 
 import gui.MainFrame;
+import gui.component.SaveGameNameChecker;
 import gui.controller.MonopolyGameController;
 import messages.Messages;
-import services.SaveGamesService;
 import valueObjects.MonopolyGameValueObject;
 
 import javax.swing.*;
 import java.io.IOException;
 
-public class SaveDialogListenerImpl implements SaveDialogListener {
+public class SaveDialogListenerImpl extends AbstractSaveDialogListener {
     private MonopolyGameController monopolyGameController;
-    private SaveGamesService saveGamesService;
 
     public SaveDialogListenerImpl(MonopolyGameController monopolyGameController) {
         this.monopolyGameController = monopolyGameController;
-        saveGamesService = new SaveGamesService();
     }
 
     @Override
-    public void saveButtonPressed(String nameGame) {
+    public void saveButtonPressed(String nameGame, SaveGameNameChecker saveGameNameChecker) {
+        if (!saveGameNameChecker.nameGameIsAllowed(nameGame)) {
+            showMessageNameNotAllowed();
+            return;
+        }
+
+        boolean shouldSaveGame = true;
+
+        if (saveGameNameChecker.nameIsInList(nameGame)) {
+            shouldSaveGame = determineShouldSaveGame();
+        }
+
+        if (shouldSaveGame) {
+            saveGame(nameGame);
+        }
+    }
+
+    private void showMessageNameNotAllowed() {
+        JOptionPane.showMessageDialog(
+                null,
+                Messages.getMessage("saveDialog.nameNotAllowed"),
+                Messages.getMessage("saveDialog.nameNotAllowed"),
+                JOptionPane.OK_OPTION);
+    }
+
+    private boolean determineShouldSaveGame() {
+        int overwriteGame = JOptionPane.showConfirmDialog(
+                null,
+                Messages.getMessage("saveDialog.wantToOverWrite"),
+                Messages.getMessage("saveDialog.nameAlreadyExists"),
+                JOptionPane.OK_CANCEL_OPTION);
+        return overwriteGame == JOptionPane.OK_OPTION;
+    }
+
+    private void saveGame(String nameGame) {
         MonopolyGameValueObject monopolyGameValueObject = monopolyGameController.getMonopolyGameValueObject();
         try {
             saveGamesService.saveGame(nameGame, monopolyGameValueObject);
@@ -27,6 +59,11 @@ public class SaveDialogListenerImpl implements SaveDialogListener {
             System.err.println("SaveDialogListenerImpl : saveButtonPressed() Saving game failed.");
             ioException.printStackTrace();
         }
+        monopolyGameController.setHasUnSavedChanges(false);
+        closeDialog();
+    }
+
+    private void closeDialog() {
         monopolyGameController.hideSaveDialog();
         JOptionPane.showMessageDialog(
                 MainFrame.mainFrame,
@@ -35,8 +72,9 @@ public class SaveDialogListenerImpl implements SaveDialogListener {
     }
 
     @Override
-    public void loadButtonPressed(String selectedFile) {
-
+    public void overwriteButtonPressed(String gameToSave, String gameToOverwrite) {
+        deleteGame(gameToOverwrite);
+        saveGame(gameToSave);
     }
 
     @Override
@@ -45,17 +83,8 @@ public class SaveDialogListenerImpl implements SaveDialogListener {
     }
 
     @Override
-    public void deleteButtonPressed(String selectedFile) {
-        try {
-            saveGamesService.deleteGame(selectedFile);
-        } catch (IOException ioException) {
-            System.err.println("SaveDialogListenerImpl : deleteButtonPressed() Deleting game failed.");
-            ioException.printStackTrace();
-        }
-    }
+    public void savedGameDoubleClicked(String selectedFile) {}
 
     @Override
-    public void savedGameDoubleClicked(String selectedFile) {
-
-    }
+    public void loadButtonPressed(String selectedFile) {}
 }

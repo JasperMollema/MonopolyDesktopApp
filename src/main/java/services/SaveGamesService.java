@@ -1,11 +1,18 @@
 package services;
 
+import gui.component.GameSlot;
 import model.MonopolyGame;
 import model.MonopolyGameSaver;
 import valueObjects.MonopolyGameValueObject;
 
 import java.io.IOException;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SaveGamesService {
     private MonopolyGameSaver monopolyGameSaver;
@@ -21,8 +28,16 @@ public class SaveGamesService {
         monopolyGameSaver.saveMonopolyGame(monopolyGame, nameGame);
     }
 
-    public List<String> loadGames() throws IOException {
-        return monopolyGameSaver.loadGames();
+    public List<GameSlot> loadGames() throws IOException {
+        List<GameSlot> gameSlots = new ArrayList<>();
+        Map<String, BasicFileAttributes> loadedGames = monopolyGameSaver.loadGames();
+        for (String loadedGame : loadedGames.keySet()) {
+            FileTime fileTime = loadedGames.get(loadedGame).lastModifiedTime();
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(fileTime.toInstant(), ZoneId.systemDefault());
+            gameSlots.add(new GameSlot(loadedGame, localDateTime));
+        }
+
+        return gameSlots;
     }
 
     public MonopolyGameValueObject loadGame(String nameGame) throws IOException, ClassNotFoundException {

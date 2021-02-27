@@ -9,22 +9,17 @@ public class GameSlot {
     private DateTimeFormatter dateTimeFormatter;
     private boolean isEmptySlot;
 
-    public GameSlot(String name) {
+    public GameSlot(String name, LocalDateTime localDateTime) {
         this.name = name;
-        updateTime();
+        this.localDateTime = localDateTime;
         dateTimeFormatter = DateTimeFormatter.ofPattern("d-MM-yyyy kk:mm");
     }
 
     public GameSlot(String name, boolean isEmptySlot) {
-        this(name);
+        this(name, null);
         this.isEmptySlot = isEmptySlot;
     }
 
-    public void updateTime() {
-        if (!isEmptySlot) {
-            localDateTime = LocalDateTime.now();
-        }
-    }
 
     public String getTime() {
         return isEmptySlot ? "" : localDateTime.format(dateTimeFormatter);

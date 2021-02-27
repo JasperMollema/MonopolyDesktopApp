@@ -1,11 +1,11 @@
 package gui.listeners;
 
+import gui.component.SaveGameNameChecker;
 import gui.controller.MainController;
-import services.SaveGamesService;
 
 import java.io.IOException;
 
-public class LoadDialogListener implements SaveDialogListener {
+public class LoadDialogListener extends AbstractSaveDialogListener {
     private MainController mainController;
 
     public LoadDialogListener(MainController mainController) {
@@ -13,7 +13,12 @@ public class LoadDialogListener implements SaveDialogListener {
     }
 
     @Override
-    public void saveButtonPressed(String selectedFile) {
+    public void saveButtonPressed(String selectedFile, SaveGameNameChecker saveGameNameChecker) {
+
+    }
+
+    @Override
+    public void overwriteButtonPressed(String gameToSave, String gameToOverwrite) {
 
     }
 
@@ -24,30 +29,23 @@ public class LoadDialogListener implements SaveDialogListener {
 
     @Override
     public void loadButtonPressed(String selectedFile) {
-        SaveGamesService saveGamesService = new SaveGamesService();
+        loadGame(selectedFile);
+    }
+
+    @Override
+    public void savedGameDoubleClicked(String selectedFile) {
+        loadGame(selectedFile);
+    }
+
+    private void loadGame(String gameToLoad) {
         try {
-            mainController.loadMonopolyGame(saveGamesService.loadGame(selectedFile));
+            mainController.loadMonopolyGame(saveGamesService.loadGame(gameToLoad));
         } catch (IOException ioException) {
-            System.out.println("LoadDialogListener: Failed to load game " + selectedFile);
+            System.out.println("LoadDialogListener: Failed to load game " + gameToLoad);
             ioException.printStackTrace();
             mainController.hideLoadGameDialog();
         } catch (ClassNotFoundException classNotFoundException) {
             classNotFoundException.printStackTrace();
         }
-    }
-
-    @Override
-    public void deleteButtonPressed(String selectedFile) {
-        SaveGamesService saveGamesService = new SaveGamesService();
-        try {
-            saveGamesService.deleteGame(selectedFile);
-        } catch (IOException ioException) {
-
-        }
-    }
-
-    @Override
-    public void savedGameDoubleClicked(String selectedFile) {
-        loadButtonPressed(selectedFile);
     }
 }

@@ -56,6 +56,10 @@ public class BoardView extends AbstractView {
         }
     }
 
+    public void emptyBoard() {
+        boardComponents = null;
+    }
+
     @Override
     public void initializeView() {
 

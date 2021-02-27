@@ -4,11 +4,11 @@ import gui.MainFrame;
 import gui.component.SaveDialog;
 import gui.component.Toolbar;
 import gui.listeners.ControlPanelListenerImpl;
+import gui.listeners.MonopolyGameListener;
 import gui.listeners.SaveDialogListenerImpl;
 import gui.listeners.ToolbarListenerImpl;
 import gui.view.*;
 import services.MonopolyGameService;
-import services.SaveGamesService;
 import valueObjects.MonopolyGameValueObject;
 
 import java.awt.*;
@@ -19,12 +19,13 @@ import java.util.Map;
 public class MonopolyGameController extends AbstractController {
     private MonopolyGameView monopolyGameView;
     private MonopolyGameService monopolyGameService;
-    private SaveGamesService saveGamesService;
     private PlayersController playersController;
     private BoardController boardController;
     private ControlPanelController controlPanelController;
+    private MonopolyGameListener monopolyGameListener;
     private SaveDialog saveDialog;
     private MonopolyGameValueObject monopolyGameValueObject;
+    private boolean hasUnSavedChanges;
 
     public MonopolyGameController(MonopolyGameView monopolyGameView) {
         this.monopolyGameView = monopolyGameView;
@@ -39,7 +40,6 @@ public class MonopolyGameController extends AbstractController {
         initializeChildControllers(playersView, boardView, controlPanelView);
         saveDialog = new SaveDialog(MainFrame.mainFrame, SaveDialog.SaveMode.SAVE);
         saveDialog.setSaveDialogListener(new SaveDialogListenerImpl(this));
-        saveGamesService = new SaveGamesService();
     }
 
     private void initializeChildControllers(PlayersView playersView, BoardView boardView, ControlPanelView controlPanelView) {
@@ -92,6 +92,13 @@ public class MonopolyGameController extends AbstractController {
         boardController.setPlayerOnBoardComponent(player, newPosition);
     }
 
+    public void goToMainMenu() {
+        monopolyGameListener.goToMainMenu();
+        boardController.emptyBoard();
+        playersController.emptyPlayers();
+        monopolyGameValueObject = null;
+    }
+
     public void hideSaveDialog() {
         saveDialog.setVisible(false);
     }
@@ -129,5 +136,17 @@ public class MonopolyGameController extends AbstractController {
 
     public void setMonopolyGameValueObject(MonopolyGameValueObject monopolyGameValueObject) {
         this.monopolyGameValueObject = monopolyGameValueObject;
+    }
+
+    public boolean hasUnSavedChanges() {
+        return hasUnSavedChanges;
+    }
+
+    public void setHasUnSavedChanges(boolean hasUnSavedChanges) {
+        this.hasUnSavedChanges = hasUnSavedChanges;
+    }
+
+    public void setMonopolyGameListener(MonopolyGameListener monopolyGameListener) {
+        this.monopolyGameListener = monopolyGameListener;
     }
 }

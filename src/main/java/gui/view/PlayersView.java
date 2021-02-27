@@ -61,4 +61,13 @@ public class PlayersView extends AbstractView {
     public String getViewName() {
         return "PlayerOverview";
     }
+
+    public void emptyPlayers() {
+        player1 = null;
+        player2 = null;
+        player3 = null;
+        player4 = null;
+        player5 = null;
+        player6 = null;
+    }
 }

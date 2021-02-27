@@ -5,7 +5,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MonopolyGameSaver {
@@ -24,6 +25,7 @@ public class MonopolyGameSaver {
         Files.createFile(savedGame);
 
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(
+
                 new BufferedOutputStream(new FileOutputStream(savedGame.toFile())))) {
             objectOutputStream.writeObject(monopolyGame);
         }
@@ -59,15 +61,13 @@ public class MonopolyGameSaver {
         return Paths.get(SAVED_GAMES_DIRECTORY + SEPARATOR + name + POST_FIX);
     }
 
-    public List<String> loadGames() throws IOException {
-        List<String> savedGames;
+    public Map<String, BasicFileAttributes> loadGames() throws IOException {
+        Map<String, BasicFileAttributes> savedGames;
         createDirectoryIfDoesNotExist();
         Path savedGamesDirectory = Paths.get(SAVED_GAMES_DIRECTORY);
             savedGames = Files.walk(savedGamesDirectory)
                     .filter(path -> path.toString().endsWith(POST_FIX))
-                    .map(this::createNameFromPath)
-                    .collect(Collectors.toList());
-
+                    .collect(Collectors.toMap(this::createNameFromPath, this::createFileAttributesFromPath));
         return savedGames;
     }
 
@@ -78,7 +78,17 @@ public class MonopolyGameSaver {
             return null;
         }
         name = name.replace(savedGamesDirectory, "").replace(POST_FIX, "");
+
         return name;
+    }
+
+    private BasicFileAttributes createFileAttributesFromPath(Path path) {
+        try {
+            return Files.readAttributes(path, BasicFileAttributes.class);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+        return null;
     }
 
     private void createDirectoryIfDoesNotExist() throws IOException {
