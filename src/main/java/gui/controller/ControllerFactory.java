@@ -33,6 +33,10 @@ public class ControllerFactory {
             return new ControlPanelController((ControlPanelView) view);
         }
 
+        else if (view instanceof ChooseLanguageView) {
+            return new ChooseLanguageController((ChooseLanguageView) view);
+        }
+
         else return new NullController();
     }
 

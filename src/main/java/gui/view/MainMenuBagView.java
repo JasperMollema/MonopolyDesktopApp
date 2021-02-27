@@ -1,18 +1,21 @@
 package gui.view;
 
-import javax.swing.*;
+import gui.component.MenuButton;
+
 import java.awt.event.ActionListener;
 
 public class MainMenuBagView extends AbstractGridBagView {
     private final String NAME_VIEW = "MainMenuView";
-    private JButton newGameButton;
-    private JButton loadGameButton;
+    private MenuButton newGameButton;
+    private MenuButton loadGameButton;
+    private MenuButton languageButton;
 
     @Override
     public void initializeView() {
         System.out.println(NAME_VIEW + " : initializeView()");
-        newGameButton = new JButton(getMessage("startMenu.newGame"));
-        loadGameButton = new JButton(getMessage("startMenu.loadGame"));
+        newGameButton = new MenuButton(getMessage("startMenu.newGame"));
+        loadGameButton = new MenuButton(getMessage("startMenu.loadGame"));
+        languageButton = new MenuButton(getMessage("startMenu.language"));
         layOutComponents();
     }
 
@@ -20,6 +23,7 @@ public class MainMenuBagView extends AbstractGridBagView {
         initializeGridBagConstraints();
         addComponentToGridBagConstraints(newGameButton, 1, 1);
         addComponentToGridBagConstraints(loadGameButton, 1, 2);
+        addComponentToGridBagConstraints(languageButton, 1, 3);
     }
 
     @Override
@@ -33,5 +37,9 @@ public class MainMenuBagView extends AbstractGridBagView {
 
     public void setActionListenerToLoadGameButton(ActionListener actionListener) {
         loadGameButton.addActionListener(actionListener);
+    }
+
+    public void setActionListenerToLanguageButton(ActionListener actionListener) {
+        languageButton.addActionListener(actionListener);
     }
 }

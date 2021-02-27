@@ -5,7 +5,10 @@ import java.util.*;
 
 public class Messages {
     private static Locale locale;
-    private final static List<String> LOCALES = Arrays.asList("en", "nl");
+    public final static List<Locale> LOCALES = Arrays.asList(
+            new Locale("en"),
+            new Locale("nl")
+    );
 
     public Messages() {
         if (locale == null) {
@@ -28,11 +31,21 @@ public class Messages {
     public static List<String> getAllValues(String messageResource) {
         Locale currentLocale = locale;
         List<String> values = new ArrayList<>();
-        for (String localeValue : LOCALES) {
-            locale = new Locale(localeValue);
+        for (Locale newLocale : LOCALES) {
+            locale = newLocale;
             values.add(getMessage(messageResource));
         }
         locale = currentLocale;
         return values;
+    }
+
+    public static void changeLocale(Locale newLocale) {
+        if (LOCALES.contains(newLocale)) {
+            locale = newLocale;
+        }
+    }
+
+    public static Locale getLocale() {
+        return locale;
     }
 }

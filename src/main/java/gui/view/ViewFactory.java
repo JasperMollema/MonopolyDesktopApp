@@ -8,6 +8,7 @@ public class ViewFactory {
     public static final String PLAYERS = "players";
     public static final String BOARD = "board";
     public static final String CONTROL_PANEL = "controlPanel";
+    public static final String CHOOSE_LANGUAGE = "chooseLanguage";
 
     public static View getView(String view) {
         switch (view) {
@@ -18,6 +19,7 @@ public class ViewFactory {
             case PLAYERS: return new PlayersView();
             case BOARD: return new BoardView();
             case CONTROL_PANEL: return new ControlPanelView();
+            case CHOOSE_LANGUAGE: return new ChooseLanguageView();
             default: return new NullView();
         }
     }

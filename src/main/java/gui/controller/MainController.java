@@ -2,10 +2,7 @@ package gui.controller;
 
 import gui.MainFrame;
 import gui.component.SaveDialog;
-import gui.listeners.LoadDialogListener;
-import gui.listeners.MainMenuListenerImpl;
-import gui.listeners.MonopolyGameListenerImpl;
-import gui.listeners.SelectNumberOfPlayersListenerImpl;
+import gui.listeners.*;
 import gui.view.*;
 import messages.Messages;
 import valueObjects.MonopolyGameValueObject;
@@ -21,6 +18,8 @@ public class MainController extends AbstractController {
     private MonopolyGameController monopolyGameController;
     private SelectNumberOfPlayersView selectNumberOfPlayersView;
     private SelectNumberOfPlayersController selectNumberOfPlayersController;
+    private ChooseLanguageView chooseLanguageView;
+    private ChooseLanguageController chooseLanguageController;
     private SaveDialog loadGameDialog;
 
 
@@ -29,36 +28,40 @@ public class MainController extends AbstractController {
     public MainController(MainView mainView) {
         this.mainView = mainView;
         initialize();
-        loadGameDialog = new SaveDialog(MainFrame.mainFrame, SaveDialog.SaveMode.LOAD);
-        loadGameDialog.setSaveDialogListener(new LoadDialogListener(this));
-        loadGameDialog.setVisible(false);
     }
 
     private void initialize() {
         initializeChildViews();
         initializeChildControllers();
         addChildViewsToMainView();
+        loadGameDialog = new SaveDialog(MainFrame.mainFrame, SaveDialog.SaveMode.LOAD);
+        loadGameDialog.setSaveDialogListener(new LoadDialogListener(this));
+        loadGameDialog.setVisible(false);
     }
 
     private void initializeChildViews() {
         mainMenuView = (MainMenuBagView) ViewFactory.getView(ViewFactory.MENU);
         selectNumberOfPlayersView = (SelectNumberOfPlayersView) ViewFactory.getView(ViewFactory.SELECT_NR_OF_PLAYERS);
         monopolyGameView = (MonopolyGameView) ViewFactory.getView(ViewFactory.MONOPOLY_GAME);
+        chooseLanguageView = (ChooseLanguageView) ViewFactory.getView(ViewFactory.CHOOSE_LANGUAGE);
     }
 
     private void initializeChildControllers() {
         menuController = (MenuController) ControllerFactory.getController(mainMenuView);
-        menuController.setMainMenuListener(new MainMenuListenerImpl(this));
+        menuController.setMainMenuListener(new MainMenuListenerImpl(this, menuController));
         selectNumberOfPlayersController = (SelectNumberOfPlayersController) ControllerFactory.getController(selectNumberOfPlayersView);
         selectNumberOfPlayersController.setSelectNumberOfPlayersListener(new SelectNumberOfPlayersListenerImpl(this, selectNumberOfPlayersController));
         monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
         monopolyGameController.setMonopolyGameListener(new MonopolyGameListenerImpl(this));
+        chooseLanguageController = (ChooseLanguageController) ControllerFactory.getController(chooseLanguageView);
+        chooseLanguageController.setChooseLanguageListener(new ChooseLanguageListenerImpl(this));
     }
 
     private void addChildViewsToMainView() {
         mainView.addView(mainMenuView, mainMenuView.getViewName());
         mainView.addView(selectNumberOfPlayersView, selectNumberOfPlayersView.getViewName());
         mainView.addView(monopolyGameView, monopolyGameView.getViewName());
+        mainView.addView(chooseLanguageView, chooseLanguageView.getViewName());
     }
 
     @Override
@@ -111,6 +114,12 @@ public class MainController extends AbstractController {
     public void showMonopolyGameView() {
         showView(monopolyGameView);
         monopolyGameController.startController();
+    }
+
+
+    public void showChooseLanguageView() {
+        showView(chooseLanguageView);
+        chooseLanguageController.startController();
     }
 
     private void showView(AbstractView view) {
