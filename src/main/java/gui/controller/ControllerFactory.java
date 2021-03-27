@@ -13,8 +13,12 @@ public class ControllerFactory {
             return new MenuController((MainMenuBagView) view);
         }
 
-        else if (view instanceof SelectNumberOfPlayersView) {
-            return new SelectNumberOfPlayersController((SelectNumberOfPlayersView) view);
+        else if (view instanceof PlayersSetupView) {
+            return new PlayersSetupController((PlayersSetupView) view);
+        }
+
+        else if (view instanceof PlayerSetupRowView) {
+            return new PlayersSetupRowController((PlayerSetupRowView) view);
         }
 
         else if (view instanceof MonopolyGameView) {

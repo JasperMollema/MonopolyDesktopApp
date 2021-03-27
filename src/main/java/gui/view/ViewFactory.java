@@ -3,7 +3,8 @@ package gui.view;
 public class ViewFactory {
     public static final String MAIN = "main";
     public static final String MENU = "menu";
-    public static final String SELECT_NR_OF_PLAYERS = "selectNrOfPlayers";
+    public static final String SETUP_PLAYERS = "setupPlayers";
+    public static final String SETUP_PLAYERS_ROW = "setupPlayersRow";
     public static final String MONOPOLY_GAME = "monopolyGame";
     public static final String PLAYERS = "players";
     public static final String BOARD = "board";
@@ -14,7 +15,8 @@ public class ViewFactory {
         switch (view) {
             case MAIN: return new MainView();
             case MENU: return new MainMenuBagView();
-            case SELECT_NR_OF_PLAYERS: return new SelectNumberOfPlayersView();
+            case SETUP_PLAYERS: return new PlayersSetupView();
+            case SETUP_PLAYERS_ROW: return new PlayerSetupRowView();
             case MONOPOLY_GAME: return new MonopolyGameView();
             case PLAYERS: return new PlayersView();
             case BOARD: return new BoardView();

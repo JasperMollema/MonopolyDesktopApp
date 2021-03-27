@@ -2,35 +2,24 @@ package gui.listeners;
 
 import exceptions.BadNameException;
 import gui.controller.MainController;
-import gui.controller.SelectNumberOfPlayersController;
+import gui.controller.PlayersSetupController;
 import services.SelectNumberOfPlayersService;
 
 public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersListener {
     private MainController mainController;
-    private SelectNumberOfPlayersController selectNumberOfPlayersController;
+    private PlayersSetupController playersSetupController;
     private SelectNumberOfPlayersService selectNumberOfPlayersService;
     private boolean incorrectInput;
 
-    public SelectNumberOfPlayersListenerImpl(MainController mainController, SelectNumberOfPlayersController selectNumberOfPlayersController) {
+    public SelectNumberOfPlayersListenerImpl(MainController mainController, PlayersSetupController playersSetupController) {
         this.mainController = mainController;
-        this.selectNumberOfPlayersController = selectNumberOfPlayersController;
+        this.playersSetupController = playersSetupController;
         selectNumberOfPlayersService = new SelectNumberOfPlayersService();
     }
 
     @Override
     public void startGameButtonPressed() {
-        int nrOfPlayers = selectNumberOfPlayersController.getNumberOfPlayers();
-
-        for (int i = 0; i < nrOfPlayers && !incorrectInput; i++) {
-            String playerName = selectNumberOfPlayersController.getPlayerName(i + 1);
-            addPlayer(playerName);
-        }
-
-        if (incorrectInput) {
-            incorrectInput = false;
-            return;
-        }
-
+//        List<PlayerSetupRowView> playerNames = playersSetupController.getPlayerRows();
         mainController.startMonopolyGame(selectNumberOfPlayersService.getPlayerNamesList());
     }
 
@@ -44,11 +33,11 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
 
     private void handleBadNameException(BadNameException.BadNameType badNameType) {
         if (badNameType == BadNameException.BadNameType.EMPTY_NAME) {
-            selectNumberOfPlayersController.showWarningMessagesEmptyName();
+            playersSetupController.showWarningMessagesEmptyName();
         }
 
         if (badNameType == BadNameException.BadNameType.IDENTICAL_NAME) {
-            selectNumberOfPlayersController.showWarningMessageSamePlayerNames();
+            playersSetupController.showWarningMessageSamePlayerNames();
         }
 
         incorrectInput = true;
@@ -56,6 +45,7 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
 
     @Override
     public void goToMainMenuButtonPressed() {
+        playersSetupController.clear();
         mainController.showMenu();
     }
 }
