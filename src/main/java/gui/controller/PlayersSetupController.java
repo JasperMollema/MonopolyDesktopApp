@@ -13,35 +13,46 @@ import javax.swing.*;
 import java.util.List;
 
 public class PlayersSetupController extends AbstractController {
-    private final String NAME_CONTROLLER = "SelectNumberOfPlayersController";
-    private final Integer DEFAULT_NR_OF_PLAYERS = 4;
+    private final String NAME_CONTROLLER = "PlayersSetupController";
 
     private PlayersSetupView playersSetupView;
     private SelectNumberOfPlayersListener selectNumberOfPlayersListener;
+    private PlayersSetupRowControllerList playersSetupRowControllerList;
 
     public PlayersSetupController(PlayersSetupView playersSetupView) {
         this.playersSetupView = playersSetupView;
+        playersSetupView.setNrOfPlayersSelectedInComboBox(Settings.DEFAULT_NR_OF_PLAYERS);
+        PlayerSetupRowView[] playerSetupRowViews = createPlayersSetupRowViews();
+        createPlayersSetupRowControllers(playerSetupRowViews);
+        playersSetupView.setPlayerSetupRowViews(playerSetupRowViews);
+    }
+
+    private PlayerSetupRowView[] createPlayersSetupRowViews() {
+        PlayerSetupRowView [] playerSetupRowViews = new PlayerSetupRowView[Settings.MAX_NR_PLAYERS];
+        for (int i = 0; i < playerSetupRowViews.length; i++) {
+            PlayerSetupRowView playerSetupRowView = (PlayerSetupRowView) ViewFactory.getView(ViewFactory.SETUP_PLAYERS_ROW);
+            playerSetupRowViews[i] = playerSetupRowView;
+        }
+        return playerSetupRowViews;
+    }
+
+    private void createPlayersSetupRowControllers(PlayerSetupRowView[] playerSetupRowViews) {
+        playersSetupRowControllerList = new PlayersSetupRowControllerList();
+        for (int i= 0; i < playerSetupRowViews.length; i++) {
+            PlayerSetupRowView playerSetupRowView = playerSetupRowViews[i];
+            PlayersSetupRowController playersSetupRowController = (PlayersSetupRowController) ControllerFactory.getController(playerSetupRowView);
+            playersSetupRowController.setPlayerSetupRowListener(new PlayerSetupRowListenerImpl(playersSetupRowController, this));
+            playersSetupRowController.fillRowNr(i + 1);
+            playersSetupRowControllerList.add(playersSetupRowController);
+        }
     }
 
     @Override
     public void startController() {
         System.out.println(NAME_CONTROLLER + " : startView()");
-        playersSetupView.setNrOfPlayersSelectedInComboBox(DEFAULT_NR_OF_PLAYERS);
-        PlayerSetupRowView[] playerSetupRowViews = createPlayerSetupRows();
-        playersSetupView.setPlayerSetupRowViews(playerSetupRowViews);
+        playersSetupRowControllerList.startPlayersSetupRowControllers();
         playersSetupView.initializeView();
         addActionListeners();
-    }
-
-    private PlayerSetupRowView[] createPlayerSetupRows() {
-        PlayerSetupRowView [] playerSetupRowViews = new PlayerSetupRowView[Settings.MAX_NR_PLAYERS];
-        for (int i = 0; i < playerSetupRowViews.length; i++) {
-            PlayerSetupRowView playerSetupRowView = (PlayerSetupRowView) ViewFactory.getView(ViewFactory.SETUP_PLAYERS_ROW);
-            PlayersSetupRowController playersSetupRowController = (PlayersSetupRowController) ControllerFactory.getController(playerSetupRowView);
-            playersSetupRowController.setPlayerSetupRowListener(new PlayerSetupRowListenerImpl(playersSetupRowController, this));
-            playerSetupRowViews[i] = playerSetupRowView;
-        }
-        return playerSetupRowViews;
     }
 
     private void addActionListeners() {
@@ -55,7 +66,8 @@ public class PlayersSetupController extends AbstractController {
                 event -> {
                     NrOfPlayersComboBox nrOfPlayersComboBox = (NrOfPlayersComboBox) event.getSource();
                     int nrOfPlayers = nrOfPlayersComboBox.getNrOfPlayersSelected();
-                    showPlayerRows(nrOfPlayers);
+                    playersSetupView.setNrOfPlayersSelectedInComboBox(nrOfPlayers);
+                    playersSetupRowControllerList.showRows(nrOfPlayers);
                 }
             );
     }
@@ -73,8 +85,7 @@ public class PlayersSetupController extends AbstractController {
     }
 
     private void showPlayerRows(int nrOfFields) {
-        playersSetupView.setNrOfPlayersSelectedInComboBox(nrOfFields);
-        playersSetupView.showPlayerRows(nrOfFields);
+
     }
 
 

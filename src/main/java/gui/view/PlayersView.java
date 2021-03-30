@@ -16,6 +16,7 @@ public class PlayersView extends AbstractView {
     public PlayersView() {
         setLayout(new GridLayout(3, 2));
     }
+
     @Override
     public void initializeView() {
         setVisible(true);

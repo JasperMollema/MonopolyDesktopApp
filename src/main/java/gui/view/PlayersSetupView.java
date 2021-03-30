@@ -13,7 +13,6 @@ public class PlayersSetupView extends AbstractGridBagView {
     private JButton goToMainMenu;
 
     public PlayersSetupView() {
-//        playerSetupRowViews = new ArrayList<>();
         nrOfPlayersComboBox = new NrOfPlayersComboBox();
         startGame = new JButton(getMessage("selectNrOfPlayers.startGame"));
         goToMainMenu = new JButton(getMessage("selectNrOfPlayers.goToMainMenu"));
@@ -67,7 +66,9 @@ public class PlayersSetupView extends AbstractGridBagView {
     }
 
     public void showPlayerRows (int nrOfRowsToBeShown) {
-        for (PlayerSetupRowView playerSetupRowView : playerSetupRowViews) {
+        for (int i =0; i < playerSetupRowViews.length; i++) {
+            boolean isRowVisible = i < nrOfRowsToBeShown;
+            playerSetupRowViews[i].setVisible(isRowVisible);
         }
     }
 

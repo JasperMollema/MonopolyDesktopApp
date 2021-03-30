@@ -11,4 +11,6 @@ public class PlayerNameTextField extends JTextField {
         setDocument(new TextFieldDocument(Settings.MAX_LENGTH_PLAYER_NAME));
         setColumns(Settings.MAX_LENGTH_PLAYER_NAME);
     }
+
+
 }

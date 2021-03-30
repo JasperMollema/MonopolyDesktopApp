@@ -18,7 +18,15 @@ public class PlayersSetupRowController extends AbstractController {
 
     @Override
     public void startController() {
+        playerSetupRowView.initializeView();
+    }
 
+    public void setVisibilityRow(boolean showRow) {
+        playerSetupRowView.setVisibilityComponents(showRow);
+    }
+
+    public void fillRowNr(int rowNr) {
+        playerSetupRowView.setRowNr(rowNr);
     }
 
     public void setPlayerSetupRowListener(PlayerSetupRowListener playerSetupRowListener) {
