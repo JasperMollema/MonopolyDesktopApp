@@ -2,10 +2,13 @@ package gui.view;
 
 import gui.component.BoardComponent;
 import valueObjects.BoardSpaceValueObject;
+import valueObjects.PlayerValueObject;
 
 import java.awt.*;
+import java.util.HashSet;
 import java.util.List;
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
 
 public class BoardView extends AbstractView {
     private Set<BoardComponent> boardComponents;
@@ -16,7 +19,7 @@ public class BoardView extends AbstractView {
         setBackground(Color.LIGHT_GRAY);
     }
 
-    public void fillBoardComponents(List<BoardSpaceValueObject> boardSpaceValueObjects, Map<String, Color> playerColors) {
+    public void fillBoardComponents(List<BoardSpaceValueObject> boardSpaceValueObjects, List<PlayerValueObject> playerValueObjects) {
         boardComponents = new HashSet<>();
         for (BoardSpaceValueObject boardSpaceValueObject : boardSpaceValueObjects) {
             BoardComponent boardComponent;
@@ -26,7 +29,7 @@ public class BoardView extends AbstractView {
             } else {
                 String boardComponentName = getMessage(boardSpaceValueObject.name);
                 int boardComponentIdentifier = boardSpaceValueObject.identifier;
-                boardComponent = new BoardComponent(boardComponentName, boardComponentIdentifier, playerColors);
+                boardComponent = new BoardComponent(boardComponentName, boardComponentIdentifier, playerValueObjects);
                 boardComponents.add(boardComponent);
                 System.out.println("BoardView : Add " + boardComponentName + " to board.");
             }

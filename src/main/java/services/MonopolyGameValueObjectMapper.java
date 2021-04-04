@@ -2,16 +2,25 @@ package services;
 
 import model.DiceThrow;
 import model.MonopolyGame;
+import model.Player;
 import util.Util;
 import valueObjects.MonopolyGameValueObject;
+
+import java.util.List;
 
 public class MonopolyGameValueObjectMapper {
     MonopolyGameValueObject monopolyGameValueObject;
     MonopolyGame monopolyGame;
+    PlayerValueObjectMapper playerValueObjectMapper;
+
+    public MonopolyGameValueObjectMapper() {
+        playerValueObjectMapper = new PlayerValueObjectMapper();
+    }
 
     public MonopolyGameValueObject fillValueObject(MonopolyGame monopolyGame) {
         monopolyGameValueObject = new MonopolyGameValueObject();
-        monopolyGameValueObject.playerNames = Util.playersToPlayerNameList(monopolyGame.getPlayers());
+        List<Player> playerList = Util.playerArrayToPlayerList(monopolyGame.getPlayers());
+        monopolyGameValueObject.players = playerValueObjectMapper.playersToPlayerValueObjects(playerList);
         monopolyGameValueObject.playerPositions = Util.toStringIntegerMap(monopolyGame.getPlayerPositions());
         monopolyGameValueObject.activePlayer = monopolyGame.getActivePlayer().toString();
         monopolyGameValueObject.nrOfDiceThrowsActivePlayer = monopolyGame.getNrOfDiceThrowsActivePlayer();
@@ -28,7 +37,8 @@ public class MonopolyGameValueObjectMapper {
 
     public MonopolyGame fillMonopolyGame(MonopolyGameValueObject monopolyGameValueObject) {
         monopolyGame = new MonopolyGame();
-        monopolyGame.setPlayers(Util.playerNamesToPlayerArray(monopolyGameValueObject.playerNames));
+        List<Player> playerList = playerValueObjectMapper.playerValueObjectsToPlayers(monopolyGameValueObject.players);
+        monopolyGame.setPlayers(Util.playerListToPlayerArray(playerList));
         monopolyGame.setPlayerPositions(Util.toPlayerIntegerMap(monopolyGameValueObject.playerPositions));
         monopolyGame.fillActivePlayer(monopolyGameValueObject.activePlayer);
         monopolyGame.setCanPlayerThrowAgain(Util.notNullBoolean(monopolyGameValueObject.canThrowAgain));

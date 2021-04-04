@@ -1,10 +1,11 @@
 package gui.controller;
 
+import gui.component.ComboBoxColor;
 import gui.view.PlayersView;
+import valueObjects.PlayerValueObject;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 public class PlayersController extends AbstractController {
     private PlayersView playersView;
@@ -18,10 +19,13 @@ public class PlayersController extends AbstractController {
         playersView.initializeView();
     }
 
-    public void fillPlayerNames(List<String> playerNames, Map<String, Color> players) {
+    public void fillPlayers(List<PlayerValueObject> players) {
         int playerNumber = 0;
-        for (String name : playerNames) {
-            addPlayerToView(playerNumber, name, players.get(name));
+        for (PlayerValueObject playerValueObject : players) {
+            ComboBoxColor comboBoxColor = ComboBoxColor.valueOf(playerValueObject.playerColor);
+            Color playerColor = comboBoxColor.getColor();
+            String playerName = playerValueObject.name;
+            addPlayerToView(playerNumber++, playerName, playerColor);
         }
     }
 

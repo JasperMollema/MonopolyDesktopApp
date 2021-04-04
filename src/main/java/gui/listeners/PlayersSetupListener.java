@@ -1,6 +1,6 @@
 package gui.listeners;
 
-public interface SelectNumberOfPlayersListener {
+public interface PlayersSetupListener {
     void startGameButtonPressed();
     void goToMainMenuButtonPressed();
 }

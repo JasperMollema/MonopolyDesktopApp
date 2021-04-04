@@ -1,5 +1,7 @@
 package gui.component;
 
+import valueObjects.PlayerValueObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerOnBoardSpaceComponent extends JPanel {
-    private Map<String, Color> playerColorMap;
+    private List<PlayerValueObject> playerValueObjects;
     private List<PlayerOccupationSpot> playerOccupationSpots;
     private Map<String, PlayerOccupationSpot> playerOccupationSpotMap;
 
 
-    public PlayerOnBoardSpaceComponent(Map<String, Color> playerColors) {
-        playerColorMap = playerColors;
+    public PlayerOnBoardSpaceComponent(List<PlayerValueObject> playerValueObjects) {
+        this.playerValueObjects = playerValueObjects;
         playerOccupationSpotMap = new HashMap<>();
         setLayout(new GridLayout());
         addPlayerOccupationSpots();
@@ -22,7 +24,7 @@ public class PlayerOnBoardSpaceComponent extends JPanel {
 
     private void addPlayerOccupationSpots() {
         playerOccupationSpots = new ArrayList<>();
-        for (int i = 0; i < playerColorMap.size(); i++) {
+        for (int i = 0; i < playerValueObjects.size(); i++) {
             PlayerOccupationSpot occupationSpot = new PlayerOccupationSpot();
             playerOccupationSpots.add(occupationSpot);
             add(occupationSpot);
@@ -30,7 +32,8 @@ public class PlayerOnBoardSpaceComponent extends JPanel {
     }
 
     public void setPlayersOnBoardSpace(String player) {
-        Color color = playerColorMap.get(player);
+        ComboBoxColor comboBoxColor = ComboBoxColor.valueOf(player);
+        Color color = comboBoxColor.getColor();
         for (PlayerOccupationSpot playerOccupationSpot : playerOccupationSpots) {
             if (!playerOccupationSpot.isOccupied()) {
                 playerOccupationSpot.fillWithColor(color);

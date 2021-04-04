@@ -6,6 +6,7 @@ import gui.listeners.*;
 import gui.view.*;
 import messages.Messages;
 import valueObjects.MonopolyGameValueObject;
+import valueObjects.PlayerValueObject;
 
 import javax.swing.*;
 import java.util.List;
@@ -50,7 +51,7 @@ public class MainController extends AbstractController {
         menuController = (MenuController) ControllerFactory.getController(mainMenuView);
         menuController.setMainMenuListener(new MainMenuListenerImpl(this, menuController));
         playersSetupController = (PlayersSetupController) ControllerFactory.getController(playersSetupView);
-        playersSetupController.setSelectNumberOfPlayersListener(new SelectNumberOfPlayersListenerImpl(this, playersSetupController));
+        playersSetupController.setPlayersSetupListener(new PlayersSetupListenerImpl(this, playersSetupController));
         monopolyGameController = (MonopolyGameController) ControllerFactory.getController(monopolyGameView);
         monopolyGameController.setMonopolyGameListener(new MonopolyGameListenerImpl(this));
         chooseLanguageController = (ChooseLanguageController) ControllerFactory.getController(chooseLanguageView);
@@ -71,9 +72,9 @@ public class MainController extends AbstractController {
     }
 
     public void
-    startMonopolyGame(List<String> playerNames) {
+    startMonopolyGame(List<PlayerValueObject> players) {
         showMonopolyGameView();
-        monopolyGameController.loadMonopolyGame(playerNames);
+        monopolyGameController.loadMonopolyGame(players);
     }
 
     public void showLoadGameDialog() {

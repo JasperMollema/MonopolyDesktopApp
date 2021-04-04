@@ -3,29 +3,34 @@ package gui.listeners;
 import exceptions.BadNameException;
 import gui.controller.MainController;
 import gui.controller.PlayersSetupController;
-import services.SelectNumberOfPlayersService;
+import services.PlayersSetupService;
+import valueObjects.PlayerValueObject;
 
-public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersListener {
+import java.util.List;
+
+public class PlayersSetupListenerImpl implements PlayersSetupListener {
     private MainController mainController;
     private PlayersSetupController playersSetupController;
-    private SelectNumberOfPlayersService selectNumberOfPlayersService;
-    private boolean incorrectInput;
+    private PlayersSetupService playersSetupService;
 
-    public SelectNumberOfPlayersListenerImpl(MainController mainController, PlayersSetupController playersSetupController) {
+    public PlayersSetupListenerImpl(MainController mainController, PlayersSetupController playersSetupController) {
         this.mainController = mainController;
         this.playersSetupController = playersSetupController;
-        selectNumberOfPlayersService = new SelectNumberOfPlayersService();
+        playersSetupService = new PlayersSetupService();
     }
 
     @Override
     public void startGameButtonPressed() {
-//        List<PlayerSetupRowView> playerNames = playersSetupController.getPlayerRows();
-        mainController.startMonopolyGame(selectNumberOfPlayersService.getPlayerNamesList());
+        List<PlayerValueObject> playerValueObjects = playersSetupController.getPlayerValueObjects();
+        for (PlayerValueObject playerValueObject : playerValueObjects) {
+            addPlayer(playerValueObject);
+        }
+        mainController.startMonopolyGame(playersSetupService.getPlayers());
     }
 
-    private void addPlayer(String playerName) {
+    private void addPlayer(PlayerValueObject playerValueObject) {
         try {
-            selectNumberOfPlayersService.addPlayerName(playerName);
+            playersSetupService.addPlayer(playerValueObject);
         } catch (BadNameException badNameException) {
             handleBadNameException(badNameException.getBadNameType());
         }
@@ -39,8 +44,6 @@ public class SelectNumberOfPlayersListenerImpl implements SelectNumberOfPlayersL
         if (badNameType == BadNameException.BadNameType.IDENTICAL_NAME) {
             playersSetupController.showWarningMessageSamePlayerNames();
         }
-
-        incorrectInput = true;
     }
 
     @Override

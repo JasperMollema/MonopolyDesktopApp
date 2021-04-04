@@ -17,4 +17,9 @@ public class ColorComboBox extends JComboBox {
         removeItem(comboBoxColor);
         addItem(comboBoxColor);
     }
+
+    public String getColor() {
+        ComboBoxColor comboBoxColor = (ComboBoxColor) getSelectedItem();
+        return comboBoxColor.toString();
+    }
 }

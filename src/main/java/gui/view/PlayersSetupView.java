@@ -44,8 +44,8 @@ public class PlayersSetupView extends AbstractGridBagView {
     private void addRowToGridBagConstraint(PlayerSetupRowView playerSetupRowView, int yCoordinate) {
         int xCoordinate = 1;
         addComponentToGridBagConstraints(playerSetupRowView.getPlayerLabel(), xCoordinate++, yCoordinate);
-        addComponentToGridBagConstraints(playerSetupRowView.getPlayerName(), xCoordinate++, yCoordinate);
-        addComponentToGridBagConstraints(playerSetupRowView.getIsComputer(), xCoordinate++, yCoordinate);
+        addComponentToGridBagConstraints(playerSetupRowView.getPlayerNameTextField(), xCoordinate++, yCoordinate);
+        addComponentToGridBagConstraints(playerSetupRowView.getIsComputerCheckBox(), xCoordinate++, yCoordinate);
         addComponentToGridBagConstraints(playerSetupRowView.getColorComboBox(), xCoordinate++, yCoordinate);
     }
 

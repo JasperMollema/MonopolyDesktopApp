@@ -4,9 +4,13 @@ import java.io.Serializable;
 
 public class Player implements Serializable {
     private String name;
+    private String color;
+    private boolean isComputer;
 
-    public Player(String name) {
+    public Player(String name, String color, boolean isComputer) {
         this.name = name;
+        this.color = color;
+        this.isComputer = isComputer;
     }
 
     public Player() {}
@@ -28,5 +32,17 @@ public class Player implements Serializable {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public boolean isComputer() {
+        return isComputer;
     }
 }

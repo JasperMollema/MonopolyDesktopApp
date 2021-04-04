@@ -10,9 +10,8 @@ import gui.listeners.ToolbarListenerImpl;
 import gui.view.*;
 import services.MonopolyGameService;
 import valueObjects.MonopolyGameValueObject;
+import valueObjects.PlayerValueObject;
 
-import java.awt.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +59,7 @@ public class MonopolyGameController extends AbstractController {
         playersController.startController();
     }
 
-    public void loadMonopolyGame(List<String> players) {
+    public void loadMonopolyGame(List<PlayerValueObject> players) {
         monopolyGameValueObject = monopolyGameService.startMonopolyGame(players);
         initializeGame();
     }
@@ -72,9 +71,8 @@ public class MonopolyGameController extends AbstractController {
     }
 
     private void initializeGame() {
-        Map playerColors = attachColorsToPlayers();
-        boardController.initializeBoard(monopolyGameService.getBoardspaces(), playerColors);
-        playersController.fillPlayerNames(monopolyGameValueObject.playerNames, playerColors);
+        boardController.initializeBoard(monopolyGameService.getBoardspaces(), monopolyGameValueObject.players);
+        playersController.fillPlayers(monopolyGameValueObject.players);
         setPlayersOnBoard(monopolyGameValueObject.playerPositions);
         controlPanelController.fillInfoMessage1("controlPanel.playerTurn", new String[]{monopolyGameValueObject.activePlayer});
         monopolyGameView.showChildViews();
@@ -106,28 +104,6 @@ public class MonopolyGameController extends AbstractController {
     public void showSaveDialog() {
         saveDialog.initializeGamesList();
         saveDialog.setVisible(true);
-    }
-
-    private Map<String, Color> attachColorsToPlayers() {
-        Map<String, Color> players = new HashMap<>();
-        int i = 0;
-        for (String name : monopolyGameValueObject.playerNames) {
-            players.put(name, getColor(i));
-            i++;
-        }
-        return players;
-    }
-
-    private Color getColor(int index) {
-        switch (index) {
-            case 0 : return Color.RED;
-            case 1 : return Color.BLUE;
-            case 2 : return Color.GREEN;
-            case 3 : return Color.YELLOW;
-            case 4 : return Color.PINK;
-            case 5 : return Color.CYAN;
-        }
-        return null;
     }
 
     public MonopolyGameValueObject getMonopolyGameValueObject() {

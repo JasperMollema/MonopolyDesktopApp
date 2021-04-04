@@ -1,8 +1,10 @@
 package gui.controller;
 
 import settings.Settings;
+import valueObjects.PlayerValueObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayersSetupRowControllerList extends ArrayList<PlayersSetupRowController> {
 
@@ -18,5 +20,13 @@ public class PlayersSetupRowControllerList extends ArrayList<PlayersSetupRowCont
             boolean showRow = indexOf(playersSetupRowController) < nrOfRows;
             playersSetupRowController.setVisibilityRow(showRow);
         }
+    }
+
+    public List<PlayerValueObject> getPlayerValueObjects() {
+        List<PlayerValueObject> playerValueObjects = new ArrayList<>();
+        for (PlayersSetupRowController playersSetupRowController : this) {
+            playerValueObjects.add(playersSetupRowController.getPlayerValueObject());
+        }
+        return playerValueObjects;
     }
 }

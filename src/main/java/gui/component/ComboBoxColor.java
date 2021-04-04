@@ -3,6 +3,7 @@ package gui.component;
 import java.awt.*;
 
 public enum ComboBoxColor {
+    CHOOSE_COLOR(null),
     DARK_RED(new Color(139, 0, 0)),
     RED(new Color(250, 0, 0)),
     ORANGE(new Color(255, 165, 0)),

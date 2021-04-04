@@ -2,12 +2,13 @@ package gui.controller;
 
 import gui.component.NrOfPlayersComboBox;
 import gui.listeners.PlayerSetupRowListenerImpl;
-import gui.listeners.SelectNumberOfPlayersListener;
+import gui.listeners.PlayersSetupListener;
 import gui.view.PlayerSetupRowView;
 import gui.view.PlayersSetupView;
 import gui.view.ViewFactory;
 import messages.Messages;
 import settings.Settings;
+import valueObjects.PlayerValueObject;
 
 import javax.swing.*;
 import java.util.List;
@@ -16,7 +17,7 @@ public class PlayersSetupController extends AbstractController {
     private final String NAME_CONTROLLER = "PlayersSetupController";
 
     private PlayersSetupView playersSetupView;
-    private SelectNumberOfPlayersListener selectNumberOfPlayersListener;
+    private PlayersSetupListener playersSetupListener;
     private PlayersSetupRowControllerList playersSetupRowControllerList;
 
     public PlayersSetupController(PlayersSetupView playersSetupView) {
@@ -74,28 +75,27 @@ public class PlayersSetupController extends AbstractController {
 
     private void addActionListenerStartGameButton() {
         playersSetupView.addActionListenerStartGameButton(
-                event -> selectNumberOfPlayersListener.startGameButtonPressed()
+                event -> playersSetupListener.startGameButtonPressed()
         );
     }
 
     private void addActionListenerGoToMainMenuButton() {
         playersSetupView.addActionListenerGoToMainMenuButton(
-                event -> selectNumberOfPlayersListener.goToMainMenuButtonPressed()
+                event -> playersSetupListener.goToMainMenuButtonPressed()
         );
     }
 
-    private void showPlayerRows(int nrOfFields) {
-
+    public List<PlayerValueObject> getPlayerValueObjects() {
+        return playersSetupRowControllerList.getPlayerValueObjects();
     }
-
 
     @Override
     public String getControllerName() {
         return NAME_CONTROLLER;
     }
 
-    public void setSelectNumberOfPlayersListener(SelectNumberOfPlayersListener selectNumberOfPlayersListener) {
-        this.selectNumberOfPlayersListener = selectNumberOfPlayersListener;
+    public void setPlayersSetupListener(PlayersSetupListener playersSetupListener) {
+        this.playersSetupListener = playersSetupListener;
     }
 
     public void showWarningMessagesEmptyName() {

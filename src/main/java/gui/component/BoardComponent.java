@@ -1,8 +1,10 @@
 package gui.component;
 
+import valueObjects.PlayerValueObject;
+
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
+import java.util.List;
 
 public class BoardComponent extends JPanel {
     private JLabel nameLabel;
@@ -11,13 +13,13 @@ public class BoardComponent extends JPanel {
 
     public BoardComponent() {}
 
-    public BoardComponent(String name, Integer boardComponentIdentifier, Map<String, Color> playerColors) {
+    public BoardComponent(String name, Integer boardComponentIdentifier, List<PlayerValueObject> playerValueObjects) {
         this.boardComponentIdentifier = boardComponentIdentifier;
 
         setName(name);
 
         setLayout(new BorderLayout());
-        playerOnBoardSpaceComponent = new PlayerOnBoardSpaceComponent(playerColors);
+        playerOnBoardSpaceComponent = new PlayerOnBoardSpaceComponent(playerValueObjects);
         add(playerOnBoardSpaceComponent, BorderLayout.CENTER);
         playerOnBoardSpaceComponent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 

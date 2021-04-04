@@ -18,21 +18,21 @@ public class Util {
         return integer == null ? null : integer.toString();
     }
 
-    public static Player[] playerNamesToPlayerArray(List<String> playerNames) {
-        Player[] players = new Player[playerNames.size()];
-        for (int i = 0; i < playerNames.size(); i++) {
-            Player player = new Player(playerNames.get(i));
-            players[i] = player;
+    public static Player[] playerListToPlayerArray(List<Player> playerList) {
+        Player[] playerArray = new Player[playerList.size()];
+        int index = 0;
+        for (Player player : playerList) {
+            playerArray[index++] = player;
         }
-        return players;
+        return playerArray;
     }
 
-    public static List<String> playersToPlayerNameList(Player[] players) {
-        List<String> playerNames = new ArrayList<>();
-        for (Player player : players) {
-            playerNames.add(player.toString());
+    public static List<Player> playerArrayToPlayerList(Player[] playerArray) {
+        List<Player> playerList = new ArrayList<>();
+        for (Player player : playerArray) {
+            playerList.add(player);
         }
-        return playerNames;
+        return playerList;
     }
 
     public static Map<String, Integer> toStringIntegerMap(Map<Player, Integer> playerIntegerMap) {
@@ -48,7 +48,7 @@ public class Util {
     public static HashMap<Player, Integer> toPlayerIntegerMap(Map<String, Integer> stringIntegerMap) {
         HashMap<Player, Integer> playerPositionMap = new HashMap<>();
         for (String playerName: stringIntegerMap.keySet()) {
-            Player player = new Player(playerName);
+            Player player = new Player(playerName, null, false);
             Integer position = stringIntegerMap.get(playerName);
             playerPositionMap.put(player, position);
         }
